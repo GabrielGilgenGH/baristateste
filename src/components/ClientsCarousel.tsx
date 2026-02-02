@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { clients } from '../data/clients'
 import { Card } from './ui/Card'
@@ -33,25 +33,18 @@ function PartnerLogo({ logoUrl, initials, name }: PartnerLogoProps) {
 }
 
 export function ClientsCarousel() {
-  const [isHover, setIsHover] = useState(false)
-  const [isDragging, setIsDragging] = useState(false)
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' })
+  const [isDragging, setIsDragging] = useState(false)
 
-  useEffect(() => {
-    if (!emblaApi || !isHover) return
-    if (typeof window === 'undefined') return
+  const scrollPrev = () => {
+    if (!emblaApi) return
+    emblaApi.scrollPrev()
+  }
 
-    const isMobile = window.matchMedia('(max-width: 768px)').matches
-    if (isMobile) return
-
-    const interval = window.setInterval(() => {
-      emblaApi.scrollNext()
-    }, 1600)
-
-    return () => {
-      window.clearInterval(interval)
-    }
-  }, [emblaApi, isHover])
+  const scrollNext = () => {
+    if (!emblaApi) return
+    emblaApi.scrollNext()
+  }
 
   return (
     <Card className="border border-[rgba(0,0,0,0.12)] bg-[#fdf5ea] p-6 shadow-lg">
@@ -59,14 +52,12 @@ export function ClientsCarousel() {
         className={`relative overflow-hidden ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
         ref={emblaRef}
         aria-label="Carrossel de clientes parceiras"
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
         onPointerDown={() => setIsDragging(true)}
         onPointerUp={() => setIsDragging(false)}
         onPointerLeave={() => setIsDragging(false)}
       >
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-12 md:w-16 bg-gradient-to-r from-[#fdf5ea] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-12 md:w-16 bg-gradient-to-l from-[#fdf5ea] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-10 md:w-14 bg-gradient-to-r from-[#fdf5ea] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-10 md:w-14 bg-gradient-to-l from-[#fdf5ea] to-transparent" />
         <div className="flex gap-6">
           {clients.map((client) => (
             <article
@@ -86,10 +77,23 @@ export function ClientsCarousel() {
             </article>
           ))}
         </div>
+        <button
+          onClick={scrollPrev}
+          aria-label="Parceiros anteriores"
+          className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-brand-cream/80 p-2 text-lg text-brand-espresso shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-espresso md:left-6"
+        >
+          ‹
+        </button>
+        <button
+          onClick={scrollNext}
+          aria-label="Próximos parceiros"
+          className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-brand-cream/80 p-2 text-lg text-brand-espresso shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-espresso md:right-6"
+        >
+          ›
+        </button>
       </div>
-      <div className="mt-4 text-center text-[0.6rem] font-semibold uppercase tracking-[0.45em] text-brand-charcoal/60">
-        <span className="hidden md:inline">Passe o mouse para ver mais</span>
-        <span className="inline md:hidden">Arraste para ver mais</span>
+      <div className="mt-4 text-center text-[0.65rem] font-semibold uppercase tracking-[0.45em] text-brand-charcoal/65">
+        Clique nas setas para ver todos os parceiros
       </div>
     </Card>
   )
