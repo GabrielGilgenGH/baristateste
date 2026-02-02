@@ -13,14 +13,14 @@ function PartnerLogo({ logoUrl, initials, name }: PartnerLogoProps) {
   const [hasError, setHasError] = useState(false)
 
   return (
-    <div className="mx-auto flex h-24 w-24 md:h-28 md:w-28 items-center justify-center rounded-2xl bg-white/80 border border-black/10 shadow-sm p-4">
+    <div className="mx-auto flex h-28 w-28 md:h-32 md:w-32 items-center justify-center rounded-2xl bg-white border border-black/10 shadow hover:shadow-lg transition-all">
       {!hasError ? (
         <img
           src={logoUrl}
           alt={name}
           loading="lazy"
           decoding="async"
-          className="h-[70%] w-[70%] object-contain opacity-95"
+          className="h-[80%] w-[80%] object-contain opacity-95"
           onError={() => setHasError(true)}
         />
       ) : (
@@ -78,15 +78,11 @@ export function ClientsCarousel() {
                 initials={client.initials}
                 name={client.name}
               />
-              <div className="space-y-1 text-center">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-warmGray">
-                  Parceiro
+              <div className="text-center">
+                <p className="text-xl font-semibold uppercase tracking-[0.2em] text-brand-charcoal">
+                  {client.name}
                 </p>
-                <p className="text-lg font-semibold text-brand-charcoal">{client.name}</p>
               </div>
-              <p className="text-sm text-brand-charcoal/70">
-                Operação com café premium e atendimento dedicado em destaque.
-              </p>
             </article>
           ))}
         </div>
