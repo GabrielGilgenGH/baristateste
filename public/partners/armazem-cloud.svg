@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Armazem Cloud</title>
+  <desc id="desc">Logo Armazem Cloud</desc>
+  <rect width="512" height="512" fill="#efefef"/>
+  <path d="M404 178l26 46h-16l-20-34-20 34h-16l26-46z" fill="#111"/>
+  <text x="256" y="300" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700" letter-spacing="8" fill="#111">ARMAZEM</text>
+  <text x="329" y="355" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" letter-spacing="6" fill="#111">CLOUD</text>
+</svg>

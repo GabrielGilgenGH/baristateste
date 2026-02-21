@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Sicoob Sao Miguel</title>
+  <desc id="desc">Logo Sicoob Sao Miguel</desc>
+  <rect width="512" height="512" fill="#083d48"/>
+  <polygon points="112,188 172,188 202,238 142,238" fill="#5bc15a"/>
+  <polygon points="172,188 232,188 202,238 142,238" fill="#a4cf3e"/>
+  <polygon points="142,238 202,238 232,288 172,288" fill="#1d9f65"/>
+  <text x="312" y="250" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="700" fill="#f2f7f8">SICOOB</text>
+  <text x="302" y="300" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="600" fill="#44be8f">Sao Miguel</text>
+</svg>

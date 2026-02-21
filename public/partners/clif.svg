@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Clif</title>
+  <desc id="desc">Logo Clif</desc>
+  <rect width="512" height="512" fill="#efefef"/>
+  <path d="M214 98l88 64-18 64-70-42z" fill="#284d90"/>
+  <path d="M246 78l132 96-26 92-106-62z" fill="#1f8dcf"/>
+  <path d="M278 58l160 116-35 124-125-74z" fill="#1a5ca4"/>
+  <text x="256" y="400" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700" fill="#204a8a">Clif</text>
+  <circle cx="314" cy="356" r="10" fill="#f0bf1e"/>
+</svg>

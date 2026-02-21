@@ -31,13 +31,13 @@ export function Solucoes() {
         {solutions.map((solution) => (
           <Card
             key={solution.title}
-            className="space-y-4 border border-brand-warmGray/40 bg-white/90 p-6 shadow-soft"
+            className="space-y-4 border border-brand-warmGray/40 bg-brand-surface/90 p-6 shadow-soft"
           >
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-cream text-brand-copper">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-espresso/10 text-brand-copper">
               <solution.icon className="h-6 w-6" />
             </div>
             <h2 className="text-xl font-semibold text-brand-espresso">{solution.title}</h2>
-            <p className="text-sm text-brand-charcoal/70">{solution.description}</p>
+            <p className="text-sm text-brand-charcoal/90">{solution.description}</p>
           </Card>
         ))}
       </div>

@@ -27,7 +27,7 @@ export function Section({
       {title && (
         <header className={`space-y-3 ${center ? 'text-center' : ''}`}>
           {eyebrow && (
-            <p className="text-xs uppercase tracking-[0.4em] text-brand-warmGray">
+            <p className="text-xs uppercase tracking-[0.4em] text-brand-charcoal/75">
               {eyebrow}
             </p>
           )}
@@ -35,7 +35,7 @@ export function Section({
             {title}
           </h2>
           {description && (
-            <p className="text-base text-brand-charcoal/80">{description}</p>
+            <p className="text-base text-brand-charcoal/95">{description}</p>
           )}
         </header>
       )}

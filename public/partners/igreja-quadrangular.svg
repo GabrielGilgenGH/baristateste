@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Primeira Igreja Quadrangular Joinville</title>
+  <desc id="desc">Logo Igreja Quadrangular Joinville</desc>
+  <rect width="512" height="512" fill="#eeeeee"/>
+  <circle cx="256" cy="210" r="182" fill="none" stroke="#a9a9a9" stroke-width="14"/>
+  <line x1="128" y1="210" x2="384" y2="210" stroke="#a9a9a9" stroke-width="10"/>
+  <line x1="256" y1="82" x2="256" y2="338" stroke="#a9a9a9" stroke-width="10"/>
+  <rect x="136" y="130" width="78" height="12" fill="#ff3333"/>
+  <rect x="170" y="96" width="12" height="80" fill="#ff3333"/>
+  <path d="M310 114c34 14 52 32 66 64-30-16-60-16-88 0 8-26 12-40 22-64z" fill="#e9d150"/>
+  <path d="M170 290c20-34 52-34 72 0-24 16-46 16-72 0z" fill="#2ec4db"/>
+  <path d="M304 310l24-48 24 48z" fill="#8f51e5"/>
+  <path d="M286 342h84" stroke="#8f51e5" stroke-width="8"/>
+  <text x="256" y="410" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700" fill="#8f8f8f">1a IGREJA</text>
+  <text x="256" y="456" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700" fill="#8f8f8f">QUADRANGULAR</text>
+  <text x="256" y="492" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#8f8f8f">JOINVILLE</text>
+</svg>

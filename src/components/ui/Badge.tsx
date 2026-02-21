@@ -7,10 +7,10 @@ type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  solid: 'bg-brand-copper/90 text-brand-cream',
+  solid: 'bg-brand-copper/90 text-brand-ink',
   outline:
-    'border border-[rgba(43,29,22,0.18)] bg-[#eadbcb] text-[#2b1d16] shadow-soft transition-colors duration-200 hover:bg-[#e2cbb6]',
-  ghost: 'bg-brand-cream/80 text-brand-charcoal border border-brand-warmGray/40',
+    'border border-brand-warmGray/50 bg-brand-surface text-brand-charcoal shadow-soft transition-colors duration-200 hover:bg-brand-surfaceSoft',
+  ghost: 'bg-brand-surface/95 text-brand-charcoal border border-brand-warmGray/40',
 }
 
 export function Badge({

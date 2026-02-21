@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Seka</title>
+  <desc id="desc">Logo Seka</desc>
+  <rect width="512" height="512" fill="#0b0b0b"/>
+  <text x="170" y="355" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="146" font-weight="700" fill="#14a85b">Sek</text>
+  <text x="290" y="355" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="146" font-weight="700" fill="#14a85b">a</text>
+  <path d="M385 96l72 70-72 70-20-20 52-50-52-50z" fill="#56c14d"/>
+</svg>

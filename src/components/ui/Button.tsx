@@ -8,9 +8,9 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-brand-copper text-brand-cream hover:bg-[#c47546] focus-visible:outline-brand-copper/90',
+    'bg-brand-copper text-brand-ink hover:bg-[#d3945e] focus-visible:outline-brand-copper/90',
   secondary:
-    'border border-brand-charcoal text-brand-charcoal hover:border-brand-copper hover:text-brand-copper focus-visible:outline-brand-copper/90',
+    'border border-brand-charcoal/40 text-brand-charcoal hover:border-brand-copper hover:text-brand-copper focus-visible:outline-brand-copper/90',
   ghost:
     'bg-transparent text-brand-copper hover:bg-brand-copper/10 focus-visible:outline-brand-copper/90',
 }

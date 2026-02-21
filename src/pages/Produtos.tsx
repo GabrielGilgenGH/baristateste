@@ -24,18 +24,18 @@ function ProductCard({
   items: string[]
 }) {
   return (
-    <Card className="space-y-4 border border-[rgba(0,0,0,0.08)] bg-white/80 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md md:p-8">
+    <Card className="space-y-4 border border-brand-warmGray/35 bg-brand-surface/95 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md md:p-8">
       <div className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-brand-warmGray">Categoria</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-brand-charcoal/75">Categoria</p>
         <h3 className="text-2xl font-semibold text-brand-espresso">{title}</h3>
-        <p className="text-sm text-brand-charcoal/70">{description}</p>
+        <p className="text-sm text-brand-charcoal/90">{description}</p>
       </div>
       {/* Espaço reservado para ícone ou thumbnail futuro */}
-      <ul className="space-y-2 text-sm text-brand-charcoal/80">
+      <ul className="space-y-2 text-sm text-brand-charcoal/95">
         {items.map((item) => (
           <li
             key={item}
-            className="rounded-2xl border border-dashed border-brand-warmGray/60 bg-brand-cream/60 px-4 py-3"
+            className="rounded-2xl border border-dashed border-brand-warmGray/60 bg-brand-surfaceSoft/70 px-4 py-3"
           >
             {item}
           </li>
@@ -54,7 +54,7 @@ export function Produtos() {
       className="space-y-10"
     >
       <div className="space-y-4">
-        <div className="inline-flex rounded-full border border-brand-warmGray/50 bg-brand-cream/70 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-brand-charcoal/70">
+        <div className="inline-flex rounded-full border border-brand-warmGray/50 bg-brand-surfaceSoft/88 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-brand-charcoal/90">
           Reposição rápida
         </div>
       </div>
@@ -71,7 +71,7 @@ export function Produtos() {
           items={insumos}
         />
       </div>
-      <div className="rounded-[32px] border border-brand-warmGray/30 bg-[#f5e8d7] p-6 text-brand-cream shadow-[0_18px_50px_rgba(10,6,4,0.25)]">
+      <div className="rounded-[32px] border border-brand-warmGray/30 bg-brand-surfaceSoft p-6 text-brand-cream shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.35em] text-brand-cream/80">Atendimento</p>
           <p className="text-lg font-semibold">
@@ -80,7 +80,7 @@ export function Produtos() {
           <div className="flex flex-wrap gap-3">
             <a
               href="/contato"
-              className="inline-flex items-center justify-center rounded-full border border-brand-cream bg-brand-cream/80 px-6 py-3 text-xs font-semibold uppercase tracking-[0.35em] text-brand-espresso transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-espresso"
+              className="inline-flex items-center justify-center rounded-full border border-brand-cream bg-brand-cream/85 px-6 py-3 text-xs font-semibold uppercase tracking-[0.35em] text-brand-ink transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-copper"
             >
               Solicitar orçamento
             </a>

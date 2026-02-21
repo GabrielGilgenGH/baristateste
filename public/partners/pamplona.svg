@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Pamplona</title>
+  <desc id="desc">Logo Pamplona</desc>
+  <rect width="512" height="512" fill="#bb3939"/>
+  <path d="M126 132c0-30 24-54 54-54h153c29 0 53 24 53 54v143c0 52-43 95-95 95H175l-22 64c-5 14-25 11-26-4z" fill="#f1f1f1"/>
+  <path d="M196 311c44-95 124-140 240-136-85 44-136 89-156 136z" fill="#bb3939"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Alfa</title>
+  <desc id="desc">Logo Alfa</desc>
+  <rect width="512" height="512" fill="#050505"/>
+  <polygon points="170,340 240,220 310,340" fill="#b4d117"/>
+  <polygon points="255,380 320,170 355,190 290,400" fill="#f2f2f2"/>
+</svg>

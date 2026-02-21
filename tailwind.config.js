@@ -5,11 +5,15 @@ export default {
     extend: {
       colors: {
         brand: {
-          cream: '#f7f2e9',
-          charcoal: '#1c1815',
-          espresso: '#100b09',
-          copper: '#b76e3b',
-          warmGray: '#b8aa9a',
+          base: '#1f140f',
+          surface: '#4a372c',
+          surfaceSoft: '#5c4638',
+          cream: '#f4e8d8',
+          charcoal: '#f1e6d7',
+          espresso: '#fff8ef',
+          copper: '#c27a3a',
+          warmGray: '#8f6f5a',
+          ink: '#1f140f',
         },
       },
       borderRadius: {
@@ -18,8 +22,8 @@ export default {
         '2xl': '2.5rem',
       },
       boxShadow: {
-        soft: '0 20px 45px rgba(20, 16, 13, 0.12)',
-        medium: '0 25px 55px rgba(15, 11, 8, 0.18)',
+        soft: '0 20px 45px rgba(0, 0, 0, 0.28)',
+        medium: '0 25px 55px rgba(0, 0, 0, 0.35)',
       },
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],

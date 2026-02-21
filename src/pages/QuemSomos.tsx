@@ -3,7 +3,7 @@ import { Section } from '../components/ui/Section'
 import quemSomosCup from '../assets/brand/quem-somos-cup.svg'
 
 const diferenciais = [
-  'Entrega/manutenção em até 12h sem frete',
+  '15 anos de mercados com ampla carteira de clientes.',
   'Atendimento em todo o estado de Santa Catarina',
   'Sede própria com estrutura operacional dedicada',
   'Equipe técnica qualificada e comprometida',
@@ -18,7 +18,7 @@ export function QuemSomos() {
       className="space-y-10"
     >
       <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-center">
-        <div className="space-y-6 text-justify text-base leading-relaxed text-brand-charcoal/80 md:text-lg">
+        <div className="space-y-6 text-justify text-base leading-relaxed text-brand-charcoal/95 md:text-lg">
           <p>
             Dr. Barista Vending, uma empresa joinvillense, fundada em 2010, tem como característica principal o compromisso da
             excelência no atendimento.
@@ -29,11 +29,11 @@ export function QuemSomos() {
           </p>
           <p>
             Com vasta experiência no ramo, sua diretoria assume o comprometimento e responsabilidade para com seus clientes,
-            com funcionários qualificados, utilizando equipamentos novos, produtos de alta qualidade e preços competitivos.
+            com funcionários qualificados, utilizando equipamentos, produtos de alta qualidade e preços competitivos.
           </p>
           <p>
-            A Dr. Barista Vending conta ainda com diferencial maior, a manutenção dos equipamentos e entrega de insumos em até
-            12 horas da solicitação feita, sem cobrança de frete.
+            A Dr. Barista Vending conta ainda com diferencial maior: a manutenção dos equipamentos e entrega de insumos em até
+            24 horas da solicitação feita, sem taxa de frete.
           </p>
           <p>
             Com o compromisso de desenvolver uma relação de parceria, a Dr. Barista Vending deseja atender todas suas
@@ -41,7 +41,7 @@ export function QuemSomos() {
           </p>
         </div>
         <div className="flex justify-center">
-          <div className="rounded-3xl bg-white/50 border border-black/10 shadow-md p-6 md:p-8">
+          <div className="rounded-3xl border border-brand-warmGray/35 bg-brand-surface/70 p-6 shadow-md md:p-8">
             <img
               src={quemSomosCup}
               alt="Logo Dr. Barista Vending"
@@ -52,11 +52,14 @@ export function QuemSomos() {
           </div>
         </div>
       </div>
-      <Card className="space-y-4 border border-[rgba(0,0,0,0.08)] bg-white/80 p-6 shadow-soft">
-        <p className="text-xs uppercase tracking-[0.4em] text-brand-warmGray">Diferenciais</p>
-        <ul className="grid gap-3 text-sm text-brand-charcoal/80 md:grid-cols-2">
+      <Card className="space-y-4 border border-brand-warmGray/35 bg-brand-surface/95 p-6 shadow-soft">
+        <p className="text-xs uppercase tracking-[0.4em] text-brand-charcoal/75">Diferenciais</p>
+        <ul className="grid gap-3 text-sm text-brand-charcoal/95 md:grid-cols-2">
           {diferenciais.map((item) => (
-            <li key={item} className="rounded-2xl border border-dashed border-brand-warmGray/60 bg-brand-cream/50 px-4 py-3">
+            <li
+              key={item}
+              className="rounded-2xl border border-dashed border-brand-warmGray/60 bg-brand-surfaceSoft/70 px-4 py-3"
+            >
               {item}
             </li>
           ))}

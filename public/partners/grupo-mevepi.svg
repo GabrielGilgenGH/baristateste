@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Grupo Mevepi</title>
+  <desc id="desc">Logo Grupo Mevepi</desc>
+  <rect width="512" height="512" fill="#121b55"/>
+  <path d="M70 260l34-110h300l-46 80h-72l-14 30H70z" fill="#f2f2f2" opacity="0.95"/>
+  <circle cx="164" cy="293" r="19" fill="#f2f2f2"/>
+  <circle cx="298" cy="293" r="19" fill="#f2f2f2"/>
+  <text x="256" y="400" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="700" font-style="italic" fill="#f2f2f2">GRUPO MEVEPI</text>
+</svg>
