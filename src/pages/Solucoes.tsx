@@ -28,9 +28,11 @@ export function Solucoes() {
       description="Trabalhamos com estruturas independentes ao ERP, mas alinhadas com a área administrativa para garantir governança e previsibilidade."
     >
       <div className="grid gap-6 md:grid-cols-3">
-        {solutions.map((solution) => (
+        {solutions.map((solution, index) => (
           <Card
             key={solution.title}
+            data-reveal="up"
+            data-reveal-delay={String((index + 1) * 90)}
             className="space-y-4 border border-brand-warmGray/40 bg-brand-surface/90 p-6 shadow-soft"
           >
             <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-espresso/10 text-brand-copper">

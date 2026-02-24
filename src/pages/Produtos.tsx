@@ -4,27 +4,37 @@ import { Section } from '../components/ui/Section'
 const bebidas = [
   'Café em Grãos',
   'Café Solúvel',
-  'Leite em Pó Integral ou Desnatado',
   'Cappuccino em Pó Tradicional',
   'Chocolate em pó com Leite',
   'Chá Solúvel Pêssego ou Limão',
-  'Açúcar Sachê',
-  'Adoçante',
 ]
 
-const insumos = ['Copos plásticos', 'Copos térmico descartáveis', 'Mexedores descartáveis']
+const insumos = [
+  'Copos plásticos',
+  'Copos térmico descartáveis',
+  'Mexedores descartáveis',
+  'Açúcar Sachê',
+  'Adoçante',
+  'Leite em Pó Integral ou Desnatado',
+]
 
 function ProductCard({
   title,
   description,
   items,
+  revealDelay = '0',
 }: {
   title: string
   description: string
   items: string[]
+  revealDelay?: string
 }) {
   return (
-    <Card className="space-y-4 border border-brand-warmGray/35 bg-brand-surface/95 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md md:p-8">
+    <Card
+      data-reveal="up"
+      data-reveal-delay={revealDelay}
+      className="space-y-4 border border-brand-warmGray/35 bg-brand-surface/95 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md md:p-8"
+    >
       <div className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-[0.4em] text-brand-charcoal/75">Categoria</p>
         <h3 className="text-2xl font-semibold text-brand-espresso">{title}</h3>
@@ -64,14 +74,20 @@ export function Produtos() {
           title="Bebidas"
           description="Mistura premium de sabores e consistência garantida."
           items={bebidas}
+          revealDelay="90"
         />
         <ProductCard
           title="Insumos"
           description="Nossos insumos acompanham todos os formatos de operação."
           items={insumos}
+          revealDelay="180"
         />
       </div>
-      <div className="rounded-[32px] border border-brand-warmGray/30 bg-brand-surfaceSoft p-6 text-brand-cream shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
+      <div
+        data-reveal="up"
+        data-reveal-delay="260"
+        className="rounded-[32px] border border-brand-warmGray/30 bg-brand-surfaceSoft p-6 text-brand-cream shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
+      >
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.35em] text-brand-cream/80">Atendimento</p>
           <p className="text-lg font-semibold">
@@ -80,7 +96,7 @@ export function Produtos() {
           <div className="flex flex-wrap gap-3">
             <a
               href="/contato"
-              className="inline-flex items-center justify-center rounded-full border border-brand-cream bg-brand-cream/85 px-6 py-3 text-xs font-semibold uppercase tracking-[0.35em] text-brand-ink transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-copper"
+              className="cta-primary-link px-6 py-3 text-xs font-semibold uppercase tracking-[0.35em]"
             >
               Solicitar orçamento
             </a>
@@ -88,7 +104,7 @@ export function Produtos() {
               href="https://wa.me/5547991072458"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-full border border-brand-cream bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.35em] text-brand-cream transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-cream"
+              className="cta-secondary-link px-6 py-3 text-xs font-semibold uppercase tracking-[0.35em]"
             >
               Conversar no WhatsApp
             </a>

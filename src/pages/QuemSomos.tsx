@@ -1,9 +1,9 @@
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
-import quemSomosCup from '../assets/brand/quem-somos-cup.svg'
+import logoExato from '../assets/brand/logo-exato.png'
 
 const diferenciais = [
-  '15 anos de mercados com ampla carteira de clientes.',
+  '15 anos de mercado com ampla carteira de clientes.',
   'Atendimento em todo o estado de Santa Catarina',
   'Sede própria com estrutura operacional dedicada',
   'Equipe técnica qualificada e comprometida',
@@ -15,10 +15,14 @@ export function QuemSomos() {
       eyebrow="História e valores"
       title="Quem somos"
       description="Dr. Barista Vending é uma empresa joinvillense dedicada a entregar experiências premium em cafés corporativos."
-      className="space-y-10"
+      className="space-y-12 py-6 sm:py-8 lg:py-10"
     >
-      <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-center">
-        <div className="space-y-6 text-justify text-base leading-relaxed text-brand-charcoal/95 md:text-lg">
+      <div className="grid items-center gap-8 md:grid-cols-[1.5fr,1fr] md:gap-10 lg:grid-cols-2 lg:gap-12">
+        <div
+          data-reveal="left"
+          data-reveal-delay="90"
+          className="order-2 space-y-6 text-justify text-base leading-relaxed text-brand-charcoal/95 md:order-1 md:text-lg"
+        >
           <p>
             Dr. Barista Vending, uma empresa joinvillense, fundada em 2010, tem como característica principal o compromisso da
             excelência no atendimento.
@@ -40,19 +44,19 @@ export function QuemSomos() {
             expectativas com relação aos serviços propostos, colocando-nos à disposição.
           </p>
         </div>
-        <div className="flex justify-center">
-          <div className="rounded-3xl border border-brand-warmGray/35 bg-brand-surface/70 p-6 shadow-md md:p-8">
+        <div data-reveal="right" data-reveal-delay="160" className="order-1 flex justify-center md:order-2 md:justify-end">
+          <div className="aspect-[282/189] w-full max-w-[420px]">
             <img
-              src={quemSomosCup}
+              src={logoExato}
               alt="Logo Dr. Barista Vending"
-              className="w-full max-w-md md:max-w-lg object-contain"
+              className="h-full w-full object-contain"
               loading="lazy"
               decoding="async"
             />
           </div>
         </div>
       </div>
-      <Card className="space-y-4 border border-brand-warmGray/35 bg-brand-surface/95 p-6 shadow-soft">
+      <Card data-reveal="up" data-reveal-delay="220" className="space-y-4 border border-brand-warmGray/35 bg-brand-surface/95 p-6 shadow-soft">
         <p className="text-xs uppercase tracking-[0.4em] text-brand-charcoal/75">Diferenciais</p>
         <ul className="grid gap-3 text-sm text-brand-charcoal/95 md:grid-cols-2">
           {diferenciais.map((item) => (

@@ -13,7 +13,11 @@ export function Contato() {
       className="space-y-10"
     >
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className="space-y-4 rounded-3xl border border-brand-warmGray/40 bg-brand-surface/90 p-6 shadow-soft">
+        <div
+          data-reveal="left"
+          data-reveal-delay="90"
+          className="space-y-4 rounded-3xl border border-brand-warmGray/40 bg-brand-surface/90 p-6 shadow-soft"
+        >
           <p className="text-xs uppercase tracking-[0.4em] text-brand-charcoal/75">E-mail</p>
           <a
             href="mailto:atendimento@baristacafe.com.br"
@@ -45,14 +49,18 @@ export function Contato() {
             </a>
           </div>
         </div>
-        <div className="space-y-4 rounded-3xl border border-brand-warmGray/40 bg-brand-surface/90 p-6 shadow-soft">
+        <div
+          data-reveal="right"
+          data-reveal-delay="160"
+          className="space-y-4 rounded-3xl border border-brand-warmGray/40 bg-brand-surface/90 p-6 shadow-soft"
+        >
           <p className="text-xs uppercase tracking-[0.4em] text-brand-charcoal/75">Endereço</p>
           <p className="text-base font-medium text-brand-charcoal/95">
             Rua Pardal, 45 - Costa e Silva - 89220-080 - Joinville - SC
           </p>
           <div className="space-y-3">
             <iframe
-              title="Mapa Barista Office Joinville"
+              title="Mapa Dr Barista Joinville"
               src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
               className="h-48 w-full rounded-2xl border border-brand-warmGray/40 bg-brand-surface/70 shadow-inner"
               loading="lazy"
@@ -62,7 +70,7 @@ export function Contato() {
                 href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-brand-charcoal/20 px-4 py-2 text-center font-semibold text-brand-espresso"
+                className="cta-primary-link px-4 py-2 text-center text-sm font-semibold"
               >
                 Ver no Google Maps
               </a>
@@ -70,7 +78,7 @@ export function Contato() {
                 href={`https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-brand-charcoal/20 px-4 py-2 text-center font-semibold text-brand-espresso"
+                className="cta-secondary-link px-4 py-2 text-center text-sm font-semibold"
               >
                 Traçar rota
               </a>

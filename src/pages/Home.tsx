@@ -23,8 +23,12 @@ export function Home() {
   return (
     <div className="space-y-16">
       <section className="grid gap-8 lg:grid-cols-[1.15fr,0.85fr] lg:items-stretch lg:[&>*]:h-full">
-        <Hero15Anos />
-        <LeadCaptureSection compact />
+        <div data-reveal="left">
+          <Hero15Anos />
+        </div>
+        <div data-reveal="right" data-reveal-delay="120">
+          <LeadCaptureSection compact />
+        </div>
       </section>
 
       <Section
@@ -33,7 +37,11 @@ export function Home() {
         title="Operação desenhada para simplificar seu dia a dia"
         description="Um modelo completo para sua equipe não perder tempo com rotinas operacionais de café."
       >
-        <section className="mt-12 rounded-[32px] border border-brand-warmGray/35 bg-brand-surface/95 p-8 shadow-medium transition-all duration-300 hover:shadow-[0_28px_62px_rgba(0,0,0,0.4)] md:p-12">
+        <section
+          data-reveal="up"
+          data-reveal-delay="120"
+          className="mt-12 rounded-[32px] border border-brand-warmGray/35 bg-brand-surface/95 p-8 shadow-medium transition-all duration-300 hover:shadow-[0_28px_62px_rgba(0,0,0,0.4)] md:p-12"
+        >
           <div className="grid gap-10 md:grid-cols-2 md:gap-12">
             <div className="space-y-5">
               <h3 className="text-3xl font-semibold leading-tight text-brand-espresso sm:text-4xl">

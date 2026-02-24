@@ -10,9 +10,11 @@ export function Maquinas() {
       description="Unidades entregues limpas, conectadas e acompanhadas por indicadores que mantêm a governança."
     >
       <div className="grid gap-6 md:grid-cols-2">
-        {machines.map((machine) => (
+        {machines.map((machine, index) => (
           <Card
             key={machine.name}
+            data-reveal="up"
+            data-reveal-delay={String((index + 1) * 90)}
             className="space-y-4 border border-brand-warmGray/40 bg-brand-surface/90 p-6 shadow-soft"
           >
             <div className="flex items-center justify-between">
