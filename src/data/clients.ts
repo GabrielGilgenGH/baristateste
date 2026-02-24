@@ -15,7 +15,7 @@ export const clients: Client[] = [
   { name: 'Sicoob São Miguel', initials: 'SIC', logoUrl: '/partners/sicoob-sao-miguel.svg' },
   { name: 'Martinelli', initials: 'MAR', logoUrl: '/partners/martinelli.svg' },
   { name: 'Dalila Têxtil', initials: 'DAL', logoUrl: '/partners/alfa.svg' },
-  { name: 'Panatlântica Catarinense', initials: 'PAN', logoUrl: '/partners/panatlantica-catarinense.png' },
+  { name: 'Panatlântica Catarinense', initials: 'PAN', logoUrl: '/partners/panatlantica-catarinense.jpeg' },
   { name: 'Oclif', initials: 'CLI', logoUrl: '/partners/clif.svg' },
   { name: 'Igreja Quadrangular', initials: 'IQJ', logoUrl: '/partners/igreja-quadrangular.svg' },
   { name: 'Corius', initials: 'COR', logoUrl: '/partners/corius.svg' },
