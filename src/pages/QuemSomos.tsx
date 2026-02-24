@@ -3,7 +3,7 @@ import { Section } from '../components/ui/Section'
 import logoExato from '../assets/brand/logo-exato.png'
 
 const diferenciais = [
-  '15 anos de mercado com ampla carteira de clientes.',
+  '16 anos de mercado com ampla carteira de clientes.',
   'Atendimento em todo o estado de Santa Catarina',
   'Sede própria com estrutura operacional dedicada',
   'Equipe técnica qualificada e comprometida',

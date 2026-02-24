@@ -20,10 +20,10 @@ export function Contato() {
         >
           <p className="text-xs uppercase tracking-[0.4em] text-brand-charcoal/75">E-mail</p>
           <a
-            href="mailto:atendimento@baristacafe.com.br"
+            href="mailto:roseli@baristacafe.com.br"
             className="text-lg font-semibold text-brand-espresso underline-offset-4 hover:underline"
           >
-            atendimento@baristacafe.com.br
+            roseli@baristacafe.com.br
           </a>
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.4em] text-brand-charcoal/75">Telefone</p>

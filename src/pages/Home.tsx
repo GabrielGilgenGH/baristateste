@@ -68,11 +68,11 @@ export function Home() {
                 </li>
                 <li className="flex items-start gap-3 text-brand-charcoal/95">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand-copper" />
-                  <span>Máquina quebrada sem suporte imediato</span>
+                  <span>Equipamentos sem manutenção</span>
                 </li>
                 <li className="flex items-start gap-3 text-brand-charcoal/95">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand-copper" />
-                  <span>Equipe sem café em momentos críticos</span>
+                  <span>Colaboradores sem café em momentos críticos</span>
                 </li>
               </ul>
             </div>

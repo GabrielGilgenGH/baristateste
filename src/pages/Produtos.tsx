@@ -6,16 +6,14 @@ const bebidas = [
   'Café Solúvel',
   'Cappuccino em Pó Tradicional',
   'Chocolate em pó com Leite',
-  'Chá Solúvel Pêssego ou Limão',
+  'Chá em pó',
 ]
 
 const insumos = [
   'Copos plásticos',
-  'Copos térmico descartáveis',
   'Mexedores descartáveis',
   'Açúcar Sachê',
-  'Adoçante',
-  'Leite em Pó Integral ou Desnatado',
+  'Leite em pó integral ou desnatado',
 ]
 
 function ProductCard({
@@ -63,11 +61,6 @@ export function Produtos() {
       description="Selecionamos insumos e bebidas para manter consistência e praticidade no escritório."
       className="space-y-10"
     >
-      <div className="space-y-4">
-        <div className="inline-flex rounded-full border border-brand-warmGray/50 bg-brand-surfaceSoft/88 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-brand-charcoal/90">
-          Reposição rápida
-        </div>
-      </div>
       <hr className="border-t border-brand-warmGray/30" />
       <div className="grid gap-6 lg:grid-cols-2">
         <ProductCard
