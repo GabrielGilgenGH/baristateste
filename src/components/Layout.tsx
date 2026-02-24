@@ -139,7 +139,7 @@ export function Layout({ children }: LayoutProps) {
           <footer className="border-t border-brand-warmGray/35 bg-brand-surfaceSoft">
             <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-8 text-sm text-brand-cream md:flex-row md:items-center md:justify-between">
               <p>© {new Date().getFullYear()} Dr Barista · Operação premium B2B</p>
-              <p>administrativo@baristaoffice.com · (47) 99107-2458</p>
+              <p>administracao@baristacafe.com.br · (47) 99107-2458</p>
             </div>
           </footer>
         </div>
