@@ -5,15 +5,16 @@ export default {
     extend: {
       colors: {
         brand: {
-          base: '#1f140f',
-          surface: '#4a372c',
-          surfaceSoft: '#5c4638',
-          cream: '#f4e8d8',
-          charcoal: '#f1e6d7',
-          espresso: '#fff8ef',
-          copper: '#c27a3a',
-          warmGray: '#8f6f5a',
-          ink: '#1f140f',
+          base: '#140D0A',
+          surface: '#1B120E',
+          surfaceSoft: '#241813',
+          cream: '#C9B8A7',
+          charcoal: '#F3ECE4',
+          espresso: '#F3ECE4',
+          copper: '#D08A45',
+          copperHover: '#E39A52',
+          warmGray: '#3A2A22',
+          ink: '#140D0A',
         },
       },
       borderRadius: {
