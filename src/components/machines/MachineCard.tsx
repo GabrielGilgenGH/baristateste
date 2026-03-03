@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
+import { Link } from 'react-router-dom'
 import type { Machine } from '../../data/machines/catalog'
 import { machinePlaceholderImage, resolveMachineImage } from '../../lib/machineImages'
 import { buildWhatsAppLink } from '../../lib/whatsapp'
@@ -22,18 +23,20 @@ export function MachineCard({ machine, index }: MachineCardProps) {
   } as const
   const imagePad = machine.imagePad ?? 'sm'
   const imagePadClass = padClassMap[imagePad]
-  const scaleClassMap = {
-    100: 'scale-100 md:scale-[1.05] lg:scale-[1.10] md:group-hover:scale-[1.07] lg:group-hover:scale-[1.12]',
-    110: 'scale-[1.06] md:scale-[1.14] lg:scale-[1.20] md:group-hover:scale-[1.16] lg:group-hover:scale-[1.22]',
-    120: 'scale-[1.12] md:scale-[1.24] lg:scale-[1.30] md:group-hover:scale-[1.26] lg:group-hover:scale-[1.32]',
-    130: 'scale-[1.16] md:scale-[1.32] lg:scale-[1.38] md:group-hover:scale-[1.34] lg:group-hover:scale-[1.40]',
-    140: 'scale-[1.22] md:scale-[1.40] lg:scale-[1.46] md:group-hover:scale-[1.42] lg:group-hover:scale-[1.48]',
-    150: 'scale-[1.28] md:scale-[1.48] lg:scale-[1.54] md:group-hover:scale-[1.50] lg:group-hover:scale-[1.56]',
-  } as const
-  const imageScale = machine.imageScale ?? 140
-  const imageScaleClass = scaleClassMap[imageScale]
+  const clampScalePercent = (value: number) => Math.min(220, Math.max(100, value))
+  const baseScale = clampScalePercent(machine.imageScale ?? 138) / 100
+  const mdScale = clampScalePercent(machine.imageScaleMd ?? machine.imageScale ?? 146) / 100
+  const mdHoverScale = Number((mdScale + 0.02).toFixed(2))
+  const imageOffsetY = machine.imageOffsetY ?? 0
+  const imageTransformVars = {
+    '--machine-scale': String(baseScale),
+    '--machine-scale-md': String(mdScale),
+    '--machine-scale-md-hover': String(mdHoverScale),
+    '--machine-offsetY': `${imageOffsetY}px`,
+  } as CSSProperties
   const highlights = (machine.highlights ?? []).slice(0, 3)
   const displayName = machine.displayName?.trim() || 'Modelo sob consulta'
+  const detailPath = `/maquinas/${machine.slug}`
   const whatsappMessage =
     machine.whatsappMessage ??
     `Olá! Tenho interesse na ${displayName}. Pode me enviar uma proposta para minha empresa?`
@@ -62,7 +65,8 @@ export function MachineCard({ machine, index }: MachineCardProps) {
                   alt={`Imagem da ${displayName}`}
                   loading="lazy"
                   decoding="async"
-                  className={`h-full w-full max-h-full max-w-full ${fitClass} ${imageScaleClass} object-center transition-transform duration-300 ease-out`}
+                  style={imageTransformVars}
+                  className={`h-full w-full max-h-full max-w-full ${fitClass} object-center [transform:translateY(var(--machine-offsetY))_scale(var(--machine-scale))] md:[transform:translateY(var(--machine-offsetY))_scale(var(--machine-scale-md))] motion-safe:md:group-hover:[transform:translateY(var(--machine-offsetY))_scale(var(--machine-scale-md-hover))] transition-transform duration-300 ease-out`}
                   onError={() => {
                     if (imageSrc !== machinePlaceholderImage) {
                       setImageSrc(machinePlaceholderImage)
@@ -104,6 +108,12 @@ export function MachineCard({ machine, index }: MachineCardProps) {
             <Button type="button" variant="primary" onClick={openWhatsAppQuote} className="w-full">
               Solicitar orçamento
             </Button>
+            <Link
+              to={detailPath}
+              className="mt-2 inline-flex w-full items-center justify-center rounded-full border border-brand-warmGray/45 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.25em] text-brand-charcoal/85 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-copper/65 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+            >
+              Ver detalhes
+            </Link>
           </div>
         </InteractiveCard>
       </Reveal>
