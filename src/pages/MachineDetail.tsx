@@ -8,6 +8,14 @@ import { MACHINES } from '../data/machines/catalog'
 import { machinePlaceholderImage, resolveMachineImage } from '../lib/machineImages'
 import { buildWhatsAppLink } from '../lib/whatsapp'
 
+const includedServices = [
+  'Instalação e orientação inicial',
+  'Reposição de insumos e operação assistida',
+  'Manutenção preventiva e corretiva',
+  'Atendimento e suporte rápido',
+  'Ajustes de plano conforme uso',
+]
+
 export function MachineDetail() {
   const { slug } = useParams<{ slug: string }>()
   const machine = MACHINES.find((entry) => entry.slug === slug)
@@ -88,15 +96,36 @@ export function MachineDetail() {
               Este é um modelo ilustrativo. Configurações, disponibilidade e valores sob consulta.
             </p>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
-                href={proposalLink}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
-              >
-                Pedir proposta no WhatsApp
-              </a>
+            <div className="space-y-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-charcoal/72">
+                16 anos • Joinville/SC • Atendemos empresas médias e grandes
+              </p>
+
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a
+                  href={proposalLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+                >
+                  Pedir proposta no WhatsApp
+                </a>
+              </div>
+            </div>
+
+            <div className="space-y-4 border-t border-brand-warmGray/25 pt-6">
+              <h2 className="text-xl font-semibold tracking-[-0.01em] text-brand-espresso">O que está incluso</h2>
+
+              <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                {includedServices.map((item) => (
+                  <li
+                    key={item}
+                    className="rounded-xl border border-brand-warmGray/25 bg-brand-surfaceSoft/28 px-4 py-3 text-sm leading-relaxed text-brand-charcoal/90"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </Card>
         </Reveal>
