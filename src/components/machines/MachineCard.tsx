@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, type KeyboardEventHandler } from 'react'
+import { Link } from 'react-router-dom'
 import type { Machine } from '../../data/machines/catalog'
 import { machinePlaceholderImage, resolveMachineImage } from '../../lib/machineImages'
 import { buildWhatsAppLink } from '../../lib/whatsapp'
@@ -9,38 +10,26 @@ import { Reveal } from '../ui/Reveal'
 type MachineCardProps = {
   machine: Machine
   index: number
+  compact?: boolean
 }
 
-export function MachineCard({ machine, index }: MachineCardProps) {
+export function MachineCard({ machine, index, compact = false }: MachineCardProps) {
   const [imageSrc, setImageSrc] = useState(() => resolveMachineImage(machine))
   const [imageUnavailable, setImageUnavailable] = useState(false)
   const fitClass = machine.imageFit === 'cover' ? 'object-cover' : 'object-contain'
   const padClassMap = {
     none: 'p-0',
-    sm: 'p-3 md:p-4',
-    md: 'p-4 md:p-5',
+    sm: 'p-2 md:p-3',
+    md: 'p-3 md:p-4',
   } as const
-  const imagePad = machine.imagePad ?? 'md'
+  const imagePad = machine.imagePad ?? 'sm'
   const imagePadClass = padClassMap[imagePad]
-  const scaleClassMap = {
-    100: 'scale-100',
-    110: 'scale-[1.10]',
-    120: 'scale-[1.20]',
-  } as const
-  const hoverScaleClassMap = {
-    100: 'group-hover:scale-[1.02]',
-    110: 'group-hover:scale-[1.12]',
-    120: 'group-hover:scale-[1.22]',
-  } as const
-  const imageScale = machine.imageScale ?? 110
-  const imageScaleClass = scaleClassMap[imageScale]
-  const imageHoverScaleClass = hoverScaleClassMap[imageScale]
-
   const highlights = (machine.highlights ?? []).slice(0, 3)
-  const features = (machine.features ?? []).slice(0, 2)
+  const displayName = machine.displayName?.trim() || 'Modelo sob consulta'
+  const detailPath = `/maquinas/${machine.slug}`
   const whatsappMessage =
     machine.whatsappMessage ??
-    `Olá! Tenho interesse na ${machine.name}. Pode me enviar valores e opções de locação, incluindo instalação, manutenção e reposição de insumos?`
+    `Olá! Tenho interesse na ${displayName}. Pode me enviar uma proposta para minha empresa?`
 
   const openWhatsAppQuote = () => {
     const link = buildWhatsAppLink(whatsappMessage)
@@ -48,25 +37,42 @@ export function MachineCard({ machine, index }: MachineCardProps) {
     if (!newWindow) window.location.href = link
   }
 
+  const handleOverlayKeyDown: KeyboardEventHandler<HTMLAnchorElement> = (event) => {
+    if (event.key !== ' ') return
+    event.preventDefault()
+    event.currentTarget.click()
+  }
+
   return (
     <li role="gridcell" className="list-none h-full">
       <Reveal delay={Math.min(index * 90, 540)} className="h-full">
         <InteractiveCard
           as="article"
-          tabIndex={0}
-          aria-label={`Máquina ${machine.name}`}
-          className="flex h-full flex-col border-brand-warmGray/35 bg-brand-surface/90 p-5 shadow-soft"
+          className={`relative flex h-full cursor-pointer flex-col border-brand-warmGray/30 bg-brand-surface/90 shadow-[0_18px_38px_rgba(11,5,4,0.26)] ${
+            compact ? 'p-4' : 'p-5'
+          }`}
         >
-          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/40">
+          <Link
+            to={detailPath}
+            aria-label={`Ver detalhes: ${displayName}`}
+            onKeyDown={handleOverlayKeyDown}
+            className="absolute inset-0 z-10 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+          />
+
+          <div
+            className={`relative overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/45 ring-1 ring-inset ring-brand-warmGray/20 ${
+              compact ? 'h-56 sm:h-64 md:h-72' : 'h-72 sm:h-80 md:h-[23rem] lg:h-[25rem]'
+            }`}
+          >
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-surfaceSoft/25 via-brand-surfaceSoft/10 to-transparent" />
             {!imageUnavailable ? (
               <div className={`relative z-10 flex h-full w-full items-center justify-center ${imagePadClass}`}>
                 <img
                   src={imageSrc}
-                  alt={`Imagem da ${machine.name}`}
+                  alt={`Imagem da ${displayName}`}
                   loading="lazy"
                   decoding="async"
-                  className={`h-full w-full max-h-full max-w-full ${fitClass} ${imageScaleClass} ${imageHoverScaleClass} object-center transition-transform duration-200 ease-out`}
+                  className={`h-full w-full max-h-full max-w-full ${fitClass} object-center`}
                   onError={() => {
                     if (imageSrc !== machinePlaceholderImage) {
                       setImageSrc(machinePlaceholderImage)
@@ -86,23 +92,13 @@ export function MachineCard({ machine, index }: MachineCardProps) {
 
           <div className="mt-4 flex flex-1 flex-col gap-4">
             <div className="space-y-2">
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="text-xl font-semibold text-brand-espresso">{machine.name}</h3>
-                {machine.capacityLabel ? (
-                  <span className="text-right text-[0.64rem] font-semibold uppercase tracking-[0.28em] text-brand-charcoal/75">
-                    {machine.capacityLabel}
-                  </span>
-                ) : null}
-              </div>
+              <h3 className={`${compact ? 'text-lg' : 'text-xl'} font-semibold text-brand-espresso`}>{displayName}</h3>
               {machine.segment ? (
                 <p className="text-xs uppercase tracking-[0.26em] text-brand-charcoal/70">{machine.segment}</p>
               ) : null}
-              {machine.shortDescription ? (
-                <p className="text-sm leading-relaxed text-brand-charcoal/90">{machine.shortDescription}</p>
-              ) : null}
             </div>
 
-            {highlights.length > 0 ? (
+            {!compact && highlights.length > 0 ? (
               <ul className="space-y-2 text-sm text-brand-charcoal/90">
                 {highlights.map((highlight) => (
                   <li key={highlight} className="flex items-start gap-2">
@@ -113,25 +109,19 @@ export function MachineCard({ machine, index }: MachineCardProps) {
               </ul>
             ) : null}
 
-            {features.length > 0 ? (
-              <dl className="grid grid-cols-2 gap-2 rounded-xl border border-brand-warmGray/30 bg-brand-surfaceSoft/50 p-3">
-                {features.map((feature) => (
-                  <div key={feature.label} className="space-y-1">
-                    <dt className="text-[0.62rem] uppercase tracking-[0.22em] text-brand-charcoal/65">
-                      {feature.label}
-                    </dt>
-                    <dd className="text-sm font-semibold text-brand-espresso">{feature.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            ) : null}
+            <p className="inline-flex items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.25em] text-brand-charcoal/78">
+              <span>Ver detalhes</span>
+              <span aria-hidden="true">→</span>
+            </p>
           </div>
 
-          <div className="mt-5">
-            <Button type="button" variant="primary" onClick={openWhatsAppQuote} className="w-full">
-              Solicitar orçamento
-            </Button>
-          </div>
+          {!compact ? (
+            <div className="relative z-20 mt-5">
+              <Button type="button" variant="primary" onClick={openWhatsAppQuote} className="w-full">
+                Solicitar orçamento
+              </Button>
+            </div>
+          ) : null}
         </InteractiveCard>
       </Reveal>
     </li>
