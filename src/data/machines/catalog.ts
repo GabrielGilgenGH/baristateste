@@ -11,6 +11,7 @@ export type Machine = {
   imageUrl?: string
   imageFit?: 'contain' | 'cover'
   imagePad?: 'none' | 'sm' | 'md'
+  imageScale?: 100 | 110 | 120
   whatsappMessage?: string
 }
 
