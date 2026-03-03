@@ -30,7 +30,7 @@ export const MACHINES: Machine[] = [
       { label: 'Bebidas', value: '6 opções' },
       { label: 'Voltagem', value: '220V' },
     ],
-    imageKey: 'maquina-01.webp',
+    imageKey: 'maquina-01.png',
   },
   {
     id: 'maquina-2',
@@ -49,7 +49,7 @@ export const MACHINES: Machine[] = [
       { label: 'Bebidas', value: '8 opções' },
       { label: 'Pressão', value: '15 bar' },
     ],
-    imageKey: 'maquina-02.webp',
+    imageKey: 'maquina-02.png',
   },
   {
     id: 'maquina-3',
@@ -68,7 +68,7 @@ export const MACHINES: Machine[] = [
       { label: 'Bebidas', value: '10 opções' },
       { label: 'Display', value: 'Touch 7"' },
     ],
-    imageKey: 'maquina-03.webp',
+    imageKey: 'maquina-03.png',
   },
   {
     id: 'maquina-4',
@@ -87,7 +87,7 @@ export const MACHINES: Machine[] = [
       { label: 'Bebidas', value: '12 opções' },
       { label: 'Potência', value: '1.8 kW' },
     ],
-    imageKey: 'maquina-04.webp',
+    imageKey: 'maquina-04.png',
   },
   {
     id: 'maquina-5',
@@ -106,7 +106,7 @@ export const MACHINES: Machine[] = [
       { label: 'Bebidas', value: '14 opções' },
       { label: 'Conectividade', value: 'Wi-Fi' },
     ],
-    imageKey: 'maquina-05.webp',
+    imageKey: 'maquina-05.png',
   },
   {
     id: 'maquina-6',
@@ -125,6 +125,6 @@ export const MACHINES: Machine[] = [
       { label: 'Bebidas', value: '16 opções' },
       { label: 'Moedores', value: 'Duplo' },
     ],
-    imageKey: 'maquina-06.webp',
+    imageKey: 'maquina-06.png',
   },
 ]
