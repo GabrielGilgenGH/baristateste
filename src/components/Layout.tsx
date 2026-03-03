@@ -49,7 +49,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-brand-base text-brand-charcoal">
       <div className="relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(208,138,69,0.22),transparent_56%)] opacity-35" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(201,162,77,0.22),transparent_56%)] opacity-35" />
         <div className="relative">
           <header
             className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-all duration-200 ease-out ${

@@ -11,15 +11,15 @@
 body {
   margin: 0;
   font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #120806;
-  color: #f4efe9;
+  background-color: #120b08;
+  color: #f0e6da;
   min-height: 100vh;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   background-image:
-    radial-gradient(circle at 14% 8%, rgba(208, 138, 69, 0.18), transparent 44%),
-    radial-gradient(circle at 82% 0%, rgba(244, 239, 233, 0.06), transparent 40%),
-    linear-gradient(180deg, #120806 0%, #0b0504 100%);
+    radial-gradient(circle at 14% 8%, rgba(201, 162, 77, 0.18), transparent 44%),
+    radial-gradient(circle at 82% 0%, rgba(43, 183, 168, 0.08), transparent 40%),
+    linear-gradient(180deg, #120b08 0%, #1a100c 100%);
 }
 
 #root {
@@ -33,7 +33,7 @@ h4,
 h5,
 h6 {
   font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  color: #f4efe9;
+  color: #fbf7f1;
 }
 
 @keyframes techGridDrift {
@@ -75,8 +75,8 @@ h6 {
   inset: 0;
   z-index: -1;
   background-image:
-    linear-gradient(to right, rgba(208, 138, 69, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(208, 138, 69, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(31, 163, 146, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(31, 163, 146, 0.04) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: radial-gradient(circle at 50% 28%, black 0%, transparent 76%);
   pointer-events: none;
@@ -96,16 +96,16 @@ h6 {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 1px solid rgba(58, 39, 32, 0.82);
-  background: linear-gradient(180deg, rgba(227, 154, 82, 0.98), rgba(208, 138, 69, 0.95));
-  color: #120806;
-  box-shadow: 0 12px 28px rgba(208, 138, 69, 0.32);
+  border: 1px solid rgba(74, 47, 39, 0.82);
+  background: linear-gradient(180deg, rgba(216, 181, 106, 0.98), rgba(201, 162, 77, 0.95));
+  color: #0b0a09;
+  box-shadow: 0 12px 28px rgba(201, 162, 77, 0.32);
   transition: transform 240ms ease, box-shadow 240ms ease, filter 240ms ease;
 }
 
 .cta-primary-link:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 36px rgba(208, 138, 69, 0.4);
+  box-shadow: 0 18px 36px rgba(181, 139, 51, 0.4);
   filter: saturate(1.05);
 }
 
@@ -114,21 +114,21 @@ h6 {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 1px solid rgba(58, 39, 32, 0.62);
-  background: rgba(34, 20, 16, 0.36);
-  color: #cbb9aa;
+  border: 1px solid rgba(74, 47, 39, 0.62);
+  background: rgba(42, 26, 22, 0.36);
+  color: #d9cbb8;
   transition: transform 240ms ease, background-color 240ms ease, border-color 240ms ease;
 }
 
 .cta-secondary-link:hover {
   transform: translateY(-2px);
-  background: rgba(43, 27, 21, 0.58);
-  border-color: rgba(203, 185, 170, 0.48);
+  background: rgba(31, 163, 146, 0.16);
+  border-color: rgba(22, 138, 125, 0.55);
 }
 
 .cta-primary-link:focus-visible,
 .cta-secondary-link:focus-visible {
-  outline: 2px solid rgba(208, 138, 69, 0.92);
+  outline: 2px solid rgba(201, 162, 77, 0.92);
   outline-offset: 2px;
 }
 
