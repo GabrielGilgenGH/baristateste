@@ -9,6 +9,8 @@ export type Machine = {
   features?: { label: string; value: string }[]
   imageKey?: string
   imageUrl?: string
+  imageFit?: 'contain' | 'cover'
+  imagePad?: 'none' | 'sm' | 'md'
   whatsappMessage?: string
 }
 

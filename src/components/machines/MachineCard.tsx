@@ -14,6 +14,14 @@ type MachineCardProps = {
 export function MachineCard({ machine, index }: MachineCardProps) {
   const [imageSrc, setImageSrc] = useState(() => resolveMachineImage(machine))
   const [imageUnavailable, setImageUnavailable] = useState(false)
+  const fitClass = machine.imageFit === 'cover' ? 'object-cover' : 'object-contain'
+  const padClassMap = {
+    none: 'p-0',
+    sm: 'p-3 md:p-4',
+    md: 'p-4 md:p-5',
+  } as const
+  const imagePad = machine.imagePad ?? 'md'
+  const imagePadClass = padClassMap[imagePad]
 
   const highlights = (machine.highlights ?? []).slice(0, 3)
   const features = (machine.features ?? []).slice(0, 2)
@@ -36,25 +44,27 @@ export function MachineCard({ machine, index }: MachineCardProps) {
           aria-label={`Máquina ${machine.name}`}
           className="flex h-full flex-col border-brand-warmGray/35 bg-brand-surface/90 p-5 shadow-soft"
         >
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-brand-warmGray/35 bg-brand-surfaceSoft/60">
+          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/40">
             {!imageUnavailable ? (
-              <img
-                src={imageSrc}
-                alt={`Imagem da ${machine.name}`}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover transition-transform duration-200 ease-out group-hover:scale-[1.03]"
-                onError={() => {
-                  if (imageSrc !== machinePlaceholderImage) {
-                    setImageSrc(machinePlaceholderImage)
-                    return
-                  }
+              <div className={`flex h-full w-full items-center justify-center ${imagePadClass}`}>
+                <img
+                  src={imageSrc}
+                  alt={`Imagem da ${machine.name}`}
+                  loading="lazy"
+                  decoding="async"
+                  className={`h-full w-full ${fitClass} object-center transition-transform duration-200 ease-out group-hover:scale-[1.02]`}
+                  onError={() => {
+                    if (imageSrc !== machinePlaceholderImage) {
+                      setImageSrc(machinePlaceholderImage)
+                      return
+                    }
 
-                  setImageUnavailable(true)
-                }}
-              />
+                    setImageUnavailable(true)
+                  }}
+                />
+              </div>
             ) : (
-              <div className="flex h-full w-full items-center justify-center px-3 text-center text-xs text-brand-charcoal/70">
+              <div className={`flex h-full w-full items-center justify-center text-center text-xs text-brand-charcoal/70 ${imagePadClass}`}>
                 Imagem indisponível
               </div>
             )}
