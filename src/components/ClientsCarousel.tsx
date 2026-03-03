@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { clients } from '../data/clients'
 import { Card } from './ui/Card'
+import { InteractiveCard } from './ui/InteractiveCard'
+import { Reveal } from './ui/Reveal'
 
 type PartnerLogoProps = {
   logoUrl: string
@@ -34,8 +36,7 @@ function PartnerLogo({ logoUrl, initials, name }: PartnerLogoProps) {
 }
 
 export function ClientsCarousel() {
-  const [canScrollPrev, setCanScrollPrev] = useState(false)
-  const [canScrollNext, setCanScrollNext] = useState(false)
+  const [, setSelectedSnap] = useState(0)
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     align: 'start',
@@ -44,22 +45,22 @@ export function ClientsCarousel() {
     containScroll: 'trimSnaps',
   })
 
-  const updateButtons = useCallback(() => {
-    if (!emblaApi) return
-    setCanScrollPrev(emblaApi.canScrollPrev())
-    setCanScrollNext(emblaApi.canScrollNext())
-  }, [emblaApi])
-
   useEffect(() => {
     if (!emblaApi) return
-    updateButtons()
-    emblaApi.on('select', updateButtons)
-    emblaApi.on('reInit', updateButtons)
-    return () => {
-      emblaApi.off('select', updateButtons)
-      emblaApi.off('reInit', updateButtons)
+    const onSelect = () => {
+      setSelectedSnap(emblaApi.selectedScrollSnap())
     }
-  }, [emblaApi, updateButtons])
+
+    emblaApi.on('select', onSelect)
+    emblaApi.on('reInit', onSelect)
+    return () => {
+      emblaApi.off('select', onSelect)
+      emblaApi.off('reInit', onSelect)
+    }
+  }, [emblaApi])
+
+  const canScrollPrev = emblaApi?.canScrollPrev() ?? false
+  const canScrollNext = emblaApi?.canScrollNext() ?? false
 
   const scrollPrev = () => {
     if (!emblaApi) return
@@ -76,16 +77,20 @@ export function ClientsCarousel() {
       <div className="relative">
         <div ref={emblaRef} className="overflow-hidden px-1">
           <div className="flex gap-6">
-            {clients.map((client) => (
-              <article
+            {clients.map((client, index) => (
+              <div
                 key={client.name}
-                className="flex-[0_0_100%] sm:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(25%-18px)] aspect-square rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/95 p-6 text-center shadow-[0_20px_45px_rgba(0,0,0,0.3)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_25px_60px_rgba(0,0,0,0.45)]"
+                className="flex-[0_0_100%] sm:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(25%-18px)]"
               >
-                <div className="flex h-full flex-col items-center justify-center">
-                  <PartnerLogo logoUrl={client.logoUrl} initials={client.initials} name={client.name} />
-                  <p className="mt-5 text-2xl font-semibold text-brand-espresso">{client.name}</p>
-                </div>
-              </article>
+                <Reveal delay={index * 80}>
+                  <InteractiveCard as="article" className="aspect-square bg-brand-surfaceSoft/95 p-6 text-center">
+                    <div className="flex h-full flex-col items-center justify-center">
+                      <PartnerLogo logoUrl={client.logoUrl} initials={client.initials} name={client.name} />
+                      <p className="mt-5 line-clamp-2 min-h-[4rem] text-2xl font-semibold text-brand-espresso">{client.name}</p>
+                    </div>
+                  </InteractiveCard>
+                </Reveal>
+              </div>
             ))}
           </div>
         </div>

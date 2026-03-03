@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder de produto</title>
+  <desc id="desc">Imagem temporária para produto sem foto cadastrada.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A0F0C"/>
+      <stop offset="100%" stop-color="#221410"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <g fill="none" stroke="#3A2720" stroke-width="14" opacity="0.8">
+    <rect x="270" y="170" width="660" height="520" rx="30"/>
+    <path d="M330 620L500 440l120 130 95-90 155 140"/>
+    <circle cx="780" cy="330" r="55"/>
+  </g>
+  <text x="600" y="770" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" fill="#CBB9AA" letter-spacing="2">
+    IMAGEM EM BREVE
+  </text>
+</svg>

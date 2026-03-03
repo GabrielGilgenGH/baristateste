@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { useScrollY } from '../hooks/useScrollY'
 import { Button } from './ui/Button'
 import { WhatsAppFloatingButton } from './WhatsAppFloatingButton'
 
@@ -19,50 +20,21 @@ export function Layout({ children }: LayoutProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const [pageEntered, setPageEntered] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
+  const { isScrolled } = useScrollY({ threshold: 20 })
+  const isHomeTop = location.pathname === '/' && !isScrolled
 
   useEffect(() => {
-    setPageEntered(false)
-    const rafId = window.requestAnimationFrame(() => setPageEntered(true))
-    return () => window.cancelAnimationFrame(rafId)
-  }, [location.pathname])
-
-  useEffect(() => {
-    const nodes = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'))
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    if (prefersReducedMotion) {
-      nodes.forEach((node) => node.classList.add('is-visible'))
-      return
-    }
-
-    nodes.forEach((node) => {
-      node.classList.remove('is-visible')
-      const delay = node.dataset.revealDelay
-      if (delay) node.style.setProperty('--reveal-delay', `${delay}ms`)
+    let enterRafId: number | null = null
+    const resetRafId = window.requestAnimationFrame(() => {
+      setPageEntered(false)
+      enterRafId = window.requestAnimationFrame(() => setPageEntered(true))
     })
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
-          entry.target.classList.add('is-visible')
-          observer.unobserve(entry.target)
-        })
-      },
-      { threshold: 0.2, rootMargin: '0px 0px -10% 0px' },
-    )
-
-    nodes.forEach((node) => observer.observe(node))
-    return () => observer.disconnect()
+    return () => {
+      window.cancelAnimationFrame(resetRafId)
+      if (enterRafId) window.cancelAnimationFrame(enterRafId)
+    }
   }, [location.pathname])
-
-  useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 14)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   const scrollToForm = () => {
     if (location.pathname === '/') {
@@ -80,18 +52,17 @@ export function Layout({ children }: LayoutProps) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(208,138,69,0.22),transparent_56%)] opacity-35" />
         <div className="relative">
           <header
-            className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-all duration-300 ${
-              isScrolled
-                ? 'border-brand-copper/35 bg-brand-base/92 shadow-[0_14px_32px_rgba(0,0,0,0.28)]'
-                : 'border-brand-warmGray/35 bg-brand-base/95'
+            className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-all duration-200 ease-out ${
+              isHomeTop
+                ? 'border-transparent bg-brand-base/35'
+                : 'border-brand-copper/30 bg-brand-base/92 shadow-[0_14px_32px_rgba(0,0,0,0.28)]'
             }`}
           >
-            <div
-              className={`mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 transition-all duration-300 ${
-                isScrolled ? 'py-3' : 'py-4'
-              }`}
-            >
-              <Link to="/" className="text-lg font-semibold uppercase tracking-[0.25em] text-brand-charcoal transition-colors hover:text-brand-espresso">
+            <div className="mx-auto flex h-20 max-w-6xl flex-wrap items-center justify-between gap-4 px-6">
+              <Link
+                to="/"
+                className="rounded-sm text-lg font-semibold uppercase tracking-[0.25em] text-brand-charcoal transition-colors duration-200 ease-out hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+              >
                 Dr Barista
               </Link>
               <nav className="hidden flex-wrap gap-6 text-xs font-semibold uppercase tracking-[0.3em] text-brand-charcoal/85 md:flex">
@@ -101,8 +72,8 @@ export function Layout({ children }: LayoutProps) {
                     to={item.path}
                     className={({ isActive }) =>
                       isActive
-                        ? 'relative text-brand-espresso after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-brand-copper'
-                        : 'relative text-brand-charcoal/80 transition-colors hover:text-brand-espresso after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-brand-copper/85 after:transition-all hover:after:w-full'
+                        ? 'relative rounded-sm text-brand-espresso after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-brand-copper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base'
+                        : 'relative rounded-sm text-brand-charcoal/80 transition-all duration-200 ease-out hover:text-brand-espresso after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-brand-copper/85 after:transition-all after:duration-200 hover:after:w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base'
                     }
                   >
                     {item.label}
@@ -114,7 +85,8 @@ export function Layout({ children }: LayoutProps) {
                   href="https://wa.me/5547991072458"
                   target="_blank"
                   rel="noreferrer"
-                  className="hidden rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-[#79f2a8] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] md:inline-flex"
+                  aria-label="Abrir WhatsApp da Dr Barista"
+                  className="hidden rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base md:inline-flex"
                 >
                   WhatsApp
                 </a>
@@ -123,7 +95,7 @@ export function Layout({ children }: LayoutProps) {
                 </Button>
                 <NavLink
                   to="/solucoes"
-                  className="text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-brand-charcoal/85 hover:text-brand-espresso md:hidden"
+                  className="rounded-sm text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-brand-charcoal/85 transition-colors duration-200 ease-out hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base md:hidden"
                 >
                   Soluções
                 </NavLink>
