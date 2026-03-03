@@ -11,15 +11,15 @@
 body {
   margin: 0;
   font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #140d0a;
-  color: #f3ece4;
+  background-color: #120806;
+  color: #f4efe9;
   min-height: 100vh;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   background-image:
-    radial-gradient(circle at 14% 8%, rgba(208, 138, 69, 0.16), transparent 44%),
-    radial-gradient(circle at 82% 0%, rgba(243, 236, 228, 0.05), transparent 40%),
-    linear-gradient(180deg, #140d0a 0%, #110b08 100%);
+    radial-gradient(circle at 14% 8%, rgba(208, 138, 69, 0.18), transparent 44%),
+    radial-gradient(circle at 82% 0%, rgba(244, 239, 233, 0.06), transparent 40%),
+    linear-gradient(180deg, #120806 0%, #0b0504 100%);
 }
 
 #root {
@@ -33,7 +33,7 @@ h4,
 h5,
 h6 {
   font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  color: #f3ece4;
+  color: #f4efe9;
 }
 
 @keyframes techGridDrift {
@@ -96,9 +96,9 @@ h6 {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 1px solid rgba(208, 138, 69, 0.82);
+  border: 1px solid rgba(58, 39, 32, 0.82);
   background: linear-gradient(180deg, rgba(227, 154, 82, 0.98), rgba(208, 138, 69, 0.95));
-  color: #140d0a;
+  color: #120806;
   box-shadow: 0 12px 28px rgba(208, 138, 69, 0.32);
   transition: transform 240ms ease, box-shadow 240ms ease, filter 240ms ease;
 }
@@ -114,16 +114,16 @@ h6 {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 1px solid rgba(243, 236, 228, 0.36);
-  background: rgba(243, 236, 228, 0.02);
-  color: #c9b8a7;
+  border: 1px solid rgba(58, 39, 32, 0.62);
+  background: rgba(34, 20, 16, 0.36);
+  color: #cbb9aa;
   transition: transform 240ms ease, background-color 240ms ease, border-color 240ms ease;
 }
 
 .cta-secondary-link:hover {
   transform: translateY(-2px);
-  background: rgba(243, 236, 228, 0.08);
-  border-color: rgba(243, 236, 228, 0.72);
+  background: rgba(43, 27, 21, 0.58);
+  border-color: rgba(203, 185, 170, 0.48);
 }
 
 .cta-primary-link:focus-visible,
