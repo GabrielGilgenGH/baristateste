@@ -17,31 +17,26 @@ export function MachineCard({ machine, index }: MachineCardProps) {
   const fitClass = machine.imageFit === 'cover' ? 'object-cover' : 'object-contain'
   const padClassMap = {
     none: 'p-0',
-    sm: 'p-2 md:p-3',
-    md: 'p-3 md:p-4',
+    sm: 'p-1.5 md:p-2',
+    md: 'p-2 md:p-3',
   } as const
   const imagePad = machine.imagePad ?? 'sm'
   const imagePadClass = padClassMap[imagePad]
   const scaleClassMap = {
-    100: 'scale-100',
-    110: 'scale-[1.10]',
-    120: 'scale-[1.20]',
+    100: 'scale-100 md:scale-[1.05] lg:scale-[1.10] md:group-hover:scale-[1.07] lg:group-hover:scale-[1.12]',
+    110: 'scale-[1.06] md:scale-[1.14] lg:scale-[1.20] md:group-hover:scale-[1.16] lg:group-hover:scale-[1.22]',
+    120: 'scale-[1.12] md:scale-[1.24] lg:scale-[1.30] md:group-hover:scale-[1.26] lg:group-hover:scale-[1.32]',
+    130: 'scale-[1.16] md:scale-[1.32] lg:scale-[1.38] md:group-hover:scale-[1.34] lg:group-hover:scale-[1.40]',
+    140: 'scale-[1.22] md:scale-[1.40] lg:scale-[1.46] md:group-hover:scale-[1.42] lg:group-hover:scale-[1.48]',
+    150: 'scale-[1.28] md:scale-[1.48] lg:scale-[1.54] md:group-hover:scale-[1.50] lg:group-hover:scale-[1.56]',
   } as const
-  const hoverScaleClassMap = {
-    100: 'group-hover:scale-[1.01]',
-    110: 'group-hover:scale-[1.11]',
-    120: 'group-hover:scale-[1.21]',
-  } as const
-  const imageScale = machine.imageScale ?? 120
+  const imageScale = machine.imageScale ?? 140
   const imageScaleClass = scaleClassMap[imageScale]
-  const imageHoverScaleClass = hoverScaleClassMap[imageScale]
-
   const highlights = (machine.highlights ?? []).slice(0, 3)
-  const hasHighlights = highlights.length > 0
-  const features = (machine.features ?? []).slice(0, 2)
+  const displayName = machine.displayName?.trim() || 'Modelo sob consulta'
   const whatsappMessage =
     machine.whatsappMessage ??
-    `Olá! Tenho interesse na ${machine.name}. Pode me enviar valores e opções de locação, incluindo instalação, manutenção e reposição de insumos?`
+    `Olá! Tenho interesse na ${displayName}. Pode me enviar uma proposta para minha empresa?`
 
   const openWhatsAppQuote = () => {
     const link = buildWhatsAppLink(whatsappMessage)
@@ -55,19 +50,19 @@ export function MachineCard({ machine, index }: MachineCardProps) {
         <InteractiveCard
           as="article"
           tabIndex={0}
-          aria-label={`Máquina ${machine.name}`}
-          className="flex h-full flex-col border-brand-warmGray/35 bg-brand-surface/90 p-5 shadow-soft"
+          aria-label={`Modelo ${displayName}`}
+          className="flex h-full flex-col border-brand-warmGray/30 bg-brand-surface/90 p-5 shadow-[0_18px_38px_rgba(11,5,4,0.26)]"
         >
-          <div className="relative aspect-[3/2] overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/40 md:aspect-[4/3]">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/45 ring-1 ring-inset ring-brand-warmGray/20 md:aspect-[5/4]">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-surfaceSoft/25 via-brand-surfaceSoft/10 to-transparent" />
             {!imageUnavailable ? (
               <div className={`relative z-10 flex h-full w-full items-center justify-center ${imagePadClass}`}>
                 <img
                   src={imageSrc}
-                  alt={`Imagem da ${machine.name}`}
+                  alt={`Imagem da ${displayName}`}
                   loading="lazy"
                   decoding="async"
-                  className={`h-full w-full max-h-full max-w-full ${fitClass} ${imageScaleClass} ${imageHoverScaleClass} object-center transition-transform duration-200 ease-out`}
+                  className={`h-full w-full max-h-full max-w-full ${fitClass} ${imageScaleClass} object-center transition-transform duration-300 ease-out`}
                   onError={() => {
                     if (imageSrc !== machinePlaceholderImage) {
                       setImageSrc(machinePlaceholderImage)
@@ -87,20 +82,13 @@ export function MachineCard({ machine, index }: MachineCardProps) {
 
           <div className="mt-4 flex flex-1 flex-col gap-4">
             <div className="space-y-2">
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="text-xl font-semibold text-brand-espresso">{machine.name}</h3>
-                {machine.capacityLabel ? (
-                  <span className="text-right text-[0.64rem] font-semibold uppercase tracking-[0.28em] text-brand-charcoal/75">
-                    {machine.capacityLabel}
-                  </span>
-                ) : null}
-              </div>
+              <h3 className="text-xl font-semibold text-brand-espresso">{displayName}</h3>
               {machine.segment ? (
                 <p className="text-xs uppercase tracking-[0.26em] text-brand-charcoal/70">{machine.segment}</p>
               ) : null}
             </div>
 
-            {hasHighlights ? (
+            {highlights.length > 0 ? (
               <ul className="space-y-2 text-sm text-brand-charcoal/90">
                 {highlights.map((highlight) => (
                   <li key={highlight} className="flex items-start gap-2">
@@ -109,19 +97,6 @@ export function MachineCard({ machine, index }: MachineCardProps) {
                   </li>
                 ))}
               </ul>
-            ) : null}
-
-            {hasHighlights && features.length > 0 ? (
-              <dl className="grid grid-cols-2 gap-2 rounded-xl border border-brand-warmGray/30 bg-brand-surfaceSoft/50 p-3">
-                {features.map((feature) => (
-                  <div key={feature.label} className="space-y-1">
-                    <dt className="text-[0.62rem] uppercase tracking-[0.22em] text-brand-charcoal/65">
-                      {feature.label}
-                    </dt>
-                    <dd className="text-sm font-semibold text-brand-espresso">{feature.value}</dd>
-                  </div>
-                ))}
-              </dl>
             ) : null}
           </div>
 

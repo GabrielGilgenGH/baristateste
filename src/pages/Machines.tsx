@@ -1,8 +1,6 @@
 import { CheckCircle2, Coffee, PackageCheck, Wrench, type LucideIcon } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
 import { MachineCard } from '../components/machines/MachineCard'
 import { Reveal } from '../components/ui/Reveal'
-import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
 import { MACHINES } from '../data/machines/catalog'
@@ -60,24 +58,54 @@ const faqItems = [
 ]
 
 export function Maquinas() {
-  const navigate = useNavigate()
-  const whatsappCtaLink = buildWhatsAppLink(
-    'Olá! Quero receber uma proposta para locação de máquinas de café para minha empresa.',
+  const proposalLink = buildWhatsAppLink(
+    'Olá! Quero uma proposta para máquinas de café para minha empresa. Podemos conversar? (Joinville/SC)',
+  )
+  const visitLink = buildWhatsAppLink(
+    'Olá! Quero agendar uma visita técnica para avaliar máquinas de café na minha empresa em Joinville/SC.',
   )
 
-  const goToLeadForm = () => {
-    navigate('/', { state: { scrollToLead: true } })
-  }
-
   return (
-    <div className="space-y-16">
-      <Section
-        eyebrow="Catálogo"
-        title="Máquinas prontas para operar"
-        description="Unidades entregues limpas, conectadas e acompanhadas por indicadores que mantêm a governança."
-        className="space-y-8"
-      >
-        <ul role="grid" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="space-y-16 pb-36 md:pb-0">
+      <Section className="space-y-8">
+        <Reveal>
+          <Card className="space-y-6 border-brand-warmGray/35 bg-brand-surface/92 p-6 md:p-8">
+            <p className="text-xs uppercase tracking-[0.35em] text-brand-charcoal/75">Catálogo corporativo</p>
+            <h1 className="text-[clamp(2rem,2.5vw+1.2rem,3.35rem)] font-semibold leading-[1.12] tracking-[-0.02em] text-brand-espresso">
+              Máquinas para empresas — café premium sem dor de cabeça
+            </h1>
+            <p className="max-w-4xl text-base leading-relaxed text-brand-charcoal/92">
+              Planejamos a operação completa de café para sua empresa com reposição contínua e manutenção dedicada,
+              sem ocupar o tempo do seu time interno.
+            </p>
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-charcoal/72">
+              15 anos • Joinville/SC • Atendemos empresas médias e grandes
+            </p>
+            <p className="text-xs text-brand-charcoal/75">
+              Modelos ilustrativos. Especificações e valores sob consulta.
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <a
+                href={proposalLink}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+              >
+                Solicitar proposta no WhatsApp
+              </a>
+              <a
+                href={visitLink}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-brand-charcoal/45 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-brand-charcoal transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-copper/85 hover:bg-brand-copper/10 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+              >
+                Agendar visita técnica
+              </a>
+            </div>
+          </Card>
+        </Reveal>
+
+        <ul role="grid" className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-3">
           {MACHINES.map((machine, index) => (
             <MachineCard key={machine.id} machine={machine} index={index} />
           ))}
@@ -153,20 +181,36 @@ export function Maquinas() {
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
-                href={whatsappCtaLink}
+                href={proposalLink}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
               >
-                WhatsApp
+                Solicitar proposta no WhatsApp
               </a>
-              <Button type="button" variant="primary" onClick={goToLeadForm}>
-                Solicitar orçamento
-              </Button>
+              <a
+                href={visitLink}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-brand-charcoal/45 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-brand-charcoal transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-copper/85 hover:bg-brand-copper/10 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+              >
+                Agendar visita técnica
+              </a>
             </div>
           </Card>
         </Reveal>
       </Section>
+
+      <div className="fixed bottom-[calc(env(safe-area-inset-bottom,0px)+5rem)] left-4 right-4 z-[55] md:hidden">
+        <a
+          href={proposalLink}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex w-full items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366] px-5 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-[0_12px_24px_rgba(37,211,102,0.28)] transition-all duration-200 ease-out hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+        >
+          WhatsApp: pedir proposta
+        </a>
+      </div>
     </div>
   )
 }
