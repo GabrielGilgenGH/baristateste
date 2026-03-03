@@ -8,9 +8,6 @@ export type Machine = {
   imageUrl?: string
   imageFit?: 'contain' | 'cover'
   imagePad?: 'none' | 'sm' | 'md'
-  imageScale?: number
-  imageScaleMd?: number
-  imageOffsetY?: number
   whatsappMessage?: string
 }
 
@@ -34,9 +31,6 @@ export const MACHINES: Machine[] = [
     slug: 'maquina-3',
     displayName: 'Máquina 3',
     segment: 'Clínicas e recepções',
-    imageScale: 146,
-    imageScaleMd: 162,
-    imageOffsetY: -8,
     imageKey: 'maquina-03.png',
   },
   {
@@ -44,9 +38,6 @@ export const MACHINES: Machine[] = [
     slug: 'maquina-4',
     displayName: 'Máquina 4',
     segment: 'Indústrias',
-    imageScale: 142,
-    imageScaleMd: 158,
-    imageOffsetY: -6,
     imageKey: 'maquina-04.png',
   },
   {
@@ -61,9 +52,6 @@ export const MACHINES: Machine[] = [
     slug: 'maquina-6',
     displayName: 'Máquina 6',
     segment: 'Operações de alto fluxo',
-    imageScale: 145,
-    imageScaleMd: 160,
-    imageOffsetY: -7,
     imageKey: 'maquina-06.png',
   },
 ]

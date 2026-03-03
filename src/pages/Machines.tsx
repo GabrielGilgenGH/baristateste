@@ -1,5 +1,4 @@
 import { CheckCircle2, Coffee, PackageCheck, Wrench, type LucideIcon } from 'lucide-react'
-import { useMemo, useState } from 'react'
 import { MachineCard } from '../components/machines/MachineCard'
 import { Reveal } from '../components/ui/Reveal'
 import { Card } from '../components/ui/Card'
@@ -59,32 +58,8 @@ const faqItems = [
 ]
 
 export function Maquinas() {
-  const segments = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          MACHINES.map((machine) => machine.segment?.trim()).filter(
-            (segment): segment is string => Boolean(segment),
-          ),
-        ),
-      ),
-    [],
-  )
-  const hasSegmentFilters = segments.length > 0
-  const [activeSegment, setActiveSegment] = useState<string>('Todos')
-  const filteredMachines = useMemo(
-    () =>
-      activeSegment === 'Todos'
-        ? MACHINES
-        : MACHINES.filter((machine) => (machine.segment?.trim() ?? '') === activeSegment),
-    [activeSegment],
-  )
-
   const proposalLink = buildWhatsAppLink(
     'Olá! Quero uma proposta para máquinas de café para minha empresa. Podemos conversar? (Joinville/SC)',
-  )
-  const visitLink = buildWhatsAppLink(
-    'Olá! Quero agendar uma visita técnica para avaliar máquinas de café na minha empresa em Joinville/SC.',
   )
 
   return (
@@ -93,15 +68,17 @@ export function Maquinas() {
         <Reveal>
           <Card className="space-y-6 border-brand-warmGray/35 bg-brand-surface/92 p-6 md:p-8">
             <p className="text-xs uppercase tracking-[0.35em] text-brand-charcoal/75">Catálogo corporativo</p>
-            <h1 className="text-[clamp(2rem,2.5vw+1.2rem,3.35rem)] font-semibold leading-[1.12] tracking-[-0.02em] text-brand-espresso">
-              Máquinas para empresas — café premium sem dor de cabeça
+            <h1 className="max-w-[28ch] text-balance text-[clamp(2rem,2.5vw+1.1rem,3.35rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-brand-espresso sm:max-w-[34ch] sm:leading-[1.08] lg:max-w-[42ch]">
+              <span className="box-decoration-clone rounded-md bg-brand-surfaceSoft/35 px-1.5 py-0.5">
+                Máquinas para empresas — café premium sem dor de cabeça
+              </span>
             </h1>
             <p className="max-w-4xl text-base leading-relaxed text-brand-charcoal/92">
               Planejamos a operação completa de café para sua empresa com reposição contínua e manutenção dedicada,
               sem ocupar o tempo do seu time interno.
             </p>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-charcoal/72">
-              15 anos • Joinville/SC • Atendemos empresas médias e grandes
+              16 anos • Joinville/SC • Atendemos empresas médias e grandes
             </p>
             <p className="text-xs text-brand-charcoal/75">
               Modelos ilustrativos. Especificações e valores sob consulta.
@@ -115,55 +92,12 @@ export function Maquinas() {
               >
                 Solicitar proposta no WhatsApp
               </a>
-              <a
-                href={visitLink}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-brand-charcoal/45 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-brand-charcoal transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-copper/85 hover:bg-brand-copper/10 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
-              >
-                Agendar visita técnica
-              </a>
             </div>
           </Card>
         </Reveal>
 
-        {hasSegmentFilters ? (
-          <Reveal delay={110}>
-            <div className="space-y-3 rounded-2xl border border-brand-warmGray/28 bg-brand-surface/78 p-4">
-              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-brand-charcoal/72">
-                Filtrar por segmento
-              </p>
-              <div className="flex flex-wrap items-center gap-2">
-                {['Todos', ...segments].map((segment) => {
-                  const isActive = segment === activeSegment
-                  const count =
-                    segment === 'Todos'
-                      ? MACHINES.length
-                      : MACHINES.filter((machine) => (machine.segment?.trim() ?? '') === segment).length
-
-                  return (
-                    <button
-                      key={segment}
-                      type="button"
-                      onClick={() => setActiveSegment(segment)}
-                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.2em] transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base ${
-                        isActive
-                          ? 'border-brand-copper/75 bg-brand-copper/14 text-brand-espresso'
-                          : 'border-brand-warmGray/38 text-brand-charcoal/82 hover:border-brand-copper/55 hover:text-brand-espresso'
-                      }`}
-                    >
-                      {segment}
-                      <span className="ml-2 text-brand-charcoal/65">({count})</span>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          </Reveal>
-        ) : null}
-
-        <ul role="grid" className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-3">
-          {filteredMachines.map((machine, index) => (
+        <ul role="grid" className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          {MACHINES.map((machine, index) => (
             <MachineCard key={machine.id} machine={machine} index={index} />
           ))}
         </ul>
@@ -244,14 +178,6 @@ export function Maquinas() {
                 className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
               >
                 Solicitar proposta no WhatsApp
-              </a>
-              <a
-                href={visitLink}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-brand-charcoal/45 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-brand-charcoal transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-copper/85 hover:bg-brand-copper/10 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
-              >
-                Agendar visita técnica
               </a>
             </div>
           </Card>

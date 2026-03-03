@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type KeyboardEventHandler } from 'react'
+import { useState, type KeyboardEventHandler } from 'react'
 import { Link } from 'react-router-dom'
 import type { Machine } from '../../data/machines/catalog'
 import { machinePlaceholderImage, resolveMachineImage } from '../../lib/machineImages'
@@ -19,22 +19,11 @@ export function MachineCard({ machine, index, compact = false }: MachineCardProp
   const fitClass = machine.imageFit === 'cover' ? 'object-cover' : 'object-contain'
   const padClassMap = {
     none: 'p-0',
-    sm: 'p-1.5 md:p-2',
-    md: 'p-2 md:p-3',
+    sm: 'p-2 md:p-3',
+    md: 'p-3 md:p-4',
   } as const
   const imagePad = machine.imagePad ?? 'sm'
   const imagePadClass = padClassMap[imagePad]
-  const clampScalePercent = (value: number) => Math.min(220, Math.max(100, value))
-  const baseScale = clampScalePercent(machine.imageScale ?? 138) / 100
-  const mdScale = clampScalePercent(machine.imageScaleMd ?? machine.imageScale ?? 146) / 100
-  const mdHoverScale = Number((mdScale + 0.02).toFixed(2))
-  const imageOffsetY = machine.imageOffsetY ?? 0
-  const imageTransformVars = {
-    '--machine-scale': String(baseScale),
-    '--machine-scale-md': String(mdScale),
-    '--machine-scale-md-hover': String(mdHoverScale),
-    '--machine-offsetY': `${imageOffsetY}px`,
-  } as CSSProperties
   const highlights = (machine.highlights ?? []).slice(0, 3)
   const displayName = machine.displayName?.trim() || 'Modelo sob consulta'
   const detailPath = `/maquinas/${machine.slug}`
@@ -70,7 +59,11 @@ export function MachineCard({ machine, index, compact = false }: MachineCardProp
             className="absolute inset-0 z-10 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
           />
 
-          <div className={`relative overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/45 ring-1 ring-inset ring-brand-warmGray/20 ${compact ? 'aspect-[4/3]' : 'aspect-[4/3] md:aspect-[5/4]'}`}>
+          <div
+            className={`relative overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/45 ring-1 ring-inset ring-brand-warmGray/20 ${
+              compact ? 'h-56 sm:h-64 md:h-72' : 'h-72 sm:h-80 md:h-[23rem] lg:h-[25rem]'
+            }`}
+          >
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-surfaceSoft/25 via-brand-surfaceSoft/10 to-transparent" />
             {!imageUnavailable ? (
               <div className={`relative z-10 flex h-full w-full items-center justify-center ${imagePadClass}`}>
@@ -79,8 +72,7 @@ export function MachineCard({ machine, index, compact = false }: MachineCardProp
                   alt={`Imagem da ${displayName}`}
                   loading="lazy"
                   decoding="async"
-                  style={imageTransformVars}
-                  className={`h-full w-full max-h-full max-w-full ${fitClass} object-center [transform:translateY(var(--machine-offsetY))_scale(var(--machine-scale))] md:[transform:translateY(var(--machine-offsetY))_scale(var(--machine-scale-md))] motion-safe:md:group-hover:[transform:translateY(var(--machine-offsetY))_scale(var(--machine-scale-md-hover))] transition-transform duration-300 ease-out`}
+                  className={`h-full w-full max-h-full max-w-full ${fitClass} object-center`}
                   onError={() => {
                     if (imageSrc !== machinePlaceholderImage) {
                       setImageSrc(machinePlaceholderImage)

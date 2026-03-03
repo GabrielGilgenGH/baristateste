@@ -29,9 +29,6 @@ export function MachineDetail() {
   const proposalLink = buildWhatsAppLink(
     `Olá! Quero uma proposta para a máquina ${displayName} para minha empresa. Podemos conversar? (Joinville/SC)`,
   )
-  const visitLink = buildWhatsAppLink(
-    `Olá! Quero agendar uma visita técnica para avaliar a máquina ${displayName} na minha empresa em Joinville/SC.`,
-  )
   const relatedMachines = machine
     ? MACHINES.filter((entry) => entry.slug !== machine.slug).slice(0, 6)
     : []
@@ -73,9 +70,9 @@ export function MachineDetail() {
               {displayName}
             </h1>
 
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/45 ring-1 ring-inset ring-brand-warmGray/20 md:aspect-[5/4]">
+            <div className="relative mx-auto h-[24rem] w-full max-w-5xl overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/45 ring-1 ring-inset ring-brand-warmGray/20 sm:h-[28rem] md:h-[34rem]">
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-surfaceSoft/25 via-brand-surfaceSoft/10 to-transparent" />
-              <div className="relative z-10 flex h-full w-full items-center justify-center p-2 md:p-3">
+              <div className="relative z-10 flex h-full w-full items-center justify-center p-3 md:p-4">
                 <img
                   src={imageSrc}
                   alt={`Imagem da ${displayName}`}
@@ -99,14 +96,6 @@ export function MachineDetail() {
                 className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
               >
                 Pedir proposta no WhatsApp
-              </a>
-              <a
-                href={visitLink}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-brand-charcoal/45 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-brand-charcoal transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-copper/85 hover:bg-brand-copper/10 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
-              >
-                Agendar visita técnica
               </a>
             </div>
           </Card>

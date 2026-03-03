@@ -21,7 +21,7 @@ export function Hero15Anos() {
             </p>
           ))}
         </div>
-        {/* TODO: inserir imagem/arte oficial de "15 anos" quando disponível em assets/public. */}
+        {/* TODO: insert official "16 anos" visual when available in assets/public. */}
       </div>
     </section>
   )
