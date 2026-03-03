@@ -17,8 +17,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   background-image:
-    radial-gradient(circle at 14% 8%, rgba(201, 162, 77, 0.18), transparent 44%),
-    radial-gradient(circle at 82% 0%, rgba(43, 183, 168, 0.08), transparent 40%),
+    radial-gradient(circle at 14% 8%, rgba(224, 179, 74, 0.24), transparent 44%),
+    radial-gradient(circle at 82% 0%, rgba(55, 207, 190, 0.14), transparent 40%),
     linear-gradient(180deg, #120b08 0%, #1a100c 100%);
 }
 
@@ -75,8 +75,8 @@ h6 {
   inset: 0;
   z-index: -1;
   background-image:
-    linear-gradient(to right, rgba(31, 163, 146, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(31, 163, 146, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(31, 184, 165, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(31, 184, 165, 0.08) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: radial-gradient(circle at 50% 28%, black 0%, transparent 76%);
   pointer-events: none;
@@ -97,15 +97,15 @@ h6 {
   justify-content: center;
   border-radius: 9999px;
   border: 1px solid rgba(74, 47, 39, 0.82);
-  background: linear-gradient(180deg, rgba(216, 181, 106, 0.98), rgba(201, 162, 77, 0.95));
+  background: linear-gradient(180deg, rgba(240, 197, 106, 0.98), rgba(224, 179, 74, 0.95));
   color: #0b0a09;
-  box-shadow: 0 12px 28px rgba(201, 162, 77, 0.32);
+  box-shadow: 0 12px 28px rgba(224, 179, 74, 0.42);
   transition: transform 240ms ease, box-shadow 240ms ease, filter 240ms ease;
 }
 
 .cta-primary-link:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 36px rgba(181, 139, 51, 0.4);
+  box-shadow: 0 18px 36px rgba(201, 152, 47, 0.5);
   filter: saturate(1.05);
 }
 
@@ -122,13 +122,13 @@ h6 {
 
 .cta-secondary-link:hover {
   transform: translateY(-2px);
-  background: rgba(31, 163, 146, 0.16);
-  border-color: rgba(22, 138, 125, 0.55);
+  background: rgba(31, 184, 165, 0.24);
+  border-color: rgba(20, 136, 121, 0.72);
 }
 
 .cta-primary-link:focus-visible,
 .cta-secondary-link:focus-visible {
-  outline: 2px solid rgba(201, 162, 77, 0.92);
+  outline: 2px solid rgba(224, 179, 74, 0.95);
   outline-offset: 2px;
 }
 
