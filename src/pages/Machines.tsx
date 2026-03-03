@@ -70,7 +70,7 @@ export function Maquinas() {
             <p className="text-xs uppercase tracking-[0.35em] text-brand-charcoal/75">Catálogo corporativo</p>
             <h1 className="max-w-[28ch] text-balance text-[clamp(2rem,2.5vw+1.1rem,3.35rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-brand-espresso sm:max-w-[34ch] sm:leading-[1.08] lg:max-w-[42ch]">
               <span className="box-decoration-clone rounded-md bg-brand-surfaceSoft/35 px-1.5 py-0.5">
-                Máquinas para empresas — café premium sem dor de cabeça
+                Máquinas para empresas — café{"\u00A0"}premium sem dor de cabeça
               </span>
             </h1>
             <p className="max-w-4xl text-base leading-relaxed text-brand-charcoal/92">
