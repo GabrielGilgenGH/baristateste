@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import type { Machine } from '../../data/machines/catalog'
 import { machinePlaceholderImage, resolveMachineImage } from '../../lib/machineImages'
 import { buildWhatsAppLink } from '../../lib/whatsapp'
@@ -17,24 +17,25 @@ export function MachineCard({ machine, index }: MachineCardProps) {
   const fitClass = machine.imageFit === 'cover' ? 'object-cover' : 'object-contain'
   const padClassMap = {
     none: 'p-0',
-    sm: 'p-3 md:p-4',
-    md: 'p-4 md:p-5',
+    sm: 'p-2 md:p-3',
+    md: 'p-3 md:p-4',
   } as const
-  const imagePad = machine.imagePad ?? 'md'
+  const imagePad = machine.imagePad ?? 'sm'
   const imagePadClass = padClassMap[imagePad]
-  const scaleClassMap = {
-    100: 'scale-100',
-    110: 'scale-[1.10]',
-    120: 'scale-[1.20]',
+  const scaleValueMap = {
+    100: 1,
+    110: 1.1,
+    120: 1.2,
+    130: 1.3,
+    140: 1.4,
   } as const
-  const hoverScaleClassMap = {
-    100: 'group-hover:scale-[1.02]',
-    110: 'group-hover:scale-[1.12]',
-    120: 'group-hover:scale-[1.22]',
-  } as const
-  const imageScale = machine.imageScale ?? 110
-  const imageScaleClass = scaleClassMap[imageScale]
-  const imageHoverScaleClass = hoverScaleClassMap[imageScale]
+  const imageScale = machine.imageScale ?? 130
+  const baseScale = scaleValueMap[imageScale]
+  const hoverScale = Number((baseScale + 0.01).toFixed(2))
+  const imageScaleStyle = {
+    '--machine-scale': String(baseScale),
+    '--machine-scale-hover': String(hoverScale),
+  } as CSSProperties
 
   const highlights = (machine.highlights ?? []).slice(0, 3)
   const features = (machine.features ?? []).slice(0, 2)
@@ -57,7 +58,7 @@ export function MachineCard({ machine, index }: MachineCardProps) {
           aria-label={`Máquina ${machine.name}`}
           className="flex h-full flex-col border-brand-warmGray/35 bg-brand-surface/90 p-5 shadow-soft"
         >
-          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/40">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/40">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-surfaceSoft/25 via-brand-surfaceSoft/10 to-transparent" />
             {!imageUnavailable ? (
               <div className={`relative z-10 flex h-full w-full items-center justify-center ${imagePadClass}`}>
@@ -66,7 +67,8 @@ export function MachineCard({ machine, index }: MachineCardProps) {
                   alt={`Imagem da ${machine.name}`}
                   loading="lazy"
                   decoding="async"
-                  className={`h-full w-full max-h-full max-w-full ${fitClass} ${imageScaleClass} ${imageHoverScaleClass} object-center transition-transform duration-200 ease-out`}
+                  className={`h-full w-full max-h-full max-w-full ${fitClass} scale-[var(--machine-scale)] group-hover:scale-[var(--machine-scale-hover)] object-center transition-transform duration-200 ease-out will-change-transform`}
+                  style={imageScaleStyle}
                   onError={() => {
                     if (imageSrc !== machinePlaceholderImage) {
                       setImageSrc(machinePlaceholderImage)
