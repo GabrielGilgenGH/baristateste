@@ -1,4 +1,5 @@
 import { CheckCircle2, Coffee, PackageCheck, Wrench, type LucideIcon } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import { MachineCard } from '../components/machines/MachineCard'
 import { Reveal } from '../components/ui/Reveal'
 import { Card } from '../components/ui/Card'
@@ -58,6 +59,27 @@ const faqItems = [
 ]
 
 export function Maquinas() {
+  const segments = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          MACHINES.map((machine) => machine.segment?.trim()).filter(
+            (segment): segment is string => Boolean(segment),
+          ),
+        ),
+      ),
+    [],
+  )
+  const hasSegmentFilters = segments.length > 0
+  const [activeSegment, setActiveSegment] = useState<string>('Todos')
+  const filteredMachines = useMemo(
+    () =>
+      activeSegment === 'Todos'
+        ? MACHINES
+        : MACHINES.filter((machine) => (machine.segment?.trim() ?? '') === activeSegment),
+    [activeSegment],
+  )
+
   const proposalLink = buildWhatsAppLink(
     'Olá! Quero uma proposta para máquinas de café para minha empresa. Podemos conversar? (Joinville/SC)',
   )
@@ -105,8 +127,43 @@ export function Maquinas() {
           </Card>
         </Reveal>
 
+        {hasSegmentFilters ? (
+          <Reveal delay={110}>
+            <div className="space-y-3 rounded-2xl border border-brand-warmGray/28 bg-brand-surface/78 p-4">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-brand-charcoal/72">
+                Filtrar por segmento
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                {['Todos', ...segments].map((segment) => {
+                  const isActive = segment === activeSegment
+                  const count =
+                    segment === 'Todos'
+                      ? MACHINES.length
+                      : MACHINES.filter((machine) => (machine.segment?.trim() ?? '') === segment).length
+
+                  return (
+                    <button
+                      key={segment}
+                      type="button"
+                      onClick={() => setActiveSegment(segment)}
+                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.2em] transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base ${
+                        isActive
+                          ? 'border-brand-copper/75 bg-brand-copper/14 text-brand-espresso'
+                          : 'border-brand-warmGray/38 text-brand-charcoal/82 hover:border-brand-copper/55 hover:text-brand-espresso'
+                      }`}
+                    >
+                      {segment}
+                      <span className="ml-2 text-brand-charcoal/65">({count})</span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          </Reveal>
+        ) : null}
+
         <ul role="grid" className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-3">
-          {MACHINES.map((machine, index) => (
+          {filteredMachines.map((machine, index) => (
             <MachineCard key={machine.id} machine={machine} index={index} />
           ))}
         </ul>
