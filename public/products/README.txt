@@ -1,7 +1,9 @@
 Add product images in this folder using these filenames:
-- cafe-soluvel-granulado-500g.webp
+- cafe-expresso-faraco.png
+- cafe-soluvel.png
 - acucar-cristal-colombo-1kg.webp
-- cafe-soluvel-dr-barista-500g.webp
+- acucar-sache-caravelas-5g.png
+- cha-mate.png
+- achocolatado.png
 - leite-em-po-integral-camponesa-400g.webp
-- acucar-sache-caravelas-5g.webp
 - palheta-mini-reme-plastfood-500-unid.webp

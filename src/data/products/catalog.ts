@@ -12,20 +12,6 @@ export const PRODUCT_CATEGORY_ORDER = ['Cafés', 'Açúcares', 'Chás', 'Copos &
 
 export const PRODUCTS: Product[] = [
   {
-    id: 'cafe-soluvel-dr-barista-500g',
-    slug: 'cafe-soluvel-dr-barista-500g',
-    displayName: 'Café Solúvel Dr. Barista 500g',
-    category: 'Cafés',
-    imageKey: 'cafe-soluvel-dr-barista-500g.webp',
-  },
-  {
-    id: 'cafe-soluvel-granulado-500g',
-    slug: 'cafe-soluvel-granulado-500g',
-    displayName: 'Café Solúvel Granulado 500g',
-    category: 'Cafés',
-    imageKey: 'cafe-soluvel-granulado-500g.webp',
-  },
-  {
     id: 'cafe-expresso-faraco',
     slug: 'cafe-expresso-faraco',
     displayName: 'Café Expresso Faraco',
