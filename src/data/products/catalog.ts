@@ -1,75 +1,85 @@
 export type Product = {
   id: string
-  name: string
   slug: string
+  displayName?: string
   category?: string
-  shortDescription?: string
   imageKey?: string
   imageUrl?: string
   whatsappMessage?: string
 }
 
+export const PRODUCT_CATEGORY_ORDER = ['Cafés', 'Açúcares', 'Chás', 'Copos & Acessórios'] as const
+
 export const PRODUCTS: Product[] = [
   {
-    id: 'barista-prime-90',
-    name: 'Barista Prime 90',
-    slug: 'barista-prime-90',
-    category: 'Máquinas corporativas',
-    shortDescription: 'Máquina automática para escritórios com consumo diário médio e operação simplificada.',
-    imageKey: 'barista-prime-90',
-  },
-  {
-    id: 'barista-studio-200',
-    name: 'Barista Studio 200',
-    slug: 'barista-studio-200',
-    category: 'Máquinas corporativas',
-    shortDescription: 'Alta capacidade com painel touch e monitoramento para operações de maior fluxo.',
-    imageKey: 'barista-studio-200',
-  },
-  {
     id: 'cafe-soluvel-dr-barista-500g',
-    name: 'Café Solúvel Dr. Barista 500g',
     slug: 'cafe-soluvel-dr-barista-500g',
-    category: 'Insumos',
-    shortDescription: 'Blend solúvel para bebidas quentes com padronização de sabor e rendimento.',
-    imageKey: 'cafe-soluvel-dr-barista-500g',
-    imageUrl: '/products/cafe-soluvel-dr-barista-500g.webp',
+    displayName: 'Café Solúvel Dr. Barista 500g',
+    category: 'Cafés',
+    imageKey: 'cafe-soluvel-dr-barista-500g.webp',
   },
   {
     id: 'cafe-soluvel-granulado-500g',
-    name: 'Café Solúvel Granulado 500g',
     slug: 'cafe-soluvel-granulado-500g',
-    category: 'Insumos',
-    shortDescription: 'Perfil intenso para operação corporativa com preparo rápido e consistente.',
-    imageKey: 'cafe-soluvel-granulado-500g',
-    imageUrl: '/products/cafe-soluvel-granulado-500g.webp',
+    displayName: 'Café Solúvel Granulado 500g',
+    category: 'Cafés',
+    imageKey: 'cafe-soluvel-granulado-500g.webp',
+  },
+  {
+    id: 'cafe-expresso-faraco',
+    slug: 'cafe-expresso-faraco',
+    displayName: 'Café Expresso Faraco',
+    category: 'Cafés',
+    imageKey: 'cafe-expresso-faraco.png',
+  },
+  {
+    id: 'cafe-soluvel',
+    slug: 'cafe-soluvel',
+    displayName: 'Café Solúvel',
+    category: 'Cafés',
+    imageKey: 'cafe-soluvel.png',
   },
   {
     id: 'leite-em-po-integral-camponesa-400g',
-    name: 'Leite em Pó Integral Camponesa 400g',
     slug: 'leite-em-po-integral-camponesa-400g',
-    category: 'Insumos',
-    shortDescription: 'Complemento para bebidas com cremosidade e estabilidade para máquinas automáticas.',
-    imageKey: 'leite-em-po-integral-camponesa-400g',
-    imageUrl: '/products/leite-em-po-integral-camponesa-400g.webp',
+    displayName: 'Leite em Pó Integral Camponesa 400g',
+    category: 'Cafés',
+    imageKey: 'leite-em-po-integral-camponesa-400g.webp',
   },
   {
     id: 'acucar-sache-caravelas-5g',
-    name: 'Açúcar Sachê Caravelas 5g',
     slug: 'acucar-sache-caravelas-5g',
-    category: 'Insumos',
-    shortDescription: 'Sachês individuais para atendimento corporativo com controle de consumo.',
-    imageKey: 'acucar-sache-caravelas-5g',
-    imageUrl: '/products/acucar-sache-caravelas-5g.png',
+    displayName: 'Açúcar Sachê Caravelas 5g',
+    category: 'Açúcares',
+    imageKey: 'acucar-sache-caravelas-5g.png',
+  },
+  {
+    id: 'acucar-cristal-colombo-1kg',
+    slug: 'acucar-cristal-colombo-1kg',
+    displayName: 'Açúcar Cristal Colombo 1kg',
+    category: 'Açúcares',
+    imageKey: 'acucar-cristal-colombo-1kg.webp',
+  },
+  {
+    id: 'cha-mate',
+    slug: 'cha-mate',
+    displayName: 'Chá Mate',
+    category: 'Chás',
+    imageKey: 'cha-mate.png',
+  },
+  {
+    id: 'achocolatado',
+    slug: 'achocolatado',
+    displayName: 'Achocolatado',
+    category: 'Chás',
+    imageKey: 'achocolatado.png',
   },
   {
     id: 'palheta-mini-reme-plastfood-500-unid',
-    name: 'Palheta Mini Plastfood 500 unid',
     slug: 'palheta-mini-reme-plastfood-500-unid',
-    category: 'Acessórios',
-    shortDescription: 'Acessório de apoio para estações de café com alto giro diário.',
-    imageKey: 'palheta-mini-reme-plastfood-500-unid',
-    imageUrl: '/products/palheta-mini-reme-plastfood-500-unid.webp',
+    displayName: 'Palheta Mini Plastfood 500 unid',
+    category: 'Copos & Acessórios',
+    imageKey: 'palheta-mini-reme-plastfood-500-unid.webp',
   },
 ]
 
