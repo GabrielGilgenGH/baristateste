@@ -1,4 +1,5 @@
 import { CheckCircle2, Coffee, PackageCheck, Wrench, type LucideIcon } from 'lucide-react'
+import { LeadForm } from '../components/leads/LeadForm'
 import { MachineCard } from '../components/machines/MachineCard'
 import { Reveal } from '../components/ui/Reveal'
 import { Card } from '../components/ui/Card'
@@ -94,6 +95,10 @@ export function Maquinas() {
               </a>
             </div>
           </Card>
+        </Reveal>
+
+        <Reveal delay={120}>
+          <LeadForm interest="maquinas" />
         </Reveal>
 
         <ul role="grid" className="grid grid-cols-1 gap-8 md:grid-cols-2">

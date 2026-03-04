@@ -1,3 +1,4 @@
+import { LeadForm } from '../components/leads/LeadForm'
 import { EmptyState, ProductGrid } from '../components/products'
 import { Card } from '../components/ui/Card'
 import { Reveal } from '../components/ui/Reveal'
@@ -70,6 +71,10 @@ export function Produtos() {
               </a>
             </div>
           </Card>
+        </Reveal>
+
+        <Reveal delay={120}>
+          <LeadForm interest="produtos" />
         </Reveal>
 
         {groupedProducts.length === 0 ? <EmptyState message="Nenhum produto disponível no catálogo no momento." /> : null}
