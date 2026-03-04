@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { track } from '../lib/track'
 import { useScrollY } from '../hooks/useScrollY'
 import { Button } from './ui/Button'
 import { WhatsAppFloatingButton } from './WhatsAppFloatingButton'
@@ -14,6 +15,19 @@ const navItems = [
 
 type LayoutProps = {
   children: ReactNode
+}
+
+function getHeaderWhatsAppTracking(pathname: string) {
+  if (pathname.startsWith('/produtos')) {
+    return { page: 'produtos', itemType: 'product' as const, itemId: 'header' }
+  }
+
+  if (pathname.startsWith('/maquinas/')) {
+    const slug = pathname.split('/')[2] ?? 'header'
+    return { page: 'maquina_detail', itemType: 'machine' as const, itemId: slug }
+  }
+
+  return { page: 'maquinas', itemType: 'machine' as const, itemId: 'header' }
 }
 
 export function Layout({ children }: LayoutProps) {
@@ -85,6 +99,10 @@ export function Layout({ children }: LayoutProps) {
                   href="https://wa.me/5547991072458"
                   target="_blank"
                   rel="noreferrer"
+                  onClick={() => {
+                    const payload = getHeaderWhatsAppTracking(location.pathname)
+                    track('whatsapp_click', payload)
+                  }}
                   aria-label="Abrir WhatsApp da Dr Barista"
                   className="hidden rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base md:inline-flex"
                 >

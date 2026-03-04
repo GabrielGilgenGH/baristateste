@@ -4,7 +4,8 @@ import { Reveal } from '../components/ui/Reveal'
 import { Card } from '../components/ui/Card'
 import { Section } from '../components/ui/Section'
 import { MACHINES } from '../data/machines/catalog'
-import { buildWhatsAppLink } from '../lib/whatsapp'
+import { track } from '../lib/track'
+import { buildB2BProposalMessage, buildWhatsAppLink } from '../lib/whatsapp'
 
 const operationSteps: { title: string; description: string; icon: LucideIcon }[] = [
   {
@@ -58,9 +59,15 @@ const faqItems = [
 ]
 
 export function Maquinas() {
-  const proposalLink = buildWhatsAppLink(
-    'Olá! Quero uma proposta para máquinas de café para minha empresa. Podemos conversar? (Joinville/SC)',
-  )
+  const proposalLink = buildWhatsAppLink(buildB2BProposalMessage('máquinas de café'))
+
+  const handleMachinesWhatsAppClick = (itemId: string) => {
+    track('whatsapp_click', {
+      page: 'maquinas',
+      itemType: 'machine',
+      itemId,
+    })
+  }
 
   return (
     <div className="space-y-16 pb-36 md:pb-0">
@@ -88,6 +95,7 @@ export function Maquinas() {
                 href={proposalLink}
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => handleMachinesWhatsAppClick('catalog_hero')}
                 className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
               >
                 Solicitar proposta no WhatsApp
@@ -175,6 +183,7 @@ export function Maquinas() {
                 href={proposalLink}
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => handleMachinesWhatsAppClick('catalog_bottom')}
                 className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
               >
                 Solicitar proposta no WhatsApp
@@ -189,6 +198,7 @@ export function Maquinas() {
           href={proposalLink}
           target="_blank"
           rel="noreferrer"
+          onClick={() => handleMachinesWhatsAppClick('catalog_sticky')}
           className="inline-flex w-full items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366] px-5 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-[0_12px_24px_rgba(37,211,102,0.28)] transition-all duration-200 ease-out hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
         >
           WhatsApp: pedir proposta

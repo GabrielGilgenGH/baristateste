@@ -6,7 +6,8 @@ import { Reveal } from '../components/ui/Reveal'
 import { Section } from '../components/ui/Section'
 import { MACHINES } from '../data/machines/catalog'
 import { machinePlaceholderImage, resolveMachineImage } from '../lib/machineImages'
-import { buildWhatsAppLink } from '../lib/whatsapp'
+import { track } from '../lib/track'
+import { buildB2BProposalMessage, buildWhatsAppLink } from '../lib/whatsapp'
 
 const includedServices = [
   'Instalação e orientação inicial',
@@ -34,9 +35,7 @@ export function MachineDetail() {
     document.title = `Máquinas — ${displayName} | Dr Barista`
   }, [displayName])
 
-  const proposalLink = buildWhatsAppLink(
-    `Olá! Quero uma proposta para a máquina ${displayName} para minha empresa. Podemos conversar? (Joinville/SC)`,
-  )
+  const proposalLink = buildWhatsAppLink(buildB2BProposalMessage(`máquina ${displayName || slug || 'sob consulta'}`))
   const relatedMachines = machine
     ? MACHINES.filter((entry) => entry.slug !== machine.slug).slice(0, 6)
     : []
@@ -106,6 +105,13 @@ export function MachineDetail() {
                   href={proposalLink}
                   target="_blank"
                   rel="noreferrer"
+                  onClick={() =>
+                    track('whatsapp_click', {
+                      page: 'maquina_detail',
+                      itemType: 'machine',
+                      itemId: machine.slug,
+                    })
+                  }
                   className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
                 >
                   Pedir proposta no WhatsApp

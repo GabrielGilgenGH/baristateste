@@ -2,7 +2,8 @@ import { useState, type KeyboardEventHandler } from 'react'
 import { Link } from 'react-router-dom'
 import type { Machine } from '../../data/machines/catalog'
 import { machinePlaceholderImage, resolveMachineImage } from '../../lib/machineImages'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
+import { track } from '../../lib/track'
+import { buildB2BProposalMessage, buildWhatsAppLink } from '../../lib/whatsapp'
 import { Button } from '../ui/Button'
 import { InteractiveCard } from '../ui/InteractiveCard'
 import { Reveal } from '../ui/Reveal'
@@ -27,11 +28,15 @@ export function MachineCard({ machine, index, compact = false }: MachineCardProp
   const highlights = (machine.highlights ?? []).slice(0, 3)
   const displayName = machine.displayName?.trim() || 'Modelo sob consulta'
   const detailPath = `/maquinas/${machine.slug}`
-  const whatsappMessage =
-    machine.whatsappMessage ??
-    `Olá! Tenho interesse na ${displayName}. Pode me enviar uma proposta para minha empresa?`
+  const whatsappMessage = buildB2BProposalMessage(`máquina ${displayName || machine.slug}`)
 
   const openWhatsAppQuote = () => {
+    track('whatsapp_click', {
+      page: 'maquinas',
+      itemType: 'machine',
+      itemId: machine.slug,
+    })
+
     const link = buildWhatsAppLink(whatsappMessage)
     const newWindow = window.open(link, '_blank', 'noopener,noreferrer')
     if (!newWindow) window.location.href = link

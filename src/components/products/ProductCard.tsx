@@ -1,5 +1,6 @@
 import type { Product } from '../../data/products/catalog'
-import { buildWhatsAppLink } from '../../lib/whatsapp'
+import { track } from '../../lib/track'
+import { buildB2BProposalMessage, buildWhatsAppLink } from '../../lib/whatsapp'
 import { Reveal } from '../ui/Reveal'
 import { InteractiveCard } from '../ui/InteractiveCard'
 import { ProductImage } from './ProductImage'
@@ -13,9 +14,7 @@ type ProductCardProps = {
 export function ProductCard({ product, index }: ProductCardProps) {
   const displayName = product.displayName?.trim() || 'Produto sob consulta'
   const category = product.category?.trim() || 'Categoria sob consulta'
-  const whatsappMessage =
-    product.whatsappMessage ??
-    `Olá! Quero pedir ${displayName} (${category}) para minha empresa. Pode me passar valores e condições? (Joinville/SC)`
+  const whatsappMessage = buildB2BProposalMessage(`${displayName} (${category})`)
   const whatsappLink = buildWhatsAppLink(whatsappMessage)
 
   return (
@@ -33,6 +32,13 @@ export function ProductCard({ product, index }: ProductCardProps) {
               href={whatsappLink}
               target="_blank"
               rel="noreferrer"
+              onClick={() =>
+                track('whatsapp_click', {
+                  page: 'produtos',
+                  itemType: 'product',
+                  itemId: product.slug,
+                })
+              }
               className="inline-flex w-full items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
             >
               Pedir no WhatsApp

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type CSSProperties, type FormEvent } from 'react'
 import { useLocation } from 'react-router-dom'
 import { submitLead } from '../features/leads/submitLead'
-import { supabaseClient } from '../lib/supabaseClient'
+import { track } from '../lib/track'
 import { Button } from './ui/Button'
 import { Input } from './ui/Input'
 
@@ -11,10 +11,9 @@ const WHATSAPP_BASE_TEXT =
 const WHATSAPP_NUMBER = '5547991072458'
 
 type WhatsAppClickPayload = {
-  event: 'whatsapp_click'
-  page: string
-  ts: string
-  user_agent?: string
+  page: 'maquinas' | 'maquina_detail' | 'produtos'
+  itemType: 'machine' | 'product'
+  itemId: string
 }
 
 type WhatsAppLeadForm = {
@@ -24,28 +23,17 @@ type WhatsAppLeadForm = {
   whatsapp: string
 }
 
-async function trackWhatsAppClick(payload: WhatsAppClickPayload) {
-  if (!supabaseClient) {
-    console.log(payload)
-    return
+function resolveTrackingPayload(pathname: string): WhatsAppClickPayload {
+  if (pathname.startsWith('/produtos')) {
+    return { page: 'produtos', itemType: 'product', itemId: 'floating_button' }
   }
 
-  const eventRow = {
-    event: payload.event,
-    page: payload.page,
-    user_agent: payload.user_agent ?? null,
-    created_at: payload.ts,
-    meta: { source: 'floating_button' },
+  if (pathname.startsWith('/maquinas/')) {
+    const slug = pathname.split('/')[2] ?? 'floating_button'
+    return { page: 'maquina_detail', itemType: 'machine', itemId: slug }
   }
 
-  const attempts = ['whatsapp_events', 'analytics_events'] as const
-
-  for (const tableName of attempts) {
-    const { error } = await supabaseClient.from(tableName).insert(eventRow)
-    if (!error) return
-  }
-
-  console.log(payload)
+  return { page: 'maquinas', itemType: 'machine', itemId: 'floating_button' }
 }
 
 function buildWhatsAppLink(lead: WhatsAppLeadForm) {
@@ -115,13 +103,8 @@ export function WhatsAppFloatingButton() {
 
   const openWhatsAppConversation = (lead: WhatsAppLeadForm) => {
     const link = buildWhatsAppLink(lead)
-    const payload: WhatsAppClickPayload = {
-      event: 'whatsapp_click',
-      page: location.pathname,
-      ts: new Date().toISOString(),
-      user_agent: navigator.userAgent,
-    }
-    void trackWhatsAppClick(payload)
+    const payload = resolveTrackingPayload(location.pathname)
+    track('whatsapp_click', payload)
 
     const newWindow = window.open(link, '_blank', 'noopener,noreferrer')
     if (!newWindow) {
