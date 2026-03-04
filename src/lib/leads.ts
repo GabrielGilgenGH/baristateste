@@ -123,6 +123,10 @@ export async function submitLead(payload: LeadSubmitPayload): Promise<LeadSubmit
   if (!endpointUrl) {
     return { ok: false, message: 'Leads endpoint is not configured. Set VITE_LEADS_ENDPOINT_URL.' }
   }
+  const token = (import.meta.env.VITE_LEADS_TOKEN ?? '').trim()
+  if (!token) {
+    return { ok: false, message: 'Leads token is not configured. Set VITE_LEADS_TOKEN.' }
+  }
 
   const validationError = validatePayload(payload)
   if (validationError) {
@@ -145,6 +149,7 @@ export async function submitLead(payload: LeadSubmitPayload): Promise<LeadSubmit
         method: 'POST',
         headers: {
           'Content-Type': contentTypes[attempt],
+          'x-leads-token': token,
         },
         body: requestBody,
         signal: controller.signal,
