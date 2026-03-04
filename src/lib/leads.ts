@@ -118,6 +118,40 @@ function logLeadEndpointError(endpointUrl: string, status: number, responseText:
   })
 }
 
+function buildLeadRequestUrl(endpointUrl: string, token: string) {
+  const url = new URL(endpointUrl)
+  url.searchParams.set('token', token)
+  return url.toString()
+}
+
+function buildLeadFormBody(payload: LeadSubmitPayload) {
+  const timestamp = payload.submittedAt ?? new Date().toISOString()
+  const form = new URLSearchParams({
+    created_at: timestamp,
+    name: payload.name?.trim() ?? '',
+    company: payload.company?.trim() ?? '',
+    email: payload.email?.trim() ?? '',
+    whatsapp: payload.whatsapp?.trim() ?? '',
+    city: payload.city?.trim() ?? '',
+    team_size_range: payload.team_size_range?.trim() ?? '',
+    message: payload.message?.trim() ?? '',
+    source_url: payload.source_url?.trim() ?? '',
+    pagePath: payload.pagePath?.trim() ?? '',
+    referrer: payload.referrer?.trim() ?? '',
+    user_agent: payload.user_agent?.trim() ?? '',
+    utm_source: payload.utm_source?.trim() ?? '',
+    utm_medium: payload.utm_medium?.trim() ?? '',
+    utm_campaign: payload.utm_campaign?.trim() ?? '',
+    utm_term: payload.utm_term?.trim() ?? '',
+    utm_content: payload.utm_content?.trim() ?? '',
+    interest: payload.interest?.trim() ?? '',
+    submittedAt: timestamp,
+    website: payload.company_website?.trim() ?? '',
+  })
+
+  return form.toString()
+}
+
 export async function submitLead(payload: LeadSubmitPayload): Promise<LeadSubmitResult> {
   const endpointUrl = getLeadsEndpointUrl()
   if (!endpointUrl) {
@@ -137,19 +171,25 @@ export async function submitLead(payload: LeadSubmitPayload): Promise<LeadSubmit
     return { ok: true }
   }
 
-  const requestBody = JSON.stringify(payload)
-  const contentTypes = ['application/json', 'text/plain;charset=utf-8'] as const
+  let requestUrl = ''
+  try {
+    requestUrl = buildLeadRequestUrl(endpointUrl, token)
+  } catch {
+    return { ok: false, message: 'Leads endpoint URL is invalid. Set VITE_LEADS_ENDPOINT_URL.' }
+  }
 
-  for (let attempt = 0; attempt < contentTypes.length; attempt += 1) {
+  const requestBody = buildLeadFormBody(payload)
+  const maxAttempts = 2
+
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const controller = new AbortController()
     const timeoutId = window.setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS)
 
     try {
-      const response = await fetch(endpointUrl, {
+      const response = await fetch(requestUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': contentTypes[attempt],
-          'x-leads-token': token,
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         },
         body: requestBody,
         signal: controller.signal,
@@ -175,7 +215,7 @@ export async function submitLead(payload: LeadSubmitPayload): Promise<LeadSubmit
       if (!response.ok || responseBody.ok === false) {
         logLeadEndpointError(endpointUrl, response.status, shortBody)
 
-        if (attempt < contentTypes.length - 1 && shouldRetryResponse(response.status)) {
+        if (attempt < maxAttempts - 1 && shouldRetryResponse(response.status)) {
           await wait(RETRY_DELAY_MS)
           continue
         }
@@ -192,7 +232,7 @@ export async function submitLead(payload: LeadSubmitPayload): Promise<LeadSubmit
         return { ok: false, message: `${LEADS_DIAG_MARKER} Exception: AbortError: Request timeout. Please try again.` }
       }
 
-      if (attempt < contentTypes.length - 1) {
+      if (attempt < maxAttempts - 1) {
         await wait(RETRY_DELAY_MS)
         continue
       }
