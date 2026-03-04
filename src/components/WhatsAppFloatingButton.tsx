@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties, type FormEvent } from 'react'
 import { useLocation } from 'react-router-dom'
 import { submitLead } from '../features/leads/submitLead'
-import { supabaseClient } from '../lib/supabaseClient'
 import { Button } from './ui/Button'
 import { Input } from './ui/Input'
 
@@ -25,27 +24,16 @@ type WhatsAppLeadForm = {
 }
 
 async function trackWhatsAppClick(payload: WhatsAppClickPayload) {
-  if (!supabaseClient) {
-    console.log(payload)
+  if (import.meta.env.DEV) {
+    console.info('[whatsapp] click', payload)
     return
   }
 
-  const eventRow = {
-    event: payload.event,
-    page: payload.page,
-    user_agent: payload.user_agent ?? null,
-    created_at: payload.ts,
-    meta: { source: 'floating_button' },
-  }
-
-  const attempts = ['whatsapp_events', 'analytics_events'] as const
-
-  for (const tableName of attempts) {
-    const { error } = await supabaseClient.from(tableName).insert(eventRow)
-    if (!error) return
-  }
-
-  console.log(payload)
+  window.dispatchEvent(
+    new CustomEvent('drbarista:analytics', {
+      detail: payload,
+    }),
+  )
 }
 
 function buildWhatsAppLink(lead: WhatsAppLeadForm) {

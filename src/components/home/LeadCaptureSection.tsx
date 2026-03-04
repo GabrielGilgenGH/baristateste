@@ -1,6 +1,7 @@
 import type { FormEvent } from 'react'
 import { useState } from 'react'
 import { submitLead, type LeadPayload } from '../../features/leads/submitLead'
+import { isLeadsEndpointConfigured } from '../../lib/leads'
 import { buildWhatsAppLink } from '../../lib/whatsapp'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
@@ -17,11 +18,16 @@ const teamRanges = [
   'mais de 200 colaboradores',
 ]
 
+const LEAD_RATE_LIMIT_MS = 30_000
+const LEAD_RATE_LIMIT_KEY = 'drbarista:lead:last-submit-at'
+
 type LeadCaptureSectionProps = {
   compact?: boolean
 }
 
 export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps) {
+  const diagMarker = '[LEADS_DIAG_V1]'
+  const isEndpointConfigured = isLeadsEndpointConfigured()
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
   const [formData, setFormData] = useState<LeadPayload>({
@@ -32,7 +38,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
     city: '',
     teamSize: teamRanges[0],
     message: '',
-    website: '',
+    company_website: '',
   })
   const whatsappLink = buildWhatsAppLink(
     'Olá! Quero uma proposta para máquinas de café para minha empresa. Pode me passar valores e condições? (Joinville/SC)',
@@ -47,6 +53,40 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
     setStatus('loading')
     setMessage('')
 
+    if (!isEndpointConfigured) {
+      setStatus('error')
+      setMessage('Leads endpoint is not configured. Set VITE_LEADS_ENDPOINT_URL.')
+      return
+    }
+
+    const lastSubmitAtRaw = window.localStorage.getItem(LEAD_RATE_LIMIT_KEY)
+    const lastSubmitAt = lastSubmitAtRaw ? Number(lastSubmitAtRaw) : 0
+    const now = Date.now()
+
+    if (lastSubmitAt && now - lastSubmitAt < LEAD_RATE_LIMIT_MS) {
+      const secondsLeft = Math.ceil((LEAD_RATE_LIMIT_MS - (now - lastSubmitAt)) / 1000)
+      setStatus('error')
+      setMessage(`Please wait ${secondsLeft}s before submitting again.`)
+      return
+    }
+
+    if (formData.company_website?.trim()) {
+      setStatus('success')
+      setMessage('Recebido! Vamos te chamar no WhatsApp/em breve.')
+      setFormData({
+        name: '',
+        company: '',
+        email: '',
+        whatsapp: '',
+        city: '',
+        teamSize: teamRanges[0],
+        message: '',
+        company_website: '',
+      })
+      window.localStorage.setItem(LEAD_RATE_LIMIT_KEY, String(now))
+      return
+    }
+
     try {
       await submitLead(formData)
       setStatus('success')
@@ -59,17 +99,22 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
         city: '',
         teamSize: teamRanges[0],
         message: '',
-        website: '',
+        company_website: '',
       })
+      window.localStorage.setItem(LEAD_RATE_LIMIT_KEY, String(now))
     } catch (error) {
       setStatus('error')
-      setMessage(
-        error instanceof Error
-          ? error.message
-          : 'Ocorreu um problema ao enviar o formulário. Tente novamente mais tarde.',
-      )
+      setMessage(error instanceof Error ? error.message : 'Unknown error (no message).')
     }
   }
+
+  const safeErrorMessage = (() => {
+    if (!message.trim()) return 'Unknown error (no message).'
+    if (message.startsWith(diagMarker)) {
+      return message.slice(diagMarker.length).trim() || 'Unknown error (no message).'
+    }
+    return message.trim()
+  })()
 
   const formCard = (
     <Card
@@ -161,16 +206,17 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
           />
         </label>
         <label className="hidden" aria-hidden="true">
-          Website
+          Company Website
           <input
+            name="company_website"
             tabIndex={-1}
             autoComplete="off"
-            value={formData.website ?? ''}
-            onChange={(event) => handleChange('website', event.target.value)}
+            value={formData.company_website ?? ''}
+            onChange={(event) => handleChange('company_website', event.target.value)}
           />
         </label>
         <div className="flex flex-col gap-3">
-          <Button type="submit" variant="primary" disabled={status === 'loading'}>
+          <Button type="submit" variant="primary" disabled={status === 'loading' || !isEndpointConfigured}>
             {status === 'loading' ? 'Enviando...' : 'Solicitar orçamento'}
           </Button>
           {status === 'success' && message ? (
@@ -188,9 +234,9 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
               </a>
             </div>
           ) : null}
-          {status === 'error' && message ? (
+          {status === 'error' ? (
             <p className="text-sm font-semibold text-pink-600" aria-live="polite">
-              {message}
+              {`${diagMarker} ${safeErrorMessage}`}
             </p>
           ) : null}
         </div>

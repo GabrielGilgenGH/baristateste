@@ -1,3 +1,5 @@
+import { getUtmParams, submitLead as submitLeadRequest, type LeadSubmitPayload } from '../../lib/leads'
+
 export type LeadPayload = {
   name: string
   company: string
@@ -8,65 +10,10 @@ export type LeadPayload = {
   message?: string
   interest?: 'maquinas' | 'produtos'
   website?: string
+  company_website?: string
   pagePath?: string
   referrer?: string
   submittedAt?: string
-  utm_source?: string
-  utm_medium?: string
-  utm_campaign?: string
-  utm_term?: string
-  utm_content?: string
-}
-
-type SubmitLeadResponse = {
-  ok?: boolean
-  error?: string
-}
-
-const UTM_SESSION_KEY = 'drbarista:utm:first-touch'
-const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'] as const
-
-function readUtmFromUrl() {
-  if (typeof window === 'undefined') return {}
-
-  const params = new URLSearchParams(window.location.search)
-  const utm = Object.fromEntries(
-    UTM_KEYS
-      .map((key) => [key, params.get(key)])
-      .filter(([, value]) => Boolean(value)),
-  ) as Pick<LeadPayload, (typeof UTM_KEYS)[number]>
-
-  return utm
-}
-
-function readStoredUtm() {
-  if (typeof window === 'undefined') return {}
-
-  const raw = window.sessionStorage.getItem(UTM_SESSION_KEY)
-  if (!raw) return {}
-
-  try {
-    return JSON.parse(raw) as Pick<LeadPayload, (typeof UTM_KEYS)[number]>
-  } catch {
-    return {}
-  }
-}
-
-function resolveUtmParams() {
-  if (typeof window === 'undefined') return {}
-
-  const stored = readStoredUtm()
-  const hasStored = UTM_KEYS.some((key) => Boolean(stored[key]))
-  if (hasStored) return stored
-
-  const fromUrl = readUtmFromUrl()
-  const hasUrlUtm = UTM_KEYS.some((key) => Boolean(fromUrl[key]))
-
-  if (hasUrlUtm) {
-    window.sessionStorage.setItem(UTM_SESSION_KEY, JSON.stringify(fromUrl))
-  }
-
-  return fromUrl
 }
 
 function resolveInterest(payload: LeadPayload) {
@@ -78,19 +25,23 @@ function resolveInterest(payload: LeadPayload) {
 export async function submitLead(payload: LeadPayload): Promise<void> {
   const pagePath = payload.pagePath ?? (typeof window !== 'undefined' ? window.location.pathname : '')
   const referrer = payload.referrer ?? (typeof document !== 'undefined' ? document.referrer : '')
-  const utm = resolveUtmParams()
+  const utm = getUtmParams()
 
-  const requestBody: LeadPayload = {
-    ...payload,
-    email: payload.email?.trim() || '',
-    city: payload.city?.trim() || '',
-    teamSize: payload.teamSize?.trim() || '',
-    message: payload.message?.trim() || '',
-    website: payload.website?.trim() || '',
-    pagePath,
-    referrer,
-    submittedAt: payload.submittedAt ?? new Date().toISOString(),
+  const requestBody: LeadSubmitPayload = {
+    name: payload.name?.trim() ?? '',
+    company: payload.company?.trim() ?? '',
+    whatsapp: payload.whatsapp?.trim() ?? '',
+    email: payload.email?.trim() ?? '',
+    city: payload.city?.trim() ?? '',
+    team_size_range: payload.teamSize?.trim() ?? '',
+    message: payload.message?.trim() ?? '',
     interest: resolveInterest({ ...payload, pagePath }),
+    pagePath,
+    source_url: typeof window !== 'undefined' ? window.location.href : pagePath,
+    referrer,
+    user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+    submittedAt: payload.submittedAt ?? new Date().toISOString(),
+    company_website: payload.company_website?.trim() || payload.website?.trim() || '',
     ...utm,
   }
 
@@ -98,22 +49,9 @@ export async function submitLead(payload: LeadPayload): Promise<void> {
     console.info('[lead] submit', { pagePath: requestBody.pagePath, interest: requestBody.interest })
   }
 
-  const response = await fetch('/.netlify/functions/lead', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  })
+  const result = await submitLeadRequest(requestBody)
 
-  let data: SubmitLeadResponse = {}
-  try {
-    data = (await response.json()) as SubmitLeadResponse
-  } catch {
-    data = {}
-  }
-
-  if (!response.ok || !data.ok) {
-    throw new Error('Não foi possível enviar agora. Tente novamente em alguns instantes.')
+  if (!result.ok) {
+    throw new Error(result.message ?? 'Unable to submit lead right now. Please try again soon.')
   }
 }

@@ -9,7 +9,7 @@ Institucional B2B para locação e vending de máquinas de café, totalmente sep
 - React Router DOM para rotas internas
 - Embla Carousel para clientes em destaque
 - Lucide React para ícones
-- Supabase (via @supabase/supabase-js) para captura de leads
+- Google Apps Script Web App para captura de leads
 
 ## Como começar
 
@@ -17,7 +17,7 @@ Institucional B2B para locação e vending de máquinas de café, totalmente sep
    ```bash
    npm install
    ```
-2. Copie o modelo de variáveis de ambiente e preencha os valores do Supabase:
+2. Copie o modelo de variáveis de ambiente e preencha o endpoint de leads:
    ```bash
    cp .env.example .env.local
    ```
@@ -35,7 +35,6 @@ Institucional B2B para locação e vending de máquinas de café, totalmente sep
 
 ### Variáveis esperadas
 
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
+- `VITE_LEADS_ENDPOINT_URL`
 
-Sem esses valores, o formulário de orçamento mantém o envio local e mostra mensagem amigável sem travar a aplicação.
+Sem esse valor, o formulário de orçamento fica desabilitado e exibe uma mensagem amigável sem travar a aplicação.
