@@ -28,7 +28,6 @@ export type LeadSubmitResult = {
 const UTM_SESSION_KEY = 'drbarista:utm:first-touch'
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'] as const
 const DEFAULT_TIMEOUT_MS = 10_000
-const RETRY_DELAY_MS = 500
 const MAX_ERROR_BODY_LENGTH = 200
 const LEADS_DIAG_MARKER = '[LEADS_DIAG_V1]'
 
@@ -88,14 +87,6 @@ function validatePayload(payload: LeadSubmitPayload): string | null {
   return null
 }
 
-function wait(ms: number) {
-  return new Promise((resolve) => window.setTimeout(resolve, ms))
-}
-
-function shouldRetryResponse(status: number) {
-  return status >= 500 || status === 429
-}
-
 function toShortBody(value: string) {
   return value.replace(/\s+/g, ' ').trim().slice(0, MAX_ERROR_BODY_LENGTH)
 }
@@ -107,15 +98,6 @@ function toExceptionMessage(error: unknown) {
   }
 
   return `${LEADS_DIAG_MARKER} Exception: Unknown error (no message).`
-}
-
-function logLeadEndpointError(endpointUrl: string, status: number, responseText: string) {
-  if (!import.meta.env.DEV) return
-  console.error('[lead] endpoint error', {
-    endpointUrl,
-    status,
-    responseText,
-  })
 }
 
 function buildLeadRequestUrl(endpointUrl: string, token: string) {
@@ -179,72 +161,34 @@ export async function submitLead(payload: LeadSubmitPayload): Promise<LeadSubmit
   }
 
   const requestBody = buildLeadFormBody(payload)
-  const maxAttempts = 2
+  const controller = new AbortController()
+  const timeoutId = window.setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS)
 
-  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
-    const controller = new AbortController()
-    const timeoutId = window.setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS)
+  try {
+    // Apps Script Web App does not reliably provide CORS headers for browser POST responses.
+    // Using no-cors allows dispatching the webhook even though the response is opaque.
+    await fetch(requestUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      redirect: 'follow',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+      body: requestBody,
+      signal: controller.signal,
+    })
 
-    try {
-      const response = await fetch(requestUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        },
-        body: requestBody,
-        signal: controller.signal,
-      })
-
-      let responseText = ''
-      try {
-        responseText = await response.text()
-      } catch {
-        responseText = ''
-      }
-
-      const shortBody = toShortBody(responseText)
-      let responseBody: { ok?: boolean } = {}
-      if (responseText) {
-        try {
-          responseBody = JSON.parse(responseText) as { ok?: boolean }
-        } catch {
-          responseBody = {}
-        }
-      }
-
-      if (!response.ok || responseBody.ok === false) {
-        logLeadEndpointError(endpointUrl, response.status, shortBody)
-
-        if (attempt < maxAttempts - 1 && shouldRetryResponse(response.status)) {
-          await wait(RETRY_DELAY_MS)
-          continue
-        }
-
-        return {
-          ok: false,
-          message: `Lead endpoint error (${response.status}): ${shortBody || 'Empty response body'}`,
-        }
-      }
-
-      return { ok: true }
-    } catch (error) {
-      if (error instanceof DOMException && error.name === 'AbortError') {
-        return { ok: false, message: `${LEADS_DIAG_MARKER} Exception: AbortError: Request timeout. Please try again.` }
-      }
-
-      if (attempt < maxAttempts - 1) {
-        await wait(RETRY_DELAY_MS)
-        continue
-      }
-
-      return {
-        ok: false,
-        message: toExceptionMessage(error),
-      }
-    } finally {
-      window.clearTimeout(timeoutId)
+    return { ok: true }
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      return { ok: false, message: `${LEADS_DIAG_MARKER} Timeout. Please try again.` }
     }
-  }
 
-  return { ok: false, message: `${LEADS_DIAG_MARKER} Exception: Unknown error (no message).` }
+    return {
+      ok: false,
+      message: toExceptionMessage(error),
+    }
+  } finally {
+    window.clearTimeout(timeoutId)
+  }
 }
