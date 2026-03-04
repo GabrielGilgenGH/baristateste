@@ -1,6 +1,7 @@
 # Google Apps Script Lead Capture (Vercel + Vite)
 
-This project sends leads directly from the frontend to a Google Apps Script Web App URL (`VITE_LEADS_ENDPOINT_URL`).
+This project sends leads from the frontend to `POST /api/leads` (Vercel Function).
+The function forwards data to the Google Apps Script Web App with a server-side token.
 
 ## 1) Create the private Google Sheet
 
@@ -86,21 +87,12 @@ function createJsonResponse(data) {
 
 ## 4) Configure Vercel environment
 
-Set this environment variable in Vercel:
+Set these environment variables in Vercel:
 
-- `VITE_LEADS_ENDPOINT_URL` = `<your apps script web app url>`
+- `GOOGLE_APPS_SCRIPT_URL` = `<your apps script web app url>`
+- `LEADS_WEBHOOK_TOKEN` = `<shared token validated by Apps Script>`
 
-No secret tokens are required in the frontend for this architecture.
-
-## 5) CORS requirements
-
-Your endpoint must allow browser POST requests from your site. Expected CORS headers:
-
-- `Access-Control-Allow-Origin: *`
-- `Access-Control-Allow-Methods: POST, OPTIONS`
-- `Access-Control-Allow-Headers: Content-Type`
-
-Google Apps Script Web Apps can be restrictive for explicit CORS headers. This frontend includes a fallback request mode (`text/plain`) to reduce preflight issues.
+No token is exposed in the frontend bundle.
 
 ## Recommended columns
 

@@ -17,7 +17,7 @@ Institucional B2B para locação e vending de máquinas de café, totalmente sep
    ```bash
    npm install
    ```
-2. Copie o modelo de variáveis de ambiente e preencha o endpoint de leads:
+2. Copie o modelo de variáveis de ambiente:
    ```bash
    cp .env.example .env.local
    ```
@@ -35,6 +35,15 @@ Institucional B2B para locação e vending de máquinas de café, totalmente sep
 
 ### Variáveis esperadas
 
-- `VITE_LEADS_ENDPOINT_URL`
+- `GOOGLE_APPS_SCRIPT_URL`
+- `LEADS_WEBHOOK_TOKEN`
 
-Sem esse valor, o formulário de orçamento fica desabilitado e exibe uma mensagem amigável sem travar a aplicação.
+Defina as variáveis no ambiente do Vercel para que a função `/api/leads` consiga encaminhar os envios para o Apps Script sem expor o token no frontend.
+
+### Leads Proxy Smoke Test
+
+```bash
+BASE_URL=https://baristateste.vercel.app node scripts/smoke/leads-proxy-smoke.mjs
+```
+
+The script sends one valid and one invalid payload to `/api/leads` and prints status + JSON responses.

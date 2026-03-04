@@ -55,7 +55,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
 
     if (!isEndpointConfigured) {
       setStatus('error')
-      setMessage('Leads endpoint is not configured. Set VITE_LEADS_ENDPOINT_URL.')
+      setMessage('Lead endpoint is unavailable. Please try again later.')
       return
     }
 

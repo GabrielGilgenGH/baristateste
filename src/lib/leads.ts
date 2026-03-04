@@ -6,7 +6,7 @@ export type LeadSubmitPayload = {
   city?: string
   team_size_range?: string
   message?: string
-  interest?: 'maquinas' | 'produtos'
+  interest?: 'maquinas' | 'produtos' | 'budget_request'
   pagePath?: string
   source_url?: string
   referrer?: string
@@ -30,13 +30,10 @@ const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_c
 const DEFAULT_TIMEOUT_MS = 10_000
 const MAX_ERROR_BODY_LENGTH = 200
 const LEADS_DIAG_MARKER = '[LEADS_DIAG_V1]'
+const LEADS_API_ENDPOINT = '/api/leads'
 
 export function isLeadsEndpointConfigured() {
-  return Boolean(import.meta.env.VITE_LEADS_ENDPOINT_URL)
-}
-
-export function getLeadsEndpointUrl() {
-  return (import.meta.env.VITE_LEADS_ENDPOINT_URL ?? '').trim()
+  return true
 }
 
 function readStoredUtm() {
@@ -100,50 +97,35 @@ function toExceptionMessage(error: unknown) {
   return `${LEADS_DIAG_MARKER} Exception: Unknown error (no message).`
 }
 
-function buildLeadRequestUrl(endpointUrl: string, token: string) {
-  const url = new URL(endpointUrl)
-  url.searchParams.set('token', token)
-  return url.toString()
+function mapServerError(errorCode: string) {
+  if (errorCode === 'UNAUTHORIZED') return 'Unauthorized lead webhook.'
+  if (errorCode === 'RATE_LIMIT') return 'Too many requests. Please try again later.'
+  if (errorCode === 'VALIDATION') return 'Invalid lead payload.'
+  if (errorCode === 'INVALID_PAYLOAD') return 'Invalid request payload.'
+  if (errorCode === 'MISCONFIGURED') return 'Lead endpoint is not configured.'
+  return 'Lead submission failed.'
 }
 
-function buildLeadFormBody(payload: LeadSubmitPayload) {
-  const timestamp = payload.submittedAt ?? new Date().toISOString()
-  const form = new URLSearchParams({
-    created_at: timestamp,
-    name: payload.name?.trim() ?? '',
-    company: payload.company?.trim() ?? '',
-    email: payload.email?.trim() ?? '',
-    whatsapp: payload.whatsapp?.trim() ?? '',
-    city: payload.city?.trim() ?? '',
-    team_size_range: payload.team_size_range?.trim() ?? '',
-    message: payload.message?.trim() ?? '',
-    source_url: payload.source_url?.trim() ?? '',
-    pagePath: payload.pagePath?.trim() ?? '',
-    referrer: payload.referrer?.trim() ?? '',
-    user_agent: payload.user_agent?.trim() ?? '',
-    utm_source: payload.utm_source?.trim() ?? '',
-    utm_medium: payload.utm_medium?.trim() ?? '',
-    utm_campaign: payload.utm_campaign?.trim() ?? '',
-    utm_term: payload.utm_term?.trim() ?? '',
-    utm_content: payload.utm_content?.trim() ?? '',
-    interest: payload.interest?.trim() ?? '',
-    submittedAt: timestamp,
-    website: payload.company_website?.trim() ?? '',
-  })
+function resolveLeadApiEndpoint() {
+  const endpoint = LEADS_API_ENDPOINT.trim()
+  if (endpoint.includes('script.google.com') || endpoint.includes('macros/s/')) {
+    if (import.meta.env.DEV) {
+      throw new Error('Lead client must use /api/leads, never a direct Apps Script URL.')
+    }
+    return '/api/leads'
+  }
 
-  return form.toString()
+  if (!endpoint.startsWith('/api/leads')) {
+    if (import.meta.env.DEV) {
+      throw new Error('Lead client endpoint must stay on relative /api/leads.')
+    }
+    return '/api/leads'
+  }
+
+  return endpoint
 }
 
 export async function submitLead(payload: LeadSubmitPayload): Promise<LeadSubmitResult> {
-  const endpointUrl = getLeadsEndpointUrl()
-  if (!endpointUrl) {
-    return { ok: false, message: 'Leads endpoint is not configured. Set VITE_LEADS_ENDPOINT_URL.' }
-  }
-  const token = (import.meta.env.VITE_LEADS_TOKEN ?? '').trim()
-  if (!token) {
-    return { ok: false, message: 'Leads token is not configured. Set VITE_LEADS_TOKEN.' }
-  }
-
   const validationError = validatePayload(payload)
   if (validationError) {
     return { ok: false, message: validationError }
@@ -153,32 +135,37 @@ export async function submitLead(payload: LeadSubmitPayload): Promise<LeadSubmit
     return { ok: true }
   }
 
-  let requestUrl = ''
-  try {
-    requestUrl = buildLeadRequestUrl(endpointUrl, token)
-  } catch {
-    return { ok: false, message: 'Leads endpoint URL is invalid. Set VITE_LEADS_ENDPOINT_URL.' }
-  }
-
-  const requestBody = buildLeadFormBody(payload)
   const controller = new AbortController()
   const timeoutId = window.setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS)
+  const endpoint = resolveLeadApiEndpoint()
 
   try {
-    // Apps Script Web App does not reliably provide CORS headers for browser POST responses.
-    // Using no-cors allows dispatching the webhook even though the response is opaque.
-    await fetch(requestUrl, {
+    const response = await fetch(endpoint, {
       method: 'POST',
-      mode: 'no-cors',
-      redirect: 'follow',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Content-Type': 'application/json',
       },
-      body: requestBody,
+      body: JSON.stringify(payload),
       signal: controller.signal,
+      credentials: 'same-origin',
     })
 
-    return { ok: true }
+    let data: { ok?: boolean; error?: string; message?: string } = {}
+    try {
+      data = (await response.json()) as { ok?: boolean; error?: string; message?: string }
+    } catch {
+      data = {}
+    }
+
+    if (response.ok && data.ok === true) {
+      return { ok: true }
+    }
+
+    const safeCode = toShortBody(data.error ?? data.message ?? `HTTP_${response.status}`)
+    return {
+      ok: false,
+      message: `${LEADS_DIAG_MARKER} ${mapServerError(safeCode)} (${safeCode})`,
+    }
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
       return { ok: false, message: `${LEADS_DIAG_MARKER} Timeout. Please try again.` }

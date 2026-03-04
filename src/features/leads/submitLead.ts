@@ -8,7 +8,7 @@ export type LeadPayload = {
   city?: string
   teamSize?: string
   message?: string
-  interest?: 'maquinas' | 'produtos'
+  interest?: 'maquinas' | 'produtos' | 'budget_request'
   website?: string
   company_website?: string
   pagePath?: string
@@ -19,7 +19,8 @@ export type LeadPayload = {
 function resolveInterest(payload: LeadPayload) {
   if (payload.interest) return payload.interest
   if ((payload.pagePath ?? '').startsWith('/produtos')) return 'produtos'
-  return 'maquinas'
+  if ((payload.pagePath ?? '').startsWith('/maquinas')) return 'maquinas'
+  return 'budget_request'
 }
 
 export async function submitLead(payload: LeadPayload): Promise<void> {
