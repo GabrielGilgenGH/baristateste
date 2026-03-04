@@ -1,6 +1,7 @@
 import type { FormEvent } from 'react'
 import { useState } from 'react'
 import { submitLead, type LeadPayload } from '../../features/leads/submitLead'
+import { buildWhatsAppLink } from '../../lib/whatsapp'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { Input } from '../ui/Input'
@@ -31,7 +32,11 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
     city: '',
     teamSize: teamRanges[0],
     message: '',
+    website: '',
   })
+  const whatsappLink = buildWhatsAppLink(
+    'Olá! Quero uma proposta para máquinas de café para minha empresa. Pode me passar valores e condições? (Joinville/SC)',
+  )
 
   const handleChange = (field: keyof LeadPayload, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -45,7 +50,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
     try {
       await submitLead(formData)
       setStatus('success')
-      setMessage('Recebemos sua solicitação. Retornamos em até 24h úteis.')
+      setMessage('Recebido! Vamos te chamar no WhatsApp/em breve.')
       setFormData({
         name: '',
         company: '',
@@ -54,6 +59,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
         city: '',
         teamSize: teamRanges[0],
         message: '',
+        website: '',
       })
     } catch (error) {
       setStatus('error')
@@ -154,15 +160,39 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
             placeholder="Conte como podemos personalizar a operação para seu time."
           />
         </label>
+        <label className="hidden" aria-hidden="true">
+          Website
+          <input
+            tabIndex={-1}
+            autoComplete="off"
+            value={formData.website ?? ''}
+            onChange={(event) => handleChange('website', event.target.value)}
+          />
+        </label>
         <div className="flex flex-col gap-3">
           <Button type="submit" variant="primary" disabled={status === 'loading'}>
             {status === 'loading' ? 'Enviando...' : 'Solicitar orçamento'}
           </Button>
-          {message && (
-            <p className={`text-sm font-semibold ${status === 'success' ? 'text-emerald-600' : 'text-pink-600'}`} aria-live="polite">
+          {status === 'success' && message ? (
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <p className="text-sm font-semibold text-emerald-600" aria-live="polite">
+                {message}
+              </p>
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#79f2a8] transition-all duration-200 ease-out hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+              >
+                Falar agora no WhatsApp
+              </a>
+            </div>
+          ) : null}
+          {status === 'error' && message ? (
+            <p className="text-sm font-semibold text-pink-600" aria-live="polite">
               {message}
             </p>
-          )}
+          ) : null}
         </div>
       </form>
     </Card>
