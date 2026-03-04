@@ -82,7 +82,7 @@ export function getUtmParams(): UtmParams {
 }
 
 export async function submitLead(payload: LeadPayload): Promise<{ ok: boolean }> {
-  const response = await fetch('/.netlify/functions/lead', {
+  const response = await fetch('/.netlify/functions/submit-lead', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',

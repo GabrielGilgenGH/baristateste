@@ -44,7 +44,7 @@ Set these variables in Netlify Site Settings:
 
 The frontend submits to:
 
-- `/.netlify/functions/lead`
+- `/.netlify/functions/submit-lead`
 
 The function forwards JSON payload to Apps Script with:
 
