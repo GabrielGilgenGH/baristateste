@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 _pr_evidence/
 test-results/
+scripts/visual-baseline/output/*.png

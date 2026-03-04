@@ -7,6 +7,7 @@ import { QuemSomos } from './pages/QuemSomos'
 import { Produtos } from './pages/Produtos'
 import { Solucoes } from './pages/Solucoes'
 import { Contato } from './pages/Contato'
+import { UIPlaygroundPage } from './ui-playground/UIPlaygroundPage'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/maquinas/:slug" element={<MachineDetail />} />
           <Route path="/produtos" element={<Produtos />} />
           <Route path="/contato" element={<Contato />} />
+          <Route path="/ui" element={<UIPlaygroundPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

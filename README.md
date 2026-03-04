@@ -47,3 +47,26 @@ BASE_URL=https://baristateste.vercel.app node scripts/smoke/leads-proxy-smoke.mj
 ```
 
 The script sends one valid and one invalid payload to `/api/leads` and prints status + JSON responses.
+
+### UI Playground
+
+- Internal route for UI iteration: `/ui`
+- Not linked from main navigation.
+
+### Design Token Guard
+
+```bash
+npm run tokens:check
+```
+
+Use `CHECK_ALL=1 npm run tokens:check` to scan all tracked source files.
+
+See [`docs/design-tokens.md`](docs/design-tokens.md) for token conventions.
+
+### Visual Screenshot Smoke
+
+```bash
+npm run visual:snap
+```
+
+This generates baseline screenshots for `/`, `/maquinas`, and `/produtos` in `scripts/visual-baseline/output/`.
