@@ -5,7 +5,8 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { chromium } from 'playwright'
 
 const OUTPUT_DIR = resolve(process.cwd(), 'scripts/visual-baseline/output')
-const LOCAL_PREVIEW_URL = 'http://127.0.0.1:4173'
+const PREVIEW_PORT = Number(process.env.VISUAL_SNAP_PORT || 4300 + Math.floor(Math.random() * 500))
+const LOCAL_PREVIEW_URL = `http://127.0.0.1:${PREVIEW_PORT}`
 const BASE_URL = process.env.BASE_URL || LOCAL_PREVIEW_URL
 
 const PAGES = [
@@ -86,11 +87,15 @@ async function run() {
     if (!process.env.BASE_URL) {
       await runCommand('npm', ['run', 'build'])
 
-      previewProcess = spawn('npm', ['run', 'preview', '--', '--host', '127.0.0.1', '--port', '4173'], {
-        cwd: process.cwd(),
-        stdio: 'inherit',
-        shell: false,
-      })
+      previewProcess = spawn(
+        'npm',
+        ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(PREVIEW_PORT), '--strictPort'],
+        {
+          cwd: process.cwd(),
+          stdio: 'inherit',
+          shell: false,
+        },
+      )
 
       await waitForUrl(LOCAL_PREVIEW_URL)
     }

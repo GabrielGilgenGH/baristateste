@@ -1,27 +1,28 @@
-import { Card } from '../components/ui/Card'
+import { ClientsCarousel } from '../components/ClientsCarousel'
 import { Section } from '../components/ui/Section'
-import logoExato from '../assets/brand/logo-exato.png'
-
-const diferenciais = [
-  '16 anos de mercado com ampla carteira de clientes.',
-  'Atendimento em todo o estado de Santa Catarina',
-  'Sede própria com estrutura operacional dedicada',
-  'Equipe técnica qualificada e comprometida',
-]
+import logoExato from '../assets/brand/logo.png'
 
 export function QuemSomos() {
   return (
     <Section
       eyebrow="História e valores"
       title="Quem somos"
-      description="Dr. Barista Vending é uma empresa joinvillense dedicada a entregar experiências premium em cafés corporativos."
-      className="space-y-12 py-6 sm:py-8 lg:py-10"
+      center
+      className="space-y-12 py-20 [&_header]:mx-auto [&_header]:max-w-4xl [&_header]:text-center [&_header>p:first-of-type]:text-[1.125rem] [&_header>h2]:text-[clamp(2.85rem,3.6vw+1.3rem,4.5rem)]"
     >
-      <div className="grid items-center gap-8 md:grid-cols-[1.5fr,1fr] md:gap-10 lg:grid-cols-2 lg:gap-12">
+      <p
+        data-reveal="up"
+        data-reveal-delay="90"
+        className="mx-auto mb-16 max-w-4xl text-center text-xl font-medium leading-relaxed text-brand-charcoal/95 md:text-2xl"
+      >
+        Há mais de 16 anos levando soluções profissionais de café para empresas.
+      </p>
+
+      <div className="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-2">
         <div
           data-reveal="left"
-          data-reveal-delay="90"
-          className="order-2 space-y-6 text-justify text-base leading-relaxed text-brand-charcoal/95 md:order-1 md:text-lg"
+          data-reveal-delay="130"
+          className="max-w-2xl space-y-6 text-left text-[1.1rem] leading-relaxed text-brand-charcoal/95 md:text-[1.24rem]"
         >
           <p>
             Dr. Barista Vending, uma empresa joinvillense, fundada em 2010, tem como característica principal o compromisso da
@@ -44,31 +45,22 @@ export function QuemSomos() {
             expectativas com relação aos serviços propostos, colocando-nos à disposição.
           </p>
         </div>
-        <div data-reveal="right" data-reveal-delay="160" className="order-1 flex justify-center md:order-2 md:justify-end">
-          <div className="aspect-[282/189] w-full max-w-[420px]">
-            <img
-              src={logoExato}
-              alt="Logo Dr. Barista Vending"
-              className="h-full w-full object-contain"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+
+        <div
+          data-reveal="right"
+          data-reveal-delay="180"
+          className="mt-12 flex items-start justify-center lg:mt-0 lg:justify-end"
+        >
+          <img
+            src={logoExato}
+            alt="Logo Dr. Barista Vending"
+            className="h-auto w-[260px] max-w-full object-contain lg:w-[420px]"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
-      <Card data-reveal="up" data-reveal-delay="220" className="space-y-4 border border-brand-warmGray/35 bg-brand-surface/95 p-6 shadow-soft">
-        <p className="text-xs uppercase tracking-[0.4em] text-brand-charcoal/75">Diferenciais</p>
-        <ul className="grid gap-3 text-sm text-brand-charcoal/95 md:grid-cols-2">
-          {diferenciais.map((item) => (
-            <li
-              key={item}
-              className="rounded-2xl border border-dashed border-brand-warmGray/60 bg-brand-surfaceSoft/70 px-4 py-3"
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </Card>
+      <ClientsCarousel />
     </Section>
   )
 }

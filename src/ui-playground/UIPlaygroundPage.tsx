@@ -1,9 +1,21 @@
+import { useMemo, useState } from 'react'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { Input } from '../components/ui/Input'
 import { Section } from '../components/ui/Section'
 import { Select } from '../components/ui/Select'
 import { Textarea } from '../components/ui/Textarea'
+import componentInventory from './component-inventory.generated.json'
+
+type InventoryEntry = {
+  componentName: string
+  filePath: string
+  group: string
+  exportType: 'named' | 'default' | 'unknown'
+  confidence: 'high' | 'medium' | 'low'
+}
+
+type SortMode = 'name' | 'group'
 
 const featureSamples = [
   {
@@ -20,7 +32,54 @@ const featureSamples = [
   },
 ]
 
+function toImportPath(filePath: string) {
+  return filePath.replace(/^src\//, '@/').replace(/\.tsx$/, '')
+}
+
+function getImportSnippet(entry: InventoryEntry) {
+  if (entry.exportType === 'named') {
+    return `import { ${entry.componentName} } from '${toImportPath(entry.filePath)}'`
+  }
+
+  if (entry.exportType === 'default') {
+    return `import ${entry.componentName} from '${toImportPath(entry.filePath)}'`
+  }
+
+  return ''
+}
+
 export function UIPlaygroundPage() {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [groupFilter, setGroupFilter] = useState('all')
+  const [sortMode, setSortMode] = useState<SortMode>('name')
+
+  const inventoryEntries = componentInventory.entries as InventoryEntry[]
+
+  const groups = useMemo(() => {
+    return [...new Set(inventoryEntries.map((entry) => entry.group))].sort((a, b) => a.localeCompare(b))
+  }, [inventoryEntries])
+
+  const filteredInventory = useMemo(() => {
+    const normalizedSearch = searchTerm.trim().toLowerCase()
+
+    const filtered = inventoryEntries.filter((entry) => {
+      if (groupFilter !== 'all' && entry.group !== groupFilter) return false
+      if (!normalizedSearch) return true
+
+      return [entry.componentName, entry.group, entry.filePath].some((value) =>
+        value.toLowerCase().includes(normalizedSearch),
+      )
+    })
+
+    return filtered.sort((left, right) => {
+      const leftKey = sortMode === 'name' ? left.componentName : left.group
+      const rightKey = sortMode === 'name' ? right.componentName : right.group
+      const baseCompare = leftKey.localeCompare(rightKey)
+      if (baseCompare !== 0) return baseCompare
+      return left.componentName.localeCompare(right.componentName)
+    })
+  }, [groupFilter, inventoryEntries, searchTerm, sortMode])
+
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-20 pt-10 sm:px-6">
       <Card className="rounded-2xl border-brand-copper/40 bg-brand-surfaceSoft/65 p-6">
@@ -166,6 +225,75 @@ export function UIPlaygroundPage() {
             </div>
           </Card>
         </div>
+      </Section>
+
+      <Section
+        title="Component Inventory"
+        description="Generated list of React component candidates from the source tree for faster discovery."
+      >
+        <Card className="space-y-5 p-6">
+          <div className="grid gap-3 md:grid-cols-3">
+            <label className="space-y-2 text-sm font-semibold text-brand-charcoal md:col-span-2">
+              Search
+              <Input
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder="Filter by name, group, or file path"
+              />
+            </label>
+            <label className="space-y-2 text-sm font-semibold text-brand-charcoal">
+              Group
+              <Select value={groupFilter} onChange={(event) => setGroupFilter(event.target.value)}>
+                <option value="all">All groups</option>
+                {groups.map((group) => (
+                  <option key={group} value={group}>
+                    {group}
+                  </option>
+                ))}
+              </Select>
+            </label>
+          </div>
+
+          <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.2em] text-brand-charcoal/70">
+            <p>{filteredInventory.length} components</p>
+            <label className="flex items-center gap-2">
+              <span>Sort</span>
+              <Select
+                className="w-[10rem] py-2 text-xs normal-case tracking-normal"
+                value={sortMode}
+                onChange={(event) => setSortMode(event.target.value as SortMode)}
+              >
+                <option value="name">Name</option>
+                <option value="group">Group</option>
+              </Select>
+            </label>
+          </div>
+
+          <div className="space-y-3">
+            {filteredInventory.map((entry) => {
+              const importSnippet = getImportSnippet(entry)
+              return (
+                <div key={`${entry.filePath}-${entry.componentName}-${entry.exportType}`} className="rounded-2xl border border-brand-warmGray/45 bg-brand-base/30 p-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-base font-semibold text-brand-espresso">{entry.componentName}</p>
+                      <p className="text-xs uppercase tracking-[0.2em] text-brand-charcoal/70">{entry.group}</p>
+                    </div>
+                    <p className="text-xs uppercase tracking-[0.18em] text-brand-charcoal/65">
+                      {entry.exportType} · {entry.confidence}
+                    </p>
+                  </div>
+                  <p className="mt-2 break-all font-mono text-xs text-brand-charcoal/85">{entry.filePath}</p>
+                  {importSnippet ? (
+                    <pre className="mt-3 overflow-x-auto rounded-xl border border-brand-warmGray/35 bg-brand-ink/50 p-3 text-xs text-brand-charcoal/90">
+                      {importSnippet}
+                    </pre>
+                  ) : null}
+                </div>
+              )
+            })}
+          </div>
+        </Card>
       </Section>
     </div>
   )

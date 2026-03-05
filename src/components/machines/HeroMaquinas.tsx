@@ -2,12 +2,6 @@ type HeroMaquinasProps = {
   proposalLink: string
 }
 
-const benefits = [
-  'Diagnóstico gratuito da sua operação',
-  'Recomendação personalizada por volume e perfil',
-  'Contrato flexível com suporte contínuo',
-]
-
 const processSteps = [
   {
     number: '01',
@@ -41,88 +35,76 @@ export function HeroMaquinas({ proposalLink }: HeroMaquinasProps) {
   }
 
   return (
-    <section className="relative overflow-hidden rounded-2xl bg-brand-base pt-20 pb-24 lg:pt-28 lg:pb-32">
+    <section className="relative overflow-hidden rounded-2xl border border-brand-warmGray/30 bg-brand-surface/90 pt-10 pb-10 shadow-[0_22px_48px_rgba(11,5,4,0.24)] sm:pt-12 sm:pb-12 lg:pt-14 lg:pb-12">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        className="pointer-events-none absolute -left-20 top-4 h-56 w-56 rounded-full bg-brand-copper/8 blur-[100px]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-24 bottom-0 h-64 w-64 rounded-full bg-brand-surfaceSoft/35 blur-[120px]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.025]"
         style={engineeringGridStyle}
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[60fr_40fr] lg:gap-16">
-          <div className="max-w-[560px]">
-            <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-stone-100 md:text-[64px] lg:text-[72px]">
-              A máquina certa para a sua operação. A gente descobre juntos.
+      <div className="relative mx-auto max-w-7xl px-6 sm:px-8">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="mx-auto flex w-full max-w-[42rem] flex-col items-center text-center lg:col-span-7 lg:self-center">
+            <h1 className="text-4xl font-extrabold leading-[1.02] tracking-tight text-brand-espresso sm:text-5xl lg:text-6xl xl:text-6xl">
+              Descobrimos juntos a máquina certa para a sua operação
             </h1>
 
-            <p className="mt-6 text-[17px] font-normal leading-relaxed text-zinc-300 lg:text-[18px]">
-              Cada empresa tem um volume, um espaço e uma expectativa diferentes. Por isso não vendemos catálogo —
-              agendamos uma conversa rápida e recomendamos o modelo ideal para o seu time.
+            <p className="mx-auto mt-4 w-full max-w-[46rem] text-sm font-normal leading-relaxed text-brand-charcoal/88 sm:text-base">
+              <span className="block lg:whitespace-nowrap">Cada empresa tem volumes, espaços e expectativas diferentes.</span>
+              <span className="block lg:whitespace-nowrap">
+                Por isso analisamos sua operação e indicamos a máquina ideal para o seu negócio.
+              </span>
             </p>
 
-            <ul className="mt-6 mb-8 space-y-3">
-              {benefits.map((benefit) => (
-                <li key={benefit} className="flex items-start gap-3 text-[15px] font-normal text-stone-200">
-                  <span aria-hidden="true" className="mt-0.5 text-base leading-none text-amber-400">
-                    ✓
-                  </span>
-                  <span>{benefit}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="mt-6 flex w-full flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center">
               <a
                 href={proposalLink}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-full bg-amber-400 px-7 py-3.5 text-[13px] font-bold uppercase tracking-widest text-stone-900 transition-all duration-200 hover:scale-[1.03] hover:bg-amber-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base shadow-lg shadow-amber-400/20"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-brand-copper px-8 py-3 text-sm font-bold uppercase tracking-[0.14em] text-brand-ink shadow-lg shadow-black/35 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-copper/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base sm:min-h-14 sm:w-auto sm:px-9 sm:text-[15px]"
               >
                 Agendar conversa gratuita
               </a>
               <button
                 type="button"
                 onClick={scrollToMachines}
-                className="inline-flex items-center justify-center rounded-full border border-white/20 bg-transparent px-7 py-3.5 text-[13px] font-semibold uppercase tracking-widest text-white transition-all duration-200 hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+                className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-brand-warmGray/50 bg-brand-surfaceSoft/30 px-6 py-2.5 text-[13px] font-semibold uppercase tracking-[0.12em] text-brand-charcoal transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-copper/50 hover:bg-brand-copper/10 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/85 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base sm:min-h-12 sm:w-auto sm:text-sm"
               >
                 Conhecer as máquinas
               </button>
             </div>
-
-            <div className="mt-8 border-t border-white/10 pt-4">
-              <p className="text-[13px] font-normal text-stone-400">
-                <span>800+ empresas</span>
-                <span aria-hidden="true" className="px-2 text-white/20">
-                  ·
-                </span>
-                <span>12 anos de mercado</span>
-                <span aria-hidden="true" className="px-2 text-white/20">
-                  ·
-                </span>
-                <span>NPS 94</span>
-              </p>
-            </div>
           </div>
 
-          <aside className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl shadow-black/30 backdrop-blur-sm lg:p-8">
-            <h2 className="text-xl font-semibold text-stone-100">Como funciona em 3 passos</h2>
+          <aside className="mx-auto w-full max-w-[30rem] rounded-3xl border border-brand-warmGray/30 bg-brand-surface/90 p-4 shadow-[0_16px_32px_rgba(11,5,4,0.22)] sm:p-5 lg:col-span-5 lg:justify-self-center lg:self-center lg:p-6">
+            <h2 className="text-center text-[1.25rem] font-semibold text-brand-espresso lg:text-[1.4rem]">
+              Como funciona em 3 passos
+            </h2>
 
-            <div className="mt-6 space-y-4">
+            <div className="mt-6 flex flex-col gap-y-5 lg:mt-7 lg:gap-y-8">
               {processSteps.map((step, index) => (
                 <article
                   key={step.number}
-                  className={`relative ${index < processSteps.length - 1 ? 'border-b border-white/5 pb-4' : ''}`}
+                  className={`flex items-start gap-4 lg:gap-5 ${
+                    index < processSteps.length - 1 ? 'border-b border-brand-warmGray/35 pb-5 lg:pb-6' : ''
+                  }`}
                 >
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute right-0 top-0 text-5xl font-black leading-none text-amber-400/30"
-                  >
-                    {step.number}
+                  <span className="inline-flex h-[2.2rem] w-[2.2rem] flex-none items-center justify-center rounded-full border border-brand-copper/45 bg-brand-copper/12 text-[15px] font-semibold leading-none text-brand-copper">
+                    {Number(step.number)}
                   </span>
-                  <p className="pr-16 text-[13px] font-semibold uppercase tracking-widest text-amber-400">
-                    {step.label}
-                  </p>
-                  <p className="mt-2 max-w-[30ch] text-[14px] leading-snug text-stone-300">{step.body}</p>
+                  <div className="flex flex-col gap-1.5 lg:gap-2">
+                    <p className="text-[15px] font-semibold uppercase tracking-[0.16em] text-brand-copper">
+                      {step.label}
+                    </p>
+                    <p className="max-w-[31ch] text-[16px] leading-relaxed text-brand-charcoal/78">{step.body}</p>
+                  </div>
                 </article>
               ))}
             </div>

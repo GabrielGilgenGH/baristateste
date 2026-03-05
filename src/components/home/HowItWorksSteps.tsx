@@ -39,7 +39,8 @@ export function HowItWorksSteps() {
 
   return (
     <Section
-      id="como-funciona"
+        center
+        id="como-funciona"
       eyebrow="Como funciona"
       title="Operação em 3 passos"
       description="Fluxo simples para manter qualidade constante com baixo esforço interno da sua equipe."

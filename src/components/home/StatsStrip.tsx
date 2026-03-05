@@ -45,7 +45,8 @@ export function StatsStrip() {
   return (
     <section ref={ref}>
       <Section
-        eyebrow="NÚMEROS"
+          center
+          eyebrow="NÚMEROS"
         title="Autoridade construída em operação real"
         description="Indicadores que reforçam previsibilidade, qualidade e continuidade no dia a dia corporativo."
       >

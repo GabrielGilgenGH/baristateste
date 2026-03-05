@@ -38,6 +38,7 @@ export function Home() {
       <HowItWorksSteps />
 
       <Section
+        center
         id="clients"
         eyebrow="Clientes em operação"
         title="Parceiros que valorizam cada xícara"

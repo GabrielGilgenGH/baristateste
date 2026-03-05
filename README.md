@@ -70,3 +70,7 @@ npm run visual:snap
 ```
 
 This generates baseline screenshots for `/`, `/maquinas`, and `/produtos` in `scripts/visual-baseline/output/`.
+
+### Front Ops Docs
+
+- Workflow guide: [`docs/front-ops-workflow.md`](docs/front-ops-workflow.md)

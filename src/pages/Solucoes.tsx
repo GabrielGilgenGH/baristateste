@@ -23,6 +23,7 @@ const solutions: { title: string; description: string; icon: LucideIcon }[] = [
 export function Solucoes() {
   return (
     <Section
+      center
       eyebrow="Operação B2B"
       title="Soluções modulares para cada etapa"
       description="Trabalhamos com estruturas independentes ao ERP, mas alinhadas com a área administrativa para garantir governança e previsibilidade."

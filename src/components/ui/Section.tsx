@@ -21,7 +21,7 @@ export function Section({
   className = '',
 }: SectionProps) {
   return (
-    <section id={id} className={`mx-auto flex w-full max-w-6xl flex-col gap-6 ${className}`.trim()}>
+    <section id={id} className={`mx-auto flex w-full max-w-7xl flex-col gap-6 ${className}`.trim()}>
       {title && (
         <Reveal delay={80}>
           <header className={`space-y-3 ${center ? 'text-center' : ''}`}>
@@ -34,7 +34,9 @@ export function Section({
               {title}
             </h2>
             {description && (
-              <p className="max-w-3xl text-base leading-relaxed text-brand-charcoal/95">{description}</p>
+              <p className={`max-w-3xl text-base leading-relaxed text-brand-charcoal/95 ${center ? 'mx-auto' : ''}`}>
+                {description}
+              </p>
             )}
           </header>
         </Reveal>
