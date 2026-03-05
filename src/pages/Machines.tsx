@@ -1,4 +1,5 @@
 import { CheckCircle2, Coffee, PackageCheck, Wrench, type LucideIcon } from 'lucide-react'
+import { HeroMaquinas } from '../components/machines/HeroMaquinas'
 import { MachineCard } from '../components/machines/MachineCard'
 import { Reveal } from '../components/ui/Reveal'
 import { Card } from '../components/ui/Card'
@@ -66,34 +67,7 @@ export function Maquinas() {
     <div className="space-y-16 pb-36 md:pb-0">
       <Section className="space-y-8">
         <Reveal>
-          <Card className="space-y-6 border-brand-warmGray/35 bg-brand-surface/92 p-6 md:p-8">
-            <p className="text-xs uppercase tracking-[0.35em] text-brand-charcoal/75">Catálogo corporativo</p>
-            <h1 className="max-w-[28ch] text-balance text-[clamp(2rem,2.5vw+1.1rem,3.35rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-brand-espresso sm:max-w-[34ch] sm:leading-[1.08] lg:max-w-[42ch]">
-              <span className="box-decoration-clone rounded-md bg-brand-surfaceSoft/35 px-1.5 py-0.5">
-                Máquinas para empresas — café{"\u00A0"}premium sem dor de cabeça
-              </span>
-            </h1>
-            <p className="max-w-4xl text-base leading-relaxed text-brand-charcoal/92">
-              Planejamos a operação completa de café para sua empresa com reposição contínua e manutenção dedicada,
-              sem ocupar o tempo do seu time interno.
-            </p>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-charcoal/72">
-              16 anos • Joinville/SC • Atendemos empresas médias e grandes
-            </p>
-            <p className="text-xs text-brand-charcoal/75">
-              Modelos ilustrativos. Especificações e valores sob consulta.
-            </p>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
-                href={proposalLink}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-full border border-[#25D366]/55 bg-[#25D366]/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-[#79f2a8] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-[#25D366]/18 hover:text-[#9bf8be] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#79f2a8] focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
-              >
-                Solicitar proposta no WhatsApp
-              </a>
-            </div>
-          </Card>
+          <HeroMaquinas proposalLink={proposalLink} />
         </Reveal>
 
         <ul role="grid" className="grid grid-cols-1 gap-8 md:grid-cols-2">
