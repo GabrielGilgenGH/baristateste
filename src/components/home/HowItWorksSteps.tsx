@@ -1,9 +1,7 @@
 import { Coffee, PackageCheck, Wrench } from 'lucide-react'
-import { useLocation, useNavigate } from 'react-router-dom'
 import { Reveal } from '../ui/Reveal'
 import { InteractiveCard } from '../ui/InteractiveCard'
 import { Section } from '../ui/Section'
-import { Button } from '../ui/Button'
 
 const steps = [
   {
@@ -24,19 +22,6 @@ const steps = [
 ]
 
 export function HowItWorksSteps() {
-  const navigate = useNavigate()
-  const location = useLocation()
-
-  const scrollToForm = () => {
-    if (location.pathname === '/') {
-      const element = document.getElementById('lead-form')
-      element?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      return
-    }
-
-    navigate('/', { state: { scrollToLead: true } })
-  }
-
   return (
     <Section
         center
@@ -61,17 +46,6 @@ export function HowItWorksSteps() {
           </Reveal>
         ))}
       </div>
-
-      <Reveal delay={280}>
-        <div className="flex flex-col items-start gap-4 rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/70 p-5 md:flex-row md:items-center md:justify-between">
-          <p className="text-sm font-semibold text-brand-charcoal/95">
-            Sua equipe ganha previsibilidade e nós assumimos a rotina operacional do café.
-          </p>
-          <Button variant="secondary" onClick={scrollToForm}>
-            Solicitar orçamento
-          </Button>
-        </div>
-      </Reveal>
     </Section>
   )
 }

@@ -45,7 +45,7 @@ export function Maquinas() {
             <HeroMaquinas proposalLink={proposalLink} />
           </Reveal>
 
-          <ul role="grid" className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <ul role="grid" className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12 xl:grid-cols-3 xl:gap-10">
             {MACHINES.map((machine, index) => (
               <MachineCard key={machine.id} machine={machine} index={index} />
             ))}
@@ -61,7 +61,7 @@ export function Maquinas() {
             {operationSteps.map((step, index) => (
               <Reveal key={step.title} delay={index * 90}>
                 <Card className="relative h-full border-brand-warmGray/35 bg-brand-surface/92 p-5 md:p-6">
-                  <span className="absolute right-5 top-4 text-[0.6rem] font-semibold uppercase tracking-[0.38em] text-brand-charcoal/45">
+                  <span className="absolute right-5 top-4 text-[0.6rem] font-semibold uppercase tracking-[0.38em] text-brand-charcoal/75">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <div className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-brand-warmGray/35 bg-brand-surfaceSoft/75 text-brand-copper">

@@ -1,6 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { useScrollY } from '../hooks/useScrollY'
 import { Button } from './ui/Button'
 import { WhatsAppFloatingButton } from './WhatsAppFloatingButton'
 
@@ -20,7 +19,8 @@ export function Layout({ children }: LayoutProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const [pageEntered, setPageEntered] = useState(false)
-  const { isScrolled } = useScrollY({ threshold: 8 })
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
   useEffect(() => {
     let enterRafId: number | null = null
     const resetRafId = window.requestAnimationFrame(() => {
@@ -32,6 +32,10 @@ export function Layout({ children }: LayoutProps) {
       window.cancelAnimationFrame(resetRafId)
       if (enterRafId) window.cancelAnimationFrame(enterRafId)
     }
+  }, [location.pathname])
+
+  useEffect(() => {
+    setMobileMenuOpen(false)
   }, [location.pathname])
 
   const scrollToForm = () => {
@@ -50,58 +54,82 @@ export function Layout({ children }: LayoutProps) {
         <div className="relative">
           <header className="sticky top-0 z-50 bg-transparent">
             <div className="mx-auto max-w-7xl px-4 pt-3 sm:px-6">
-              <div
-                className={`flex h-[4.35rem] flex-wrap items-center justify-between gap-4 rounded-2xl border border-brand-warmGray/35 px-4 backdrop-blur-md backdrop-saturate-150 ring-1 ring-inset ring-brand-warmGray/20 transition-all duration-200 ease-out sm:px-6 ${
-                  isScrolled
-                    ? 'bg-brand-surface/95 shadow-[0_14px_30px_rgba(11,5,4,0.28)]'
-                    : 'bg-brand-surface/90 shadow-[0_10px_24px_rgba(11,5,4,0.22)]'
-                }`}
-              >
-                <Link
-                  to="/"
-                  className="rounded-sm text-lg font-semibold uppercase tracking-[0.25em] text-brand-espresso transition-colors duration-200 ease-out hover:text-brand-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-surface"
-                >
-                  Dr Barista
-                </Link>
-                <nav className="hidden flex-wrap gap-6 text-xs font-semibold uppercase tracking-[0.3em] text-brand-charcoal/80 md:flex">
-                  {navItems.map((item) => (
-                    <NavLink
-                      key={item.path}
-                      to={item.path}
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'relative rounded-sm text-brand-espresso after:absolute after:-bottom-2 after:left-0 after:h-[1.5px] after:w-full after:rounded-full after:bg-brand-copper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-surface'
-                          : 'relative rounded-sm text-brand-charcoal/82 transition-all duration-200 ease-out hover:text-brand-espresso after:absolute after:-bottom-2 after:left-0 after:h-[1.5px] after:w-0 after:rounded-full after:bg-brand-copper/90 after:transition-all after:duration-200 hover:after:w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-surface'
-                      }
+              <div className="rounded-2xl border border-brand-warmGray/28 bg-brand-cream/95 shadow-[0_14px_30px_rgba(36,22,17,0.16)] backdrop-blur-md backdrop-saturate-150 ring-1 ring-inset ring-brand-warmGray/15 transition-all duration-200 ease-out">
+                <div className="flex min-h-[4.35rem] flex-wrap items-center justify-between gap-3 px-4 sm:px-6">
+                  <Link
+                    to="/"
+                    className="rounded-sm text-lg font-semibold uppercase tracking-[0.25em] text-brand-warmGray transition-colors duration-200 ease-out hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream"
+                  >
+                    Dr Barista
+                  </Link>
+                  <nav className="hidden flex-wrap gap-6 text-xs font-semibold uppercase tracking-[0.3em] text-brand-warmGray/80 md:flex">
+                    {navItems.map((item) => (
+                      <NavLink
+                        key={item.path}
+                        to={item.path}
+                        className={({ isActive }) =>
+                          isActive
+                            ? 'relative rounded-sm text-brand-warmGray after:absolute after:-bottom-2 after:left-0 after:h-[1.5px] after:w-full after:rounded-full after:bg-brand-copper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream'
+                            : 'relative rounded-sm text-brand-warmGray/85 transition-all duration-200 ease-out hover:text-brand-ink after:absolute after:-bottom-2 after:left-0 after:h-[1.5px] after:w-0 after:rounded-full after:bg-brand-copper/90 after:transition-all after:duration-200 hover:after:w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream'
+                        }
+                      >
+                        {item.label}
+                      </NavLink>
+                    ))}
+                  </nav>
+                  <div className="flex flex-1 items-center justify-end gap-3 md:flex-none">
+                    <a
+                      href="https://wa.me/5547991072458"
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="Abrir WhatsApp da Dr Barista"
+                      className="hidden rounded-full border border-brand-warmGray/40 bg-brand-cream/62 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.26em] text-brand-warmGray transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-copper/70 hover:bg-brand-copper/12 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/70 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream md:inline-flex"
                     >
-                      {item.label}
-                    </NavLink>
-                  ))}
-                </nav>
-                <div className="flex flex-1 items-center justify-end gap-3 md:flex-none">
-                  <a
-                    href="https://wa.me/5547991072458"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Abrir WhatsApp da Dr Barista"
-                    className="hidden rounded-full border border-emerald-400/45 bg-emerald-500/[0.1] px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.26em] text-emerald-100 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-emerald-300/55 hover:bg-emerald-500/[0.16] hover:text-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-surface md:inline-flex"
-                  >
-                    WhatsApp
-                  </a>
-                  <Button
-                    variant="primary"
-                    onClick={scrollToForm}
-                    className="border border-brand-copperHover/55 px-5 py-2.5 text-[0.68rem] tracking-[0.24em] shadow-[0_10px_24px_rgba(181,139,51,0.28)] focus-visible:ring-offset-brand-surface"
-                  >
-                    Solicitar orçamento
-                  </Button>
-                  <NavLink
-                    to="/solucoes"
-                    className="rounded-sm text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-brand-charcoal/82 transition-colors duration-200 ease-out hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-surface md:hidden"
-                  >
-                    Soluções
-                  </NavLink>
+                      WhatsApp
+                    </a>
+                    <Button
+                      variant="primary"
+                      onClick={scrollToForm}
+                      className="border border-brand-copperHover/55 px-4 py-2.5 text-[0.62rem] tracking-[0.2em] shadow-[0_10px_24px_rgba(181,139,51,0.28)] focus-visible:ring-offset-brand-cream sm:px-5 sm:text-[0.68rem]"
+                    >
+                      Solicitar orçamento
+                    </Button>
+                    <button
+                      type="button"
+                      onClick={() => setMobileMenuOpen((current) => !current)}
+                      aria-expanded={mobileMenuOpen}
+                      aria-controls="mobile-site-nav"
+                      className="inline-flex min-h-10 items-center justify-center rounded-full border border-brand-warmGray/40 bg-brand-cream/62 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.26em] text-brand-warmGray transition-all duration-200 ease-out hover:border-brand-copper/70 hover:bg-brand-copper/12 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/70 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream md:hidden"
+                    >
+                      {mobileMenuOpen ? 'Fechar' : 'Menu'}
+                    </button>
+                  </div>
                 </div>
+
+                {mobileMenuOpen ? (
+                  <nav
+                    id="mobile-site-nav"
+                    className="border-t border-brand-warmGray/20 px-4 py-4 md:hidden"
+                  >
+                    <div className="grid gap-2">
+                      {navItems.map((item) => (
+                        <NavLink
+                          key={item.path}
+                          to={item.path}
+                          className={({ isActive }) =>
+                            `rounded-xl border px-4 py-3 text-center text-[0.72rem] font-semibold uppercase tracking-[0.28em] transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream ${
+                              isActive
+                                ? 'border-brand-copper/55 bg-brand-copper/10 text-brand-ink'
+                                : 'border-brand-warmGray/28 bg-brand-cream/45 text-brand-warmGray hover:border-brand-copper/50 hover:bg-brand-copper/10 hover:text-brand-ink'
+                            }`
+                          }
+                        >
+                          {item.label}
+                        </NavLink>
+                      ))}
+                    </div>
+                  </nav>
+                ) : null}
               </div>
             </div>
           </header>

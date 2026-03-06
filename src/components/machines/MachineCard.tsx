@@ -40,7 +40,7 @@ export function MachineCard({ machine, index, compact = false }: MachineCardProp
         <InteractiveCard
           as="article"
           className={`relative flex h-full cursor-pointer flex-col border-brand-warmGray/30 bg-brand-surface/90 shadow-[0_18px_38px_rgba(11,5,4,0.26)] ${
-            compact ? 'p-4' : 'p-5'
+            compact ? 'p-4' : 'min-h-[35rem] p-6 xl:min-h-[37rem]'
           }`}
         >
           <Link
@@ -56,7 +56,7 @@ export function MachineCard({ machine, index, compact = false }: MachineCardProp
               alt={`Imagem da ${displayName}`}
               variant="machine"
               aspect="landscape"
-              className={compact ? 'h-56 sm:h-64 md:h-72' : 'h-72 sm:h-80 md:h-[23rem] lg:h-[25rem]'}
+              className={compact ? 'h-56 sm:h-64 md:h-72' : 'h-80 sm:h-[22rem] md:h-[25rem] lg:h-[26.5rem] xl:h-[22rem]'}
               onError={() => {
                 if (imageSrc !== machinePlaceholderImage) {
                   setImageSrc(machinePlaceholderImage)
@@ -68,33 +68,33 @@ export function MachineCard({ machine, index, compact = false }: MachineCardProp
             />
           ) : (
             <div
-              className={`relative flex items-center justify-center overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/45 text-center text-xs text-brand-charcoal/70 ring-1 ring-inset ring-brand-warmGray/20 ${
-                compact ? 'h-56 sm:h-64 md:h-72' : 'h-72 sm:h-80 md:h-[23rem] lg:h-[25rem]'
+              className={`relative flex items-center justify-center overflow-hidden rounded-2xl border border-brand-warmGray/35 bg-brand-surfaceSoft/45 text-center text-xs text-brand-charcoal/75 ring-1 ring-inset ring-brand-warmGray/20 ${
+                compact ? 'h-56 sm:h-64 md:h-72' : 'h-80 sm:h-[22rem] md:h-[25rem] lg:h-[26.5rem] xl:h-[22rem]'
               }`}
             >
               Imagem indisponível
             </div>
           )}
 
-          <div className="mt-4 flex flex-1 flex-col gap-4">
+          <div className="mt-5 flex flex-1 flex-col gap-5">
             <div>
-              <h3 className={`${compact ? 'text-lg' : 'text-xl'} text-center font-semibold text-brand-espresso`}>
+              <h3 className={`${compact ? 'text-lg' : 'text-[1.75rem]'} text-center font-semibold text-brand-espresso`}>
                 {displayName}
               </h3>
             </div>
 
-            <p className="inline-flex self-center text-center items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.25em] text-brand-charcoal/78">
+            <p className="inline-flex self-center text-center items-center gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.25em] text-brand-charcoal/80">
               <span>Ver detalhes</span>
               <span aria-hidden="true">→</span>
             </p>
           </div>
 
           {!compact ? (
-            <div className="relative z-20 mt-5 flex justify-center">
+            <div className="relative z-20 mt-6 flex justify-center">
               <button
                 type="button"
                 onClick={openWhatsAppQuote}
-                className="inline-flex items-center justify-center rounded-full border border-brand-warmGray/50 bg-brand-surfaceSoft/35 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-brand-charcoal transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-copper/75 hover:bg-brand-copper/12 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/85 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+                className="inline-flex min-w-[18rem] items-center justify-center rounded-full border border-brand-warmGray/50 bg-brand-surfaceSoft/35 px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-brand-charcoal transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-copper/75 hover:bg-brand-copper/12 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/85 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
               >
                 SOLICITAR ORÇAMENTO
               </button>

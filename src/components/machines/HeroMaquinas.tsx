@@ -57,7 +57,7 @@ export function HeroMaquinas({ proposalLink }: HeroMaquinasProps) {
               Descobrimos juntos a máquina certa para a sua operação
             </h1>
 
-            <p className="mx-auto mt-4 w-full max-w-[46rem] text-sm font-normal leading-relaxed text-brand-charcoal/88 sm:text-base">
+            <p className="mx-auto mt-4 w-full max-w-[46rem] text-sm font-normal leading-relaxed text-brand-charcoal/90 sm:text-base">
               <span className="block lg:whitespace-nowrap">Cada empresa tem volumes, espaços e expectativas diferentes.</span>
               <span className="block lg:whitespace-nowrap">
                 Por isso analisamos sua operação e indicamos a máquina ideal para o seu negócio.
@@ -103,7 +103,7 @@ export function HeroMaquinas({ proposalLink }: HeroMaquinasProps) {
                     <p className="text-[15px] font-semibold uppercase tracking-[0.16em] text-brand-copper">
                       {step.label}
                     </p>
-                    <p className="max-w-[31ch] text-[16px] leading-relaxed text-brand-charcoal/78">{step.body}</p>
+                    <p className="max-w-[31ch] text-[16px] leading-relaxed text-brand-charcoal/90">{step.body}</p>
                   </div>
                 </article>
               ))}

@@ -49,7 +49,7 @@ export function Produtos() {
           <div className="space-y-4">
             <Reveal>
               <div className="flex flex-wrap items-end justify-between gap-2">
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-charcoal/65">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-charcoal/75">
                   {allProducts.length} itens
                 </p>
               </div>

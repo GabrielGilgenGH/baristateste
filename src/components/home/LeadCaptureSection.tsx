@@ -7,16 +7,7 @@ import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { Input } from '../ui/Input'
 import { Section } from '../ui/Section'
-import { Select } from '../ui/Select'
 import { Textarea } from '../ui/Textarea'
-
-const teamRanges = [
-  '1-10 colaboradores',
-  '11-30 colaboradores',
-  '31-80 colaboradores',
-  '81-200 colaboradores',
-  'mais de 200 colaboradores',
-]
 
 const LEAD_RATE_LIMIT_MS = 30_000
 const LEAD_RATE_LIMIT_KEY = 'drbarista:lead:last-submit-at'
@@ -36,7 +27,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
     email: '',
     whatsapp: '',
     city: '',
-    teamSize: teamRanges[0],
+    teamSize: 'Não informado',
     message: '',
     company_website: '',
   })
@@ -79,7 +70,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
         email: '',
         whatsapp: '',
         city: '',
-        teamSize: teamRanges[0],
+        teamSize: 'Não informado',
         message: '',
         company_website: '',
       })
@@ -97,7 +88,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
         email: '',
         whatsapp: '',
         city: '',
-        teamSize: teamRanges[0],
+        teamSize: 'Não informado',
         message: '',
         company_website: '',
       })
@@ -124,7 +115,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
       }`}
     >
       {compact ? (
-        <div className="space-y-2">
+        <div className="space-y-2 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-brand-charcoal/75">Solicite um orçamento</p>
           <h2 className="text-2xl font-semibold text-brand-espresso">Fale com nosso time</h2>
           <p className="text-sm text-brand-charcoal/90">
@@ -134,7 +125,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
       ) : null}
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="grid gap-3 md:grid-cols-2">
-          <label className="flex flex-col gap-2 text-sm font-semibold text-brand-charcoal">
+          <label className="flex flex-col items-center gap-2 text-center text-sm font-semibold text-brand-charcoal">
             Nome completo
             <Input
               required
@@ -143,7 +134,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
               placeholder="Ana Silva"
             />
           </label>
-          <label className="flex flex-col gap-2 text-sm font-semibold text-brand-charcoal">
+          <label className="flex flex-col items-center gap-2 text-center text-sm font-semibold text-brand-charcoal">
             Empresa
             <Input
               required
@@ -154,7 +145,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
           </label>
         </div>
         <div className="grid gap-3 md:grid-cols-2">
-          <label className="flex flex-col gap-2 text-sm font-semibold text-brand-charcoal">
+          <label className="flex flex-col items-center gap-2 text-center text-sm font-semibold text-brand-charcoal">
             Email
             <Input
               required
@@ -164,7 +155,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
               placeholder="nome@empresa.com"
             />
           </label>
-          <label className="flex flex-col gap-2 text-sm font-semibold text-brand-charcoal">
+          <label className="flex flex-col items-center gap-2 text-center text-sm font-semibold text-brand-charcoal">
             WhatsApp
             <Input
               required
@@ -174,8 +165,8 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
             />
           </label>
         </div>
-        <div className="grid gap-3 md:grid-cols-2">
-          <label className="flex flex-col gap-2 text-sm font-semibold text-brand-charcoal">
+        <div className="grid gap-3">
+          <label className="flex flex-col items-center gap-2 text-center text-sm font-semibold text-brand-charcoal">
             Cidade
             <Input
               required
@@ -184,18 +175,8 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
               placeholder="São Paulo"
             />
           </label>
-          <label className="flex flex-col gap-2 text-sm font-semibold text-brand-charcoal">
-            Faixa de colaboradores
-            <Select value={formData.teamSize} onChange={(event) => handleChange('teamSize', event.target.value)}>
-              {teamRanges.map((range) => (
-                <option key={range} value={range}>
-                  {range}
-                </option>
-              ))}
-            </Select>
-          </label>
         </div>
-        <label className="flex flex-col gap-2 text-sm font-semibold text-brand-charcoal">
+        <label className="flex flex-col items-center gap-2 text-center text-sm font-semibold text-brand-charcoal">
           Mensagem
           <Textarea
             required

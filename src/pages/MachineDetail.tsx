@@ -41,7 +41,7 @@ export function MachineDetail() {
           <Card className="space-y-4 border-brand-warmGray/35 bg-brand-surface/92 p-6 md:p-8">
             <Link
               to="/maquinas"
-              className="inline-flex items-center text-sm font-semibold text-brand-charcoal/85 transition-colors duration-200 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+              className="inline-flex items-center text-sm font-semibold text-brand-charcoal/90 transition-colors duration-200 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
             >
               ← Voltar para Máquinas
             </Link>
@@ -62,7 +62,7 @@ export function MachineDetail() {
           <Card className="space-y-5 border-brand-warmGray/35 bg-brand-surface/92 p-6 md:p-8">
             <Link
               to="/maquinas"
-              className="inline-flex items-center text-sm font-semibold text-brand-charcoal/85 transition-colors duration-200 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
+              className="inline-flex items-center text-sm font-semibold text-brand-charcoal/90 transition-colors duration-200 hover:text-brand-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/90 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-base"
             >
               ← Voltar para Máquinas
             </Link>

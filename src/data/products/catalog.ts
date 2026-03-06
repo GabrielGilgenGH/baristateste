@@ -30,7 +30,7 @@ export const PRODUCTS: Product[] = [
     slug: 'leite-em-po-integral-camponesa-400g',
     displayName: 'Leite em Pó Integral Camponesa 400g',
     category: 'Cafés',
-    imageKey: 'leite-em-po-integral-camponesa-400g.webp',
+    imageKey: 'leite-em-po-integral-camponesa-400g.png',
   },
   {
     id: 'acucar-sache-caravelas-5g',
@@ -44,7 +44,7 @@ export const PRODUCTS: Product[] = [
     slug: 'acucar-cristal-colombo-1kg',
     displayName: 'Açúcar Cristal Colombo 1KG',
     category: 'Açúcares',
-    imageKey: 'acucar-cristal-colombo-1kg.webp',
+    imageKey: 'acucar-cristal-colombo-1kg.png',
   },
   {
     id: 'cha-mate',
@@ -65,7 +65,7 @@ export const PRODUCTS: Product[] = [
     slug: 'palheta-mini-reme-plastfood-500-unid',
     displayName: 'Palheta Mini Plastfood 500 unid',
     category: 'Copos & Acessórios',
-    imageKey: 'palheta-mini-reme-plastfood-500-unid.webp',
+    imageKey: 'palheta-mini-reme-plastfood-500-unid.png',
   },
 ]
 
