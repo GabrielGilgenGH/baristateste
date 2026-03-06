@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { MobileMenuOverlay } from './MobileMenuOverlay'
 import { Button } from './ui/Button'
 import { WhatsAppFloatingButton } from './WhatsAppFloatingButton'
 
@@ -48,11 +49,21 @@ export function Layout({ children }: LayoutProps) {
     navigate('/', { state: { scrollToLead: true } })
   }
 
+  const openMobileMenu = () => setMobileMenuOpen(true)
+  const closeMobileMenu = () => setMobileMenuOpen(false)
+
+  const handleMobileQuote = () => {
+    closeMobileMenu()
+    window.setTimeout(() => {
+      scrollToForm()
+    }, 0)
+  }
+
   return (
     <div className="min-h-screen bg-brand-base text-brand-charcoal">
       <div className="relative">
         <div className="relative">
-          <header className="sticky top-0 z-50 bg-transparent">
+          <header className="fixed inset-x-0 top-0 z-50 bg-transparent">
             <div className="mx-auto max-w-7xl px-4 pt-3 sm:px-6">
               <div className="rounded-2xl border border-brand-warmGray/28 bg-brand-cream/95 shadow-[0_14px_30px_rgba(36,22,17,0.16)] backdrop-blur-md backdrop-saturate-150 ring-1 ring-inset ring-brand-warmGray/15 transition-all duration-200 ease-out">
                 <div className="flex min-h-[4.35rem] flex-wrap items-center justify-between gap-3 px-4 sm:px-6">
@@ -96,44 +107,22 @@ export function Layout({ children }: LayoutProps) {
                     </Button>
                     <button
                       type="button"
-                      onClick={() => setMobileMenuOpen((current) => !current)}
+                      onClick={openMobileMenu}
                       aria-expanded={mobileMenuOpen}
                       aria-controls="mobile-site-nav"
                       className="inline-flex min-h-10 items-center justify-center rounded-full border border-brand-warmGray/40 bg-brand-cream/62 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.26em] text-brand-warmGray transition-all duration-200 ease-out hover:border-brand-copper/70 hover:bg-brand-copper/12 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/70 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream md:hidden"
                     >
-                      {mobileMenuOpen ? 'Fechar' : 'Menu'}
+                      Menu
                     </button>
                   </div>
                 </div>
-
-                {mobileMenuOpen ? (
-                  <nav
-                    id="mobile-site-nav"
-                    className="border-t border-brand-warmGray/20 px-4 py-4 md:hidden"
-                  >
-                    <div className="grid gap-2">
-                      {navItems.map((item) => (
-                        <NavLink
-                          key={item.path}
-                          to={item.path}
-                          className={({ isActive }) =>
-                            `rounded-xl border px-4 py-3 text-center text-[0.72rem] font-semibold uppercase tracking-[0.28em] transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream ${
-                              isActive
-                                ? 'border-brand-copper/55 bg-brand-copper/10 text-brand-ink'
-                                : 'border-brand-warmGray/28 bg-brand-cream/45 text-brand-warmGray hover:border-brand-copper/50 hover:bg-brand-copper/10 hover:text-brand-ink'
-                            }`
-                          }
-                        >
-                          {item.label}
-                        </NavLink>
-                      ))}
-                    </div>
-                  </nav>
-                ) : null}
               </div>
             </div>
           </header>
-          <main className="page-shell mx-auto w-full max-w-7xl px-6 py-10 sm:py-14">
+          {mobileMenuOpen ? (
+            <MobileMenuOverlay navItems={navItems} onClose={closeMobileMenu} onRequestQuote={handleMobileQuote} />
+          ) : null}
+          <main className="page-shell mx-auto w-full max-w-7xl px-6 pb-10 pt-[6.4rem] sm:pb-14 sm:pt-[6.9rem]">
             <div key={location.pathname} className={`page-enter ${pageEntered ? 'page-enter-active' : ''}`}>
               {children}
             </div>
