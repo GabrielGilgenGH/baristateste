@@ -64,12 +64,12 @@ export function Layout({ children }: LayoutProps) {
       <div className="relative">
         <div className="relative">
           <header className="fixed inset-x-0 top-0 z-50 bg-transparent">
-            <div className="mx-auto max-w-7xl px-4 pt-3 sm:px-6">
-              <div className="rounded-2xl border border-brand-warmGray/28 bg-brand-cream/95 shadow-[0_14px_30px_rgba(36,22,17,0.16)] backdrop-blur-md backdrop-saturate-150 ring-1 ring-inset ring-brand-warmGray/15 transition-all duration-200 ease-out">
-                <div className="flex min-h-[4.35rem] flex-wrap items-center justify-between gap-3 px-4 sm:px-6">
+            <div className="mx-auto max-w-6xl px-4 pt-3">
+              <div className="h-16 rounded-2xl border border-[#c9b8a6] bg-[#E9DCCF] shadow-md transition-all duration-200 ease-out">
+                <div className="flex h-full items-center justify-between gap-3 px-4">
                   <Link
                     to="/"
-                    className="rounded-sm text-lg font-semibold uppercase tracking-[0.25em] text-brand-warmGray transition-colors duration-200 ease-out hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream"
+                    className="rounded-sm text-sm font-medium uppercase tracking-[0.25em] text-[#4a3426] transition-colors duration-200 ease-out hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/95 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream"
                   >
                     Dr Barista
                   </Link>
@@ -101,7 +101,7 @@ export function Layout({ children }: LayoutProps) {
                     <Button
                       variant="primary"
                       onClick={scrollToForm}
-                      className="border border-brand-copperHover/55 px-4 py-2.5 text-[0.62rem] tracking-[0.2em] shadow-[0_10px_24px_rgba(181,139,51,0.28)] focus-visible:ring-offset-brand-cream sm:px-5 sm:text-[0.68rem]"
+                      className="h-10 w-auto rounded-full border-0 bg-[#D9A441] px-5 py-0 text-sm font-semibold tracking-wide text-black shadow-sm hover:translate-y-0 hover:bg-[#D9A441] hover:shadow-sm active:translate-y-0 active:shadow-sm focus-visible:ring-offset-brand-cream"
                     >
                       Solicitar orçamento
                     </Button>
@@ -110,7 +110,7 @@ export function Layout({ children }: LayoutProps) {
                       onClick={openMobileMenu}
                       aria-expanded={mobileMenuOpen}
                       aria-controls="mobile-site-nav"
-                      className="inline-flex min-h-10 items-center justify-center rounded-full border border-brand-warmGray/40 bg-brand-cream/62 px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.26em] text-brand-warmGray transition-all duration-200 ease-out hover:border-brand-copper/70 hover:bg-brand-copper/12 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/70 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream md:hidden"
+                      className="inline-flex h-10 items-center justify-center rounded-full border border-[#b9a48f] bg-transparent px-4 py-0 text-xs font-semibold uppercase tracking-[0.25em] text-[#4a3426] transition-all duration-200 ease-out hover:border-brand-copper/70 hover:bg-brand-copper/12 hover:text-brand-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper/70 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream md:hidden"
                     >
                       Menu
                     </button>
@@ -122,7 +122,7 @@ export function Layout({ children }: LayoutProps) {
           {mobileMenuOpen ? (
             <MobileMenuOverlay navItems={navItems} onClose={closeMobileMenu} onRequestQuote={handleMobileQuote} />
           ) : null}
-          <main className="page-shell mx-auto w-full max-w-7xl px-6 pb-10 pt-[6.4rem] sm:pb-14 sm:pt-[6.9rem]">
+          <main className="page-shell mx-auto w-full max-w-7xl px-6 pb-10 pt-[5.25rem] sm:pb-14 sm:pt-[5.75rem]">
             <div key={location.pathname} className={`page-enter ${pageEntered ? 'page-enter-active' : ''}`}>
               {children}
             </div>
