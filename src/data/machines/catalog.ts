@@ -18,10 +18,10 @@ export const MACHINES: Machine[] = [
   {
     id: 'maquina-1',
     slug: 'maquina-1',
-    displayName: 'Cino XS Solúvel',
+    displayName: 'Lioness XS Solúvel',
     segment: 'Escritórios',
     commercialDescription:
-      'A Cino XS Solúvel entrega bebidas consistentes com operação simples e reposição otimizada. É uma solução prática para empresas que buscam padronização de qualidade e bom desempenho no dia a dia.',
+      'A Lioness XS Solúvel entrega bebidas consistentes com operação simples e reposição otimizada. É uma solução prática para empresas que buscam padronização de qualidade e bom desempenho no dia a dia.',
     highlights: ['Preparo rápido e estável', 'Operação intuitiva', 'Manutenção simplificada'],
     keyFeatures: [
       'Sistema solúvel com preparo limpo e baixa intervenção',
@@ -35,10 +35,10 @@ export const MACHINES: Machine[] = [
   {
     id: 'maquina-2',
     slug: 'maquina-2',
-    displayName: 'Lioness XS Solúvel',
+    displayName: 'Cino XS Grande Solúvel',
     segment: 'Empresas médias',
     commercialDescription:
-      'A Lioness XS Solúvel foi desenhada para operações com maior demanda, mantendo velocidade e padrão de entrega. É uma escolha eficiente para empresas que querem escalar consumo sem perder consistência.',
+      'A Cino XS Grande Solúvel foi desenhada para operações com maior demanda, mantendo velocidade e padrão de entrega. É uma escolha eficiente para empresas que querem escalar consumo sem perder consistência.',
     highlights: ['Maior capacidade operacional', 'Alto ritmo de preparo', 'Padrão consistente'],
     keyFeatures: [
       'Capacidade superior para fluxo corporativo intenso',
@@ -69,10 +69,10 @@ export const MACHINES: Machine[] = [
   {
     id: 'maquina-4',
     slug: 'maquina-4',
-    displayName: 'Lioness Grão',
+    displayName: 'Insta 6300 Solúvel',
     segment: 'Empresas premium',
     commercialDescription:
-      'A Lioness Grão oferece experiência de café em grãos com perfil sensorial superior e padrão premium. É indicada para empresas que valorizam qualidade percebida e imagem institucional.',
+      'A Insta 6300 Solúvel oferece experiência de café em grãos com perfil sensorial superior e padrão premium. É indicada para empresas que valorizam qualidade percebida e imagem institucional.',
     highlights: ['Café em grãos', 'Perfil premium', 'Alta capacidade'],
     keyFeatures: [
       'Extração com grãos para melhor aroma e frescor',
@@ -86,10 +86,10 @@ export const MACHINES: Machine[] = [
   {
     id: 'maquina-5',
     slug: 'maquina-5',
-    displayName: 'Saeco Office Line',
+    displayName: 'Saeco Lirika - Grãos',
     segment: 'Escritórios',
     commercialDescription:
-      'A Saeco Office Line é uma opção robusta para rotina corporativa, equilibrando qualidade da bebida, confiabilidade e praticidade operacional. Excelente para ambientes de escritório com uso recorrente.',
+      'A Saeco Lirika - Grãos é uma opção robusta para rotina corporativa, equilibrando qualidade da bebida, confiabilidade e praticidade operacional. Excelente para ambientes de escritório com uso recorrente.',
     highlights: ['Operação robusta', 'Boa capacidade', 'Padronização da bebida'],
     keyFeatures: [
       'Configuração voltada para uso corporativo contínuo',
@@ -103,10 +103,10 @@ export const MACHINES: Machine[] = [
   {
     id: 'maquina-6',
     slug: 'maquina-6',
-    displayName: 'Gaggia Syncrony Logic',
+    displayName: 'Gaggia Syncrony Logic Grãos',
     segment: 'Empresas exigentes',
     commercialDescription:
-      'A Gaggia Syncrony Logic entrega desempenho confiável com padrão elevado de bebida para ambientes corporativos exigentes. Combina operação estável com experiência superior para colaboradores e visitantes.',
+      'A Gaggia Syncrony Logic Grãos entrega desempenho confiável com padrão elevado de bebida para ambientes corporativos exigentes. Combina operação estável com experiência superior para colaboradores e visitantes.',
     highlights: ['Qualidade premium', 'Operação confiável', 'Boa capacidade diária'],
     keyFeatures: [
       'Sistema em grãos com foco em qualidade de extração',
