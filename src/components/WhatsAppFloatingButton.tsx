@@ -23,11 +23,8 @@ type WhatsAppLeadForm = {
   whatsapp: string
 }
 
-async function trackWhatsAppClick(payload: WhatsAppClickPayload) {
-  if (import.meta.env.DEV) {
-    console.info('[whatsapp] click', payload)
-    return
-  }
+function trackWhatsAppClick(payload: WhatsAppClickPayload) {
+  if (import.meta.env.DEV) return
 
   window.dispatchEvent(
     new CustomEvent('drbarista:analytics', {
@@ -51,8 +48,7 @@ function buildWhatsAppLink(lead: WhatsAppLeadForm) {
 export function WhatsAppFloatingButton() {
   const [visible, setVisible] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading'>('idle')
   const [formData, setFormData] = useState<WhatsAppLeadForm>({
     name: '',
     company: '',
@@ -87,7 +83,6 @@ export function WhatsAppFloatingButton() {
   } as CSSProperties
 
   const handleOpenModal = () => {
-    setErrorMessage('')
     setStatus('idle')
     setIsModalOpen(true)
   }
@@ -120,7 +115,6 @@ export function WhatsAppFloatingButton() {
   const handleSubmitLead = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setStatus('loading')
-    setErrorMessage('')
 
     try {
       await submitLead({
@@ -132,8 +126,8 @@ export function WhatsAppFloatingButton() {
         teamSize: 'não informado',
         message: 'Lead capturado via popup do botão de WhatsApp.',
       })
-    } catch (error) {
-      console.error(error)
+    } catch {
+      // Preserve current UX: even if lead capture fails, continue the WhatsApp handoff.
     }
 
     openWhatsAppConversation(formData)
@@ -248,12 +242,6 @@ export function WhatsAppFloatingButton() {
                   />
                 </label>
               </div>
-
-              {errorMessage && (
-                <p className="text-sm font-semibold text-pink-600" aria-live="polite">
-                  {errorMessage}
-                </p>
-              )}
 
               <div className="flex flex-col-reverse gap-2 pt-2 sm:flex-row sm:justify-end">
                 <Button type="button" variant="secondary" onClick={handleCloseModal} disabled={status === 'loading'}>

@@ -1,7 +1,6 @@
 import type { FormEvent } from 'react'
 import { useState } from 'react'
 import { submitLead, type LeadPayload } from '../../features/leads/submitLead'
-import { isLeadsEndpointConfigured } from '../../lib/leads'
 import { buildWhatsAppLink } from '../../lib/whatsapp'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
@@ -18,7 +17,6 @@ type LeadCaptureSectionProps = {
 
 export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps) {
   const diagMarker = '[LEADS_DIAG_V1]'
-  const isEndpointConfigured = isLeadsEndpointConfigured()
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
   const [formData, setFormData] = useState<LeadPayload>({
@@ -43,12 +41,6 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
     event.preventDefault()
     setStatus('loading')
     setMessage('')
-
-    if (!isEndpointConfigured) {
-      setStatus('error')
-      setMessage('Lead endpoint is unavailable. Please try again later.')
-      return
-    }
 
     const lastSubmitAtRaw = window.localStorage.getItem(LEAD_RATE_LIMIT_KEY)
     const lastSubmitAt = lastSubmitAtRaw ? Number(lastSubmitAtRaw) : 0
@@ -197,7 +189,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
           />
         </label>
         <div className="flex flex-col gap-3">
-          <Button type="submit" variant="primary" disabled={status === 'loading' || !isEndpointConfigured}>
+          <Button type="submit" variant="primary" disabled={status === 'loading'}>
             {status === 'loading' ? 'Enviando...' : 'Solicitar orçamento'}
           </Button>
           {status === 'success' && message ? (

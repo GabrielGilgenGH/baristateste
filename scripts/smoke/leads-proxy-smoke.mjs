@@ -1,7 +1,7 @@
 const baseUrl = process.env.BASE_URL
 
 if (!baseUrl) {
-  console.error('BASE_URL is required. Example: BASE_URL=https://baristateste.vercel.app')
+  console.error('BASE_URL is required. Example: BASE_URL=https://your-deployment.example.com')
   process.exit(1)
 }
 

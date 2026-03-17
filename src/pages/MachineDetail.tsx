@@ -14,15 +14,6 @@ export function MachineDetail() {
   const machine = MACHINES.find((entry) => entry.slug === slug)
   const displayName = machine?.displayName?.trim() || 'Modelo sob consulta'
 
-  const [imageSrc, setImageSrc] = useState(() =>
-    machine ? resolveMachineImage(machine) : machinePlaceholderImage,
-  )
-
-  useEffect(() => {
-    const nextImage = machine ? resolveMachineImage(machine) : machinePlaceholderImage
-    setImageSrc(nextImage)
-  }, [machine])
-
   useEffect(() => {
     document.title = `Máquinas — ${displayName} | Dr Barista`
   }, [displayName])
@@ -71,14 +62,7 @@ export function MachineDetail() {
               {displayName}
             </h1>
 
-            <PremiumProductImage
-              src={imageSrc}
-              alt={`Imagem da ${displayName}`}
-              variant="machine"
-              aspect="landscape"
-              className="mx-auto h-[24rem] max-w-5xl sm:h-[28rem] md:h-[34rem]"
-              onError={() => setImageSrc(machinePlaceholderImage)}
-            />
+            <MachineDetailImage key={machine.slug} machine={machine} displayName={displayName} />
 
             <div className="space-y-3">
               <h2 className="text-xl font-semibold tracking-[-0.01em] text-brand-espresso">Descrição comercial</h2>
@@ -136,5 +120,25 @@ export function MachineDetail() {
         </Section>
       ) : null}
     </div>
+  )
+}
+
+type MachineDetailImageProps = {
+  machine: (typeof MACHINES)[number]
+  displayName: string
+}
+
+function MachineDetailImage({ machine, displayName }: MachineDetailImageProps) {
+  const [imageSrc, setImageSrc] = useState(() => resolveMachineImage(machine))
+
+  return (
+    <PremiumProductImage
+      src={imageSrc}
+      alt={`Imagem da ${displayName}`}
+      variant="machine"
+      aspect="landscape"
+      className="mx-auto h-[24rem] max-w-5xl sm:h-[28rem] md:h-[34rem]"
+      onError={() => setImageSrc(machinePlaceholderImage)}
+    />
   )
 }

@@ -46,10 +46,6 @@ export async function submitLead(payload: LeadPayload): Promise<void> {
     ...utm,
   }
 
-  if (import.meta.env.DEV) {
-    console.info('[lead] submit', { pagePath: requestBody.pagePath, interest: requestBody.interest })
-  }
-
   const result = await submitLeadRequest(requestBody)
 
   if (!result.ok) {

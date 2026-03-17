@@ -8,10 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "tokens:check": "node scripts/check-design-tokens.mjs",
-    "inventory:generate": "node scripts/inventory/generate-component-inventory.mjs",
-    "visual:snap": "node scripts/visual-baseline/snap.mjs",
-    "check:all": "npm run tokens:check && npm run inventory:generate && npm run build && npm run visual:snap"
+    "smoke:leads": "node scripts/smoke/leads-proxy-smoke.mjs"
   },
   "dependencies": {
     "autoprefixer": "^10.4.24",
@@ -33,7 +30,6 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "playwright": "^1.58.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"

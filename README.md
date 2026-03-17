@@ -1,76 +1,61 @@
 # Dr Barista Website
 
-Institucional B2B para locação e vending de máquinas de café, totalmente separado do ERP.
+Institutional B2B website for coffee machine rental and vending.
 
-## Tecnologias
+## Stack
 
 - Vite + React + TypeScript
-- Tailwind CSS para design utilitário
-- React Router DOM para rotas internas
-- Embla Carousel para clientes em destaque
-- Lucide React para ícones
-- Google Apps Script Web App para captura de leads
+- Tailwind CSS
+- React Router
+- Vercel serverless function for lead proxying
+- Google Apps Script Web App as the final lead destination
 
-## Como começar
+## Local development
 
-1. Instale as dependências:
-   ```bash
-   npm install
-   ```
-2. Copie o modelo de variáveis de ambiente:
-   ```bash
-   cp .env.example .env.local
-   ```
-3. Execute a aplicação em modo desenvolvimento:
-   ```bash
-   npm run dev
-   ```
+```bash
+npm install
+npm run dev
+```
 
-### Validar build
+## Validation
 
-- Para checar se a aplicação compila sem erros de TypeScript:
-  ```bash
-  npm run build
-  ```
+```bash
+npm run build
+npm run lint
+```
 
-### Variáveis esperadas
+Optional lead proxy smoke test:
+
+```bash
+BASE_URL=https://your-deployment.example.com npm run smoke:leads
+```
+
+## Lead form integration
+
+Current submission path:
+
+1. `src/components/home/LeadCaptureSection.tsx`
+2. `src/features/leads/submitLead.ts`
+3. `src/lib/leads.ts`
+4. `POST /api/leads`
+5. `api/leads.ts`
+6. Google Apps Script Web App
+
+The frontend must continue posting only to `/api/leads`.
+Do not move the Apps Script URL or webhook token into the frontend bundle.
+
+Required server-side environment variables:
 
 - `GOOGLE_APPS_SCRIPT_URL`
 - `LEADS_WEBHOOK_TOKEN`
 
-Defina as variáveis no ambiente do Vercel para que a função `/api/leads` consiga encaminhar os envios para o Apps Script sem expor o token no frontend.
+Copy `.env.example` only for local server-side testing. Never commit real values.
 
-### Leads Proxy Smoke Test
+Detailed flow notes: [`docs/google-apps-script-leads.md`](docs/google-apps-script-leads.md)
 
-```bash
-BASE_URL=https://baristateste.vercel.app node scripts/smoke/leads-proxy-smoke.mjs
-```
+## Deployment handoff notes
 
-The script sends one valid and one invalid payload to `/api/leads` and prints status + JSON responses.
-
-### UI Playground
-
-- Internal route for UI iteration: `/ui`
-- Not linked from main navigation.
-
-### Design Token Guard
-
-```bash
-npm run tokens:check
-```
-
-Use `CHECK_ALL=1 npm run tokens:check` to scan all tracked source files.
-
-See [`docs/design-tokens.md`](docs/design-tokens.md) for token conventions.
-
-### Visual Screenshot Smoke
-
-```bash
-npm run visual:snap
-```
-
-This generates baseline screenshots for `/`, `/maquinas`, and `/produtos` in `scripts/visual-baseline/output/`.
-
-### Front Ops Docs
-
-- Workflow guide: [`docs/front-ops-workflow.md`](docs/front-ops-workflow.md)
+- `vercel.json` is intentionally kept because the current production flow relies on the Vercel-style `/api/leads` function plus SPA fallback routing.
+- `api/leads.ts` is intentionally kept. It protects the shared Apps Script token by keeping it on the server.
+- `public/_redirects` was removed because it was a Netlify-specific leftover and is not part of the current deployment path.
+- Local-only artifacts such as `.env.local`, `.vercel/`, `dist/`, `test-results/`, `_pr_evidence/`, and `.tmp-playwright/` should not be included in any handoff bundle.

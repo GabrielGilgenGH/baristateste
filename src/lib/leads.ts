@@ -32,10 +32,6 @@ const MAX_ERROR_BODY_LENGTH = 200
 const LEADS_DIAG_MARKER = '[LEADS_DIAG_V1]'
 const LEADS_API_ENDPOINT = '/api/leads'
 
-export function isLeadsEndpointConfigured() {
-  return true
-}
-
 function readStoredUtm() {
   if (typeof window === 'undefined') return {}
   const raw = window.sessionStorage.getItem(UTM_SESSION_KEY)

@@ -20,7 +20,10 @@ export function Layout({ children }: LayoutProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const [pageEntered, setPageEntered] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuState, setMobileMenuState] = useState<{ open: boolean; path: string }>({
+    open: false,
+    path: location.pathname,
+  })
 
   useEffect(() => {
     let enterRafId: number | null = null
@@ -33,10 +36,6 @@ export function Layout({ children }: LayoutProps) {
       window.cancelAnimationFrame(resetRafId)
       if (enterRafId) window.cancelAnimationFrame(enterRafId)
     }
-  }, [location.pathname])
-
-  useEffect(() => {
-    setMobileMenuOpen(false)
   }, [location.pathname])
 
   useLayoutEffect(() => {
@@ -53,8 +52,10 @@ export function Layout({ children }: LayoutProps) {
     navigate('/', { state: { scrollToLead: true } })
   }
 
-  const openMobileMenu = () => setMobileMenuOpen(true)
-  const closeMobileMenu = () => setMobileMenuOpen(false)
+  const mobileMenuOpen = mobileMenuState.open && mobileMenuState.path === location.pathname
+
+  const openMobileMenu = () => setMobileMenuState({ open: true, path: location.pathname })
+  const closeMobileMenu = () => setMobileMenuState((prev) => ({ ...prev, open: false }))
 
   const handleMobileQuote = () => {
     closeMobileMenu()
