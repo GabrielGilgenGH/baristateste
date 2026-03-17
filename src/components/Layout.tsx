@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useState, type ReactNode } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { MobileMenuOverlay } from './MobileMenuOverlay'
 import { Button } from './ui/Button'
@@ -37,6 +37,10 @@ export function Layout({ children }: LayoutProps) {
 
   useEffect(() => {
     setMobileMenuOpen(false)
+  }, [location.pathname])
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
   }, [location.pathname])
 
   const scrollToForm = () => {
