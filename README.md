@@ -7,13 +7,14 @@ Institutional B2B website for coffee machine rental and vending.
 - Vite + React + TypeScript
 - Tailwind CSS
 - React Router
-- Vercel serverless function for lead proxying
-- Google Apps Script Web App as the final lead destination
+- Google Apps Script Web App for lead capture
+- Static hosting compatible with cPanel/shared hosting
 
 ## Local development
 
 ```bash
 npm install
+cp .env.example .env.local
 npm run dev
 ```
 
@@ -24,12 +25,6 @@ npm run build
 npm run lint
 ```
 
-Optional lead proxy smoke test:
-
-```bash
-BASE_URL=https://your-deployment.example.com npm run smoke:leads
-```
-
 ## Lead form integration
 
 Current submission path:
@@ -37,25 +32,34 @@ Current submission path:
 1. `src/components/home/LeadCaptureSection.tsx`
 2. `src/features/leads/submitLead.ts`
 3. `src/lib/leads.ts`
-4. `POST /api/leads`
-5. `api/leads.ts`
-6. Google Apps Script Web App
+4. Browser `POST` directly to the Google Apps Script Web App URL
+5. Google Apps Script writes to the private Google Sheet
 
-The frontend must continue posting only to `/api/leads`.
-Do not move the Apps Script URL or webhook token into the frontend bundle.
+The sheet remains private. The browser never writes to it directly.
+The hidden honeypot field and existing client-side repeated-submit guard remain in place.
 
-Required server-side environment variables:
+Required frontend environment variable:
 
-- `GOOGLE_APPS_SCRIPT_URL`
-- `LEADS_WEBHOOK_TOKEN`
+- `VITE_GOOGLE_APPS_SCRIPT_URL`
 
-Copy `.env.example` only for local server-side testing. Never commit real values.
+This value is a public Apps Script Web App URL, so it can live in the frontend config.
 
 Detailed flow notes: [`docs/google-apps-script-leads.md`](docs/google-apps-script-leads.md)
 
-## Deployment handoff notes
+## Static deploy
 
-- `vercel.json` is intentionally kept because the current production flow relies on the Vercel-style `/api/leads` function plus SPA fallback routing.
-- `api/leads.ts` is intentionally kept. It protects the shared Apps Script token by keeping it on the server.
-- `public/_redirects` was removed because it was a Netlify-specific leftover and is not part of the current deployment path.
-- Local-only artifacts such as `.env.local`, `.vercel/`, `dist/`, `test-results/`, `_pr_evidence/`, and `.tmp-playwright/` should not be included in any handoff bundle.
+Run:
+
+```bash
+npm run build
+```
+
+Upload the contents of `dist/` to `public_html/` on cPanel.
+
+`dist/` includes an Apache `.htaccess` fallback so React Router routes continue to work on shared hosting.
+
+## What no longer depends on Vercel
+
+- Lead submission no longer depends on `/api/leads`
+- The frontend no longer depends on `api/leads.ts`
+- The frontend no longer depends on `vercel.json`

@@ -16,7 +16,6 @@ type LeadCaptureSectionProps = {
 }
 
 export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps) {
-  const diagMarker = '[LEADS_DIAG_V1]'
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
   const [formData, setFormData] = useState<LeadPayload>({
@@ -27,7 +26,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
     city: '',
     teamSize: 'Não informado',
     message: '',
-    company_website: '',
+    website: '',
   })
   const whatsappLink = buildWhatsAppLink(
     'Olá! Quero uma proposta para máquinas de café para minha empresa. Pode me passar valores e condições? (Joinville/SC)',
@@ -53,7 +52,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
       return
     }
 
-    if (formData.company_website?.trim()) {
+    if (formData.website?.trim()) {
       setStatus('success')
       setMessage('Recebido! Vamos te chamar no WhatsApp/em breve.')
       setFormData({
@@ -64,7 +63,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
         city: '',
         teamSize: 'Não informado',
         message: '',
-        company_website: '',
+        website: '',
       })
       window.localStorage.setItem(LEAD_RATE_LIMIT_KEY, String(now))
       return
@@ -82,7 +81,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
         city: '',
         teamSize: 'Não informado',
         message: '',
-        company_website: '',
+        website: '',
       })
       window.localStorage.setItem(LEAD_RATE_LIMIT_KEY, String(now))
     } catch (error) {
@@ -92,11 +91,12 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
   }
 
   const safeErrorMessage = (() => {
-    if (!message.trim()) return 'Unknown error (no message).'
-    if (message.startsWith(diagMarker)) {
-      return message.slice(diagMarker.length).trim() || 'Unknown error (no message).'
+    const trimmed = message.trim()
+    if (!trimmed) return 'Unknown error (no message).'
+    if (trimmed.includes('old protected deployment')) {
+      return 'Lead form is connected to an outdated Apps Script deployment. Please update the configured endpoint URL.'
     }
-    return message.trim()
+    return trimmed
   })()
 
   const formCard = (
@@ -181,11 +181,11 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
         <label className="hidden" aria-hidden="true">
           Company Website
           <input
-            name="company_website"
+            name="website"
             tabIndex={-1}
             autoComplete="off"
-            value={formData.company_website ?? ''}
-            onChange={(event) => handleChange('company_website', event.target.value)}
+            value={formData.website ?? ''}
+            onChange={(event) => handleChange('website', event.target.value)}
           />
         </label>
         <div className="flex flex-col gap-3">
@@ -209,7 +209,7 @@ export function LeadCaptureSection({ compact = false }: LeadCaptureSectionProps)
           ) : null}
           {status === 'error' ? (
             <p className="text-sm font-semibold text-pink-600" aria-live="polite">
-              {`${diagMarker} ${safeErrorMessage}`}
+              {safeErrorMessage}
             </p>
           ) : null}
         </div>

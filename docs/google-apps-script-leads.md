@@ -1,31 +1,35 @@
 # Google Apps Script Lead Capture
 
-This repository intentionally keeps the current lead flow:
+This project now uses the simplest static flow:
 
-1. Frontend submits to `POST /api/leads`
-2. `api/leads.ts` validates and rate-limits the request
-3. The server appends `token=<LEADS_WEBHOOK_TOKEN>` to the Apps Script URL
-4. The server forwards the payload to Google Apps Script as `application/x-www-form-urlencoded`
+1. Frontend form collects lead data
+2. Frontend submits directly to the Google Apps Script Web App URL
+3. Google Apps Script writes to the private Google Sheet
 
-Do not replace this flow with a direct frontend submission. The shared token must stay server-side.
+The sheet remains private. Only the Apps Script Web App is public.
 
 ## Current code path
 
 - Form UI: `src/components/home/LeadCaptureSection.tsx`
 - Form mapping: `src/features/leads/submitLead.ts`
 - Frontend request client: `src/lib/leads.ts`
-- Server proxy: `api/leads.ts`
 
-## Server environment variables
+## Frontend config
 
-- `GOOGLE_APPS_SCRIPT_URL`
-- `LEADS_WEBHOOK_TOKEN`
+- `VITE_GOOGLE_APPS_SCRIPT_URL`
 
-These values belong only in the server runtime. They must not be exposed as `VITE_*` variables.
+This value is a public Apps Script Web App URL and is expected to be present in the frontend environment.
 
-## Payload fields forwarded upstream
+## Existing minimal protections
 
-The proxy forwards the submitted lead using form-encoded fields. Current fields include:
+- required client-side field validation
+- honeypot field using `company_website`
+- client-side repeated-submit guard via local storage
+- payload trimming before submission
+
+## Payload format
+
+The frontend submits `application/x-www-form-urlencoded` fields, keeping the existing mapping as closely as possible:
 
 - `created_at`
 - `interest`
@@ -51,13 +55,12 @@ The proxy forwards the submitted lead using form-encoded fields. Current fields 
 
 ## Apps Script expectations
 
-The deployed Apps Script endpoint must:
+The deployed Apps Script Web App should:
 
-- accept `POST`
-- accept URL query parameter `token`
-- validate the token server-side
-- read `application/x-www-form-urlencoded` request bodies
-- return JSON
+- accept browser `POST` requests
+- accept `application/x-www-form-urlencoded`
+- return JSON when possible
+- write to a private Google Sheet
 
 Expected success response:
 
@@ -65,21 +68,4 @@ Expected success response:
 { "ok": true }
 ```
 
-Expected unauthorized response:
-
-```json
-{ "ok": false, "error": "UNAUTHORIZED" }
-```
-
-## Deployment note
-
-`vercel.json` is still kept because the current production setup uses:
-
-- Vercel-style routing for `/api/leads`
-- SPA fallback to `index.html`
-
-If another infrastructure team migrates the app away from Vercel, they must provide equivalents for:
-
-- the `/api/leads` server endpoint
-- server-side injection of `GOOGLE_APPS_SCRIPT_URL` and `LEADS_WEBHOOK_TOKEN`
-- SPA fallback routing
+Any Vercel-specific lead proxy is no longer part of the static frontend flow.
